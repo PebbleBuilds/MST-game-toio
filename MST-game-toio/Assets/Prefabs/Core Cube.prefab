@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 1632018359406940879}
   - component: {fileID: 1632018359406940878}
   - component: {fileID: 1632018359406940873}
-  - component: {fileID: 4230103058063693568}
   - component: {fileID: -2417253548354242968}
+  - component: {fileID: -5887855023881957896}
   m_Layer: 0
   m_Name: Core Cube
   m_TagString: Untagged
@@ -121,7 +121,7 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &4230103058063693568
+--- !u!114 &-2417253548354242968
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -130,7 +130,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1632018359406940872}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Script: {fileID: 11500000, guid: 4d16aeaed86b44b79a60ac2b38082f3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  connectType: 2
+  debug: Toio not connected
+--- !u!114 &-5887855023881957896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1632018359406940872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df2868252ab5c4d1da357e8f11f1b524, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   UseUnreliableDeltas: 0
@@ -152,16 +166,3 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &-2417253548354242968
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1632018359406940872}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d16aeaed86b44b79a60ac2b38082f3a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  connectType: 2
