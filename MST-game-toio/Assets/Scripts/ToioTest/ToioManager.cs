@@ -41,5 +41,9 @@ public class ToioManager : MonoBehaviour
         GUILayout.Label("Transport: " +
             m_NetworkManager.NetworkConfig.NetworkTransport.GetType().Name);
         GUILayout.Label("Mode: " + mode);
+
+        var playerObject = m_NetworkManager.SpawnManager.GetLocalPlayerObject();
+        var toioTransform = playerObject.GetComponent<ToioNetworkTransform>();
+        GUILayout.Label(toioTransform.debug);
     }
 }
