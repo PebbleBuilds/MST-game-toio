@@ -899,3 +899,51 @@ AssetImportParameters requested are different than current active one (requested
   custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
   custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 70164.215488 seconds.
+  path: Assets/Scenes/SampleScene.unity
+  artifactKey: Guid(9fc0d4010bbf28b4594072e72b8655ab) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Number of updated assets reloaded before import = 0
+Start importing Assets/Scenes/SampleScene.unity using Guid(9fc0d4010bbf28b4594072e72b8655ab) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd6391691da33aa88455ef7742b482aaf') in 0.006614 seconds 
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 6.788722 seconds.
+  path: Assets/Scenes/SampleScene 1.unity
+  artifactKey: Guid(877c999493746426b914f936b536c9f7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Number of updated assets reloaded before import = 0
+Start importing Assets/Scenes/SampleScene 1.unity using Guid(877c999493746426b914f936b536c9f7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1f2c6d18c291822cfd953865e9431c9a') in 0.000594 seconds 
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 12.599463 seconds.
+  path: Assets/Scenes/ToioTestScene.unity
+  artifactKey: Guid(877c999493746426b914f936b536c9f7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Number of updated assets reloaded before import = 0
+Start importing Assets/Scenes/ToioTestScene.unity using Guid(877c999493746426b914f936b536c9f7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'aad8ed636ebadf1589516fdc5cccef8b') in 0.000619 seconds 
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 243.240834 seconds.
+  path: Assets/Prefabs/Plane.prefab
+  artifactKey: Guid(3218de47c6b54449d8e0da542b68d2c2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Number of updated assets reloaded before import = 0
+Start importing Assets/Prefabs/Plane.prefab using Guid(3218de47c6b54449d8e0da542b68d2c2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2c4ed9f22d7ae43fbb0ee33134d148e8') in 0.027448 seconds 
+Number of asset objects unloaded after import = 7
+========================================================================
+Received Import Request.
+  Time since last request: 11.065854 seconds.
+  path: Assets/Prefabs/Simple Mat.prefab
+  artifactKey: Guid(3218de47c6b54449d8e0da542b68d2c2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Number of updated assets reloaded before import = 0
+Start importing Assets/Prefabs/Simple Mat.prefab using Guid(3218de47c6b54449d8e0da542b68d2c2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3bf51b1913ebd6e0210b76347104d640') in 0.004550 seconds 
+Number of asset objects unloaded after import = 7
+========================================================================
+Received Import Request.
+  Time since last request: 407.159878 seconds.
+  path: Assets/Scripts/HelloWorldPlayer.cs
+  artifactKey: Guid(8a77ce8b189144282b047bc5ef1b7958) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Number of updated assets reloaded before import = 0
+Start importing Assets/Scripts/HelloWorldPlayer.cs using Guid(8a77ce8b189144282b047bc5ef1b7958) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0e4b782a56f5d577989ee6c7db13bcbb') in 0.002060 seconds 
+Number of asset objects unloaded after import = 0
