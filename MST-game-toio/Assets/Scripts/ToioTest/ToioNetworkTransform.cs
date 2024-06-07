@@ -1,15 +1,38 @@
 using System;
 using Unity.Netcode;
 using UnityEngine;
+using toio;
 
-public class NetworkTransformTest : NetworkBehaviour
+public class ToioNetworkTransform : NetworkBehaviour
 {
+    public ConnectType connectType = ConnectType.Real; 
+    CubeManager cm;
+    Cube cube;
+    bool connected = false;
+
+    async void Start()
+    {
+        if (IsClient)
+        {
+            cm = new CubeManager(connectType);
+            await cm.SingleConnect();
+            cube = cm.cubes[0];
+            await cube.ConfigIDNotification(10, Cube.IDNotificationType.OnChanged);
+
+            Debug.Log("Toio Connected!");
+            connected = true;
+        }
+    }
+
     void Update()
     {
-        if (IsServer)
+        if (IsClient)
         {
-            float theta = Time.frameCount / 10.0f;
-            transform.position = new Vector3((float) Math.Cos(theta), 0.0f, (float) Math.Sin(theta));
+            if (connected)
+            {
+                transform.position = ToioHelpers.PositionIDtoUnity(cube.x,cube.y);
+                transform.Rotate(0,0,cube.angle);
+            }
         }
     }
 }
