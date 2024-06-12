@@ -41,6 +41,6 @@ public class ToioNetworkTransform : NetworkBehaviour
     {
         debug = String.Format("pos=(x:{0}, y:{1}), angle={2}", c.pos.x, c.pos.y, c.angle);
         transform.position = ToioHelpers.PositionIDtoUnity(cube.x,cube.y);
-        transform.Rotate(0,0,cube.angle);
+        transform.eulerAngles = new Vector3(0,c.angle,0);
     }
 }
