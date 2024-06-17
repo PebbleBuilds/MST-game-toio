@@ -17,7 +17,7 @@ public class ToioNetworkTransform : NetworkBehaviour
         if (IsClient)
         {
             cm = new CubeManager(connectType);
-            await cm.SingleConnect();
+            await cm.MultiConnect(1);
             cube = cm.cubes[0];
             cube.idCallback.AddListener("ToioNetworkTransform", OnUpdateID);
             await cube.ConfigIDNotification(10, Cube.IDNotificationType.OnChanged);
