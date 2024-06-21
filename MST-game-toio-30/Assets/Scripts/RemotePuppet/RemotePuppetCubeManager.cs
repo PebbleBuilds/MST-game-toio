@@ -40,7 +40,7 @@ public class RemotePuppetCubeManager : NetworkBehaviour
             {
                 if (networkTransform.gameObject != m_playerObject)
                 {
-                    cm.handles[1].Move2Target(networkTransform.transform.position.x, networkTransform.transform.position.y); 
+                    cm.handles[1].Move2Target(networkTransform.transform.position.x, networkTransform.transform.position.y).Exec(); 
                 }
             }
         }
