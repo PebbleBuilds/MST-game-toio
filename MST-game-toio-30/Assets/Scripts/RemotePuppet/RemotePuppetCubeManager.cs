@@ -12,6 +12,8 @@ public class RemotePuppetCubeManager : NetworkBehaviour
     public GameObject playerPrefab;
     GameObject m_playerObject;
 
+    bool m_connected = false;
+
     async void Start()
     {
         cm = new CubeManager(connectType);
@@ -26,16 +28,20 @@ public class RemotePuppetCubeManager : NetworkBehaviour
         cm.cubes[1].TurnLedOn(255,0,0,0);
 
         m_playerObject = Instantiate(playerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        m_connected = true;
     }
 
     void Update()
     {
-        var puppetTransformList = UnityEngine.Object.FindObjectsOfType<RemotePuppetNetworkTransform>();
-        foreach (var networkTransform in puppetTransformList) // assume only 2 players for now
+        if (m_connected)
         {
-            if (networkTransform.gameObject != m_playerObject)
+            var puppetTransformList = UnityEngine.Object.FindObjectsOfType<RemotePuppetNetworkTransform>();
+            foreach (var networkTransform in puppetTransformList) // assume only 2 players for now
             {
-                cm.navigators[1].Navi2Target(networkTransform.transform.position.x, networkTransform.transform.position.y); 
+                if (networkTransform.gameObject != m_playerObject)
+                {
+                    cm.handles[1].Move2Target(networkTransform.transform.position.x, networkTransform.transform.position.y); 
+                }
             }
         }
     }
