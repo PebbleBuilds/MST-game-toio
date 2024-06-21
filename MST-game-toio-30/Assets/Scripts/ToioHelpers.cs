@@ -20,4 +20,9 @@ static public class ToioHelpers
         Vector3 v = new Vector3((x-xMiddle)/xRange*planeScale, 0, -(y-yMiddle)/yRange*planeScale);
         return v;
     }
+
+    static public (float,float) UnitytoPositionID(Vector3 v)
+    {
+        return (v.x/planeScale*xRange + xMiddle, -v.y/planeScale*yRange + yMiddle);
+    }
 }
