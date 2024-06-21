@@ -40,7 +40,8 @@ public class RemotePuppetCubeManager : NetworkBehaviour
             {
                 if (networkTransform.gameObject != m_playerObject)
                 {
-                    cm.handles[1].Move2Target(networkTransform.transform.position.x, networkTransform.transform.position.y).Exec(); 
+                    var xy = ToioHelpers.UnitytoPositionID(networkTransform.transform.position);
+                    cm.handles[1].Move2Target(xy.Item1,xy.Item2).Exec(); 
                 }
             }
         }
