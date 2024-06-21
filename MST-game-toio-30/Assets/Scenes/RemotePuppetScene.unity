@@ -419,7 +419,7 @@ MonoBehaviour:
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 2014525441}
-    PlayerPrefab: {fileID: 2663836328262491600, guid: 40b4e923d19d04f3685dbff7c678fa05, type: 3}
+    PlayerPrefab: {fileID: 2001771848077158548, guid: 349133201e53043129d442ca86558b3a, type: 3}
     Prefabs:
       NetworkPrefabsLists: []
     TickRate: 30
@@ -467,4 +467,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 432dafdae73744e9baca4a2dcd5340aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  connectType: 2
