@@ -44,7 +44,11 @@ public class RemotePuppetCubeManager : NetworkBehaviour
                 {
                     var xy = ToioHelpers.UnitytoPositionID(networkTransform.transform.position);
                     m_guiMsg2 = String.Format("Partner pos=(x:{0}, y:{1})", xy.Item1, xy.Item2);
-                    cm.handles[1].Move2Target(xy.Item1,xy.Item2).Exec(); 
+                    if(cm.synced)
+                    {
+                        cm.handles[1].Move2Target(xy.Item1,xy.Item2).Exec(); 
+                    }
+                    
                 }
             }
         }
