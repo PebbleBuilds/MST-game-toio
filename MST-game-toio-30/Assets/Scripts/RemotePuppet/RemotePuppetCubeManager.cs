@@ -18,19 +18,23 @@ public class RemotePuppetCubeManager : NetworkBehaviour
 
     async void Start()
     {
-        cm = new CubeManager(connectType);
-        await cm.MultiConnect(2);
+        // Only try to connect to cubes if we are the local PlayerObject. 
+        if (this == NetworkManager.Singleton.ConnectedClients[NetworkManager.Singleton.LocalClientId].PlayerObject)
+        {
+            cm = new CubeManager(connectType);
+            await cm.MultiConnect(2);
 
-        // cubes[0] is the player cube
-        cm.cubes[0].idCallback.AddListener("RemotePuppetManager", OnPlayerUpdateID);
-        await cm.cubes[0].ConfigIDNotification(10, Cube.IDNotificationType.OnChanged);
-        cm.cubes[0].TurnLedOn(0,255,0,0);
+            // cubes[0] is the player cube
+            cm.cubes[0].idCallback.AddListener("RemotePuppetManager", OnPlayerUpdateID);
+            await cm.cubes[0].ConfigIDNotification(10, Cube.IDNotificationType.OnChanged);
+            cm.cubes[0].TurnLedOn(0,255,0,0);
 
-        // cubes[1] is the partner cube
-        cm.cubes[1].TurnLedOn(255,0,0,0);
+            // cubes[1] is the partner cube
+            cm.cubes[1].TurnLedOn(255,0,0,0);
 
-        m_playerObject = Instantiate(playerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-        m_connected = true;
+            m_playerObject = Instantiate(playerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            m_connected = true;
+        }
     }
 
     void Update()
