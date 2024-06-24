@@ -18,8 +18,8 @@ public class RemotePuppetCubeManager : NetworkBehaviour
 
     async void Start()
     {
-        // Only try to connect to cubes if we are the local PlayerObject. 
-        if (this == NetworkManager.Singleton.ConnectedClients[NetworkManager.Singleton.LocalClientId].PlayerObject)
+        // Only try to connect to cubes if this is our PlayerObject.
+        if (IsOwner)
         {
             cm = new CubeManager(connectType);
             await cm.MultiConnect(2);
@@ -31,10 +31,10 @@ public class RemotePuppetCubeManager : NetworkBehaviour
 
             // cubes[1] is the partner cube
             cm.cubes[1].TurnLedOn(255,0,0,0);
-
-            m_playerObject = Instantiate(playerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
             m_connected = true;
         }
+
+        m_playerObject = Instantiate(playerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
     }
 
     void Update()
