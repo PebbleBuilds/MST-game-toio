@@ -13,6 +13,8 @@ public class RemotePuppetCubeManager : NetworkBehaviour
     GameObject m_playerObject;
 
     bool m_connected = false;
+    public String m_guiMsg1 = "";
+    public String m_guiMsg2 = "";
 
     async void Start()
     {
@@ -41,6 +43,7 @@ public class RemotePuppetCubeManager : NetworkBehaviour
                 if (networkTransform.gameObject != m_playerObject)
                 {
                     var xy = ToioHelpers.UnitytoPositionID(networkTransform.transform.position);
+                    m_guiMsg2 = String.Format("Partner pos=(x:{0}, y:{1})", xy.Item1, xy.Item2);
                     cm.handles[1].Move2Target(xy.Item1,xy.Item2).Exec(); 
                 }
             }
@@ -53,6 +56,7 @@ public class RemotePuppetCubeManager : NetworkBehaviour
         {
             var networkTransform = m_playerObject.GetComponent<RemotePuppetNetworkTransform>();
             networkTransform.UpdateTransform(c.pos.x, c.pos.y, c.angle);
+            m_guiMsg1 = String.Format("Player pos=(x:{0}, y:{1}, angle:{2})", c.pos.x, c.pos.y, c.angle);
         }
     }
 }

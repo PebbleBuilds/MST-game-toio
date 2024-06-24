@@ -6,7 +6,6 @@ using Cysharp.Threading.Tasks;
 
 public class RemotePuppetNetworkTransform : NetworkBehaviour
 {
-
     void Start()
     {
     }

@@ -46,5 +46,13 @@ public class RemotePuppetManager : MonoBehaviour
         GUILayout.Label("Transport: " +
             m_NetworkManager.NetworkConfig.NetworkTransport.GetType().Name);
         GUILayout.Label("Mode: " + mode);
+
+        var playerObject = m_NetworkManager.SpawnManager.GetLocalPlayerObject();
+        if(playerObject != null)
+        {
+            var manager = playerObject.GetComponent<RemotePuppetCubeManager>();
+            GUILayout.Label(manager.m_guiMsg1);
+            GUILayout.Label(manager.m_guiMsg2);
+        }
     }
 }
