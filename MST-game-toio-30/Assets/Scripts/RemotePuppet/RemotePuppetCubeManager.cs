@@ -33,15 +33,13 @@ public class RemotePuppetCubeManager : NetworkBehaviour
             cm.cubes[1].TurnLedOn(255,0,0,0);
             m_connected = true;
         }
-
-        m_playerObject = Instantiate(playerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
     }
 
     void Update()
     {
         if (m_connected)
         {
-            var puppetTransformList = UnityEngine.Object.FindObjectsOfType<RemotePuppetNetworkTransform>();
+            var puppetTransformList = UnityEngine.Object.FindObjectsOfType<RemotePuppetCubeManager>();
             foreach (var networkTransform in puppetTransformList) // assume only 2 players for now
             {
                 if (networkTransform.gameObject != m_playerObject)
@@ -60,11 +58,7 @@ public class RemotePuppetCubeManager : NetworkBehaviour
 
     void OnPlayerUpdateID(Cube c)
     {
-        if(m_playerObject != null)
-        {
-            var networkTransform = m_playerObject.GetComponent<RemotePuppetNetworkTransform>();
-            networkTransform.UpdateTransform(c.pos.x, c.pos.y, c.angle);
-            m_guiMsg1 = String.Format("Player pos=(x:{0}, y:{1}, angle:{2})", c.pos.x, c.pos.y, c.angle);
-        }
+        transform.position = ToioHelpers.PositionIDtoUnity(c.pos.x,c.pos.y);
+        transform.eulerAngles = new Vector3(0,c.angle,0);
     }
 }
