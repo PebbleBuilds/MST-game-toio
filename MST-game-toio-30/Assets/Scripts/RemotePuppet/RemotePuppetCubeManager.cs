@@ -9,9 +9,6 @@ public class RemotePuppetCubeManager : NetworkBehaviour
     public ConnectType connectType = ConnectType.Real; 
     CubeManager cm;
 
-    public GameObject playerPrefab;
-    GameObject m_playerObject;
-
     bool m_connected = false;
     public String m_guiMsg1 = "";
     public String m_guiMsg2 = "";
@@ -42,7 +39,7 @@ public class RemotePuppetCubeManager : NetworkBehaviour
             var puppetTransformList = UnityEngine.Object.FindObjectsOfType<RemotePuppetCubeManager>();
             foreach (var networkTransform in puppetTransformList) // assume only 2 players for now
             {
-                if (networkTransform.gameObject != m_playerObject)
+                if (networkTransform != this)
                 {
                     var xy = ToioHelpers.UnitytoPositionID(networkTransform.transform.position);
                     m_guiMsg2 = String.Format("Partner pos=(x:{0}, y:{1})", xy.Item1, xy.Item2);
@@ -60,5 +57,6 @@ public class RemotePuppetCubeManager : NetworkBehaviour
     {
         transform.position = ToioHelpers.PositionIDtoUnity(c.pos.x,c.pos.y);
         transform.eulerAngles = new Vector3(0,c.angle,0);
+        m_guiMsg1 = String.Format("Player pos=(x:{0}, y:{1}, angle:{2})", c.pos.x,c.pos.y,c.angle);
     }
 }

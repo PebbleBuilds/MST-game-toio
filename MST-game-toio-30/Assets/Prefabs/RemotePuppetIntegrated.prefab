@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2663836328262491605}
   - component: {fileID: 2663836328262491602}
   - component: {fileID: 2663836328262491603}
+  - component: {fileID: -2585291127660726124}
   m_Layer: 0
   m_Name: RemotePuppetIntegrated
   m_TagString: Untagged
@@ -135,3 +136,19 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &-2585291127660726124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2663836328262491600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2912f4cefc0b4cbb81cecedc64d5442, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  connectType: 2
+  playerPrefab: {fileID: 0}
+  m_guiMsg1: 
+  m_guiMsg2: 
