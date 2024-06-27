@@ -1,6 +1,7 @@
 using System;
 using Unity.Netcode;
 using UnityEngine;
+using toio;
 
 static public class ToioHelpers
 {
@@ -24,5 +25,20 @@ static public class ToioHelpers
     static public Vector2 UnitytoPositionID(Vector3 v)
     {
         return new Vector2(v.x/planeScale*xRange + xMiddle, -v.z/planeScale*yRange + yMiddle);
+    }
+}
+
+public class ToioVibration
+{
+    int dir = 1;
+
+    public void Vibrate(CubeHandle ch, int speed)
+    {
+        ch.MoveRaw(speed*dir,-speed*dir,0);
+        dir = -dir;
+    }
+    public void Stop(CubeHandle ch)
+    {
+        ch.MoveRaw(0,0,0);
     }
 }

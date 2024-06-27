@@ -15,9 +15,12 @@ public class RemotePuppetCubeManager : NetworkBehaviour
 
     public double m_maxSpeed = 50;
     public float m_vibrationTolerance = 30;
+    public int m_vibrationIntensity = 100;
 
     public NetworkVariable<Vector2> m_puppetPosID = new NetworkVariable<Vector2>(new Vector2(0,0), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     Vector2 m_playerPosID;
+
+    ToioVibration m_playerVibration;
 
     async void Start()
     {
@@ -58,11 +61,11 @@ public class RemotePuppetCubeManager : NetworkBehaviour
                         cm.handles[1].Move2Target(partnerPosID.x,partnerPosID.y,m_maxSpeed).Exec(); // assume only 2 players for now
 
                         // if the remote puppet cube is far from the local player cube
-                        if (manager.m_puppetPosID != null)
+                        if (manager.m_puppetPosID.Value.x != 0)
                         {
                             if ((m_playerPosID - manager.m_puppetPosID.Value).magnitude > m_vibrationTolerance)
                             {
-                                
+                                m_playerVibration.Vibrate(cm.handles[1], m_vibrationIntensity);
                             }
                         }
                     }
