@@ -21,8 +21,8 @@ static public class ToioHelpers
         return v;
     }
 
-    static public (float,float) UnitytoPositionID(Vector3 v)
+    static public Vector2 UnitytoPositionID(Vector3 v)
     {
-        return (v.x/planeScale*xRange + xMiddle, -v.z/planeScale*yRange + yMiddle);
+        return new Vector2(v.x/planeScale*xRange + xMiddle, -v.z/planeScale*yRange + yMiddle);
     }
 }
