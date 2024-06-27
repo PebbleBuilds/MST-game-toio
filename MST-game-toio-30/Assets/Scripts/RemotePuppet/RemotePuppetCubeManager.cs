@@ -16,7 +16,7 @@ public class RemotePuppetCubeManager : NetworkBehaviour
     public double m_maxSpeed = 50;
     public float m_vibrationTolerance = 30;
 
-    public NetworkVariable<Vector2> m_puppetPosID(null, NetworkVariableReadPermission.Everyone, NetworkVariableReadPermission.Owner);
+    public NetworkVariable<Vector2> m_puppetPosID = new NetworkVariable<Vector2>(new Vector2(0,0), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     Vector2 m_playerPosID;
 
     async void Start()
@@ -60,7 +60,7 @@ public class RemotePuppetCubeManager : NetworkBehaviour
                         // if the remote puppet cube is far from the local player cube
                         if (manager.m_puppetPosID != null)
                         {
-                            if ((m_playerPosID - manager.m_puppetPosID).magnitude > m_vibrationTolerance)
+                            if ((m_playerPosID - manager.m_puppetPosID.Value).magnitude > m_vibrationTolerance)
                             {
                                 
                             }
@@ -82,7 +82,6 @@ public class RemotePuppetCubeManager : NetworkBehaviour
     }
     void OnPuppetUpdateID(Cube c)
     {
-        m_puppetPosID.x = c.pos.x;
-        m_puppetPosID.y = c.pos.y;
+        m_puppetPosID.Value = new Vector2(c.pos.x,c.pos.y);
     }
 }
