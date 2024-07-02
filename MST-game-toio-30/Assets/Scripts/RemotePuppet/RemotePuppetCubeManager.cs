@@ -59,20 +59,20 @@ public class RemotePuppetCubeManager : NetworkBehaviour
                     {
                         // move the local puppet cube.
                         cm.handles[1].Move2Target(partnerPosID.x,partnerPosID.y,m_maxSpeed).Exec(); // assume only 2 players for now
-                    }
 
-                    if (manager.m_puppetPosID.Value.x != 0)
-                    {
-                        // if the remote puppet cube is far from the local player cube
-                        if ((m_playerPosID - manager.m_puppetPosID.Value).magnitude > m_vibrationTolerance)
+                        if (manager.m_puppetPosID.Value.x != 0)
                         {
-                            // vibrate the local player cube. 
-                            m_playerVibration.Vibrate(cm.cubes[0], m_vibrationIntensity);
-                        }
-                        else
-                        {
-                            // stop vibrations.
-                            m_playerVibration.Stop(cm.cubes[0]);
+                            // if the remote puppet cube is far from the local player cube
+                            if ((m_playerPosID - manager.m_puppetPosID.Value).magnitude > m_vibrationTolerance)
+                            {
+                                // vibrate the local player cube. 
+                                m_playerVibration.Vibrate(cm.cubes[0], m_vibrationIntensity);
+                            }
+                            else
+                            {
+                                // stop vibrations.
+                                m_playerVibration.Stop(cm.cubes[0]);
+                            }
                         }
                     }
                 }
