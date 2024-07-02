@@ -20,7 +20,7 @@ public class RemotePuppetCubeManager : NetworkBehaviour
     public NetworkVariable<Vector2> m_puppetPosID = new NetworkVariable<Vector2>(new Vector2(0,0), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     Vector2 m_playerPosID;
 
-    ToioVibration m_playerVibration;
+    ToioVibration m_playerVibration = new ToioVibration();
 
     async void Start()
     {
