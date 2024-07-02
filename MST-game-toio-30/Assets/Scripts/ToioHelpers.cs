@@ -32,13 +32,13 @@ public class ToioVibration
 {
     int dir = 1;
 
-    public void Vibrate(CubeHandle ch, int speed)
+    public void Vibrate(Cube c, int speed)
     {
-        ch.MoveRaw(speed*dir,-speed*dir,0);
+        c.MoveRaw(speed*dir,-speed*dir,0);
         dir = -dir;
     }
-    public void Stop(CubeHandle ch)
+    public void Stop(Cube c)
     {
-        ch.MoveRaw(0,0,0);
+        c.MoveRaw(0,0,0);
     }
 }
