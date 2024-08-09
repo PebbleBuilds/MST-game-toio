@@ -149,6 +149,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   connectType: 2
-  playerPrefab: {fileID: 0}
   m_guiMsg1: 
   m_guiMsg2: 
+  m_maxSpeed: 80
+  m_vibrationTolerance: 50
+  m_vibrationIntensity: 100
+  m_puppetPosID:
+    m_InternalValue: {x: 0, y: 0}
