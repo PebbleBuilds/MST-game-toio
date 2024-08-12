@@ -8,7 +8,7 @@ public class CTFCubeManager : NetworkBehaviour
 {
 
     public ConnectType connectType = ConnectType.Real; 
-    public int m_playerID;
+    public NetworkVariable<int> m_playerID;
     public int m_numPlayers = 3;
     CubeManager cm;
 
@@ -28,18 +28,18 @@ public class CTFCubeManager : NetworkBehaviour
     async void Start()
     {
         m_vibrationArray = new int[m_numPlayers];
-        m_playerID = (int)NetworkManager.Singleton.LocalClientId;
-        m_guiMsg1 = String.Format("Client ID={0})", m_playerID);
 
         // Only try to connect to cubes if this is our PlayerObject.
         if (IsOwner)
         {
+            m_playerID.Value = (int)NetworkManager.Singleton.LocalClientId;
+            m_guiMsg1 = String.Format("Client ID={0})", m_playerID);
             cm = new CubeManager(connectType);
             await cm.MultiConnect(m_numPlayers);
 
             for(int i = 0; i<m_numPlayers; i++)
             {
-                if(i == m_playerID)
+                if(i == m_playerID.Value)
                 {
                     cm.cubes[i].idCallback.AddListener("CTFManager", OnPlayerUpdateID);
                     await cm.cubes[i].ConfigIDNotification(10, Cube.IDNotificationType.OnChanged);
@@ -69,18 +69,18 @@ public class CTFCubeManager : NetworkBehaviour
                     if(cm.synced) // if the cubes are ready to receive CubeHandle commands
                     {
                         // move the local puppet cube.
-                        cm.handles[manager.m_playerID].Move2Target(partnerPosID.x,partnerPosID.y,m_maxSpeed).Exec();
+                        cm.handles[manager.m_playerID.Value].Move2Target(partnerPosID.x,partnerPosID.y,m_maxSpeed).Exec();
 
                         // calculate necessary vibrations.
-                        if (manager.m_playerID == 0 || m_playerID == 0)
+                        if (manager.m_playerID.Value == 0 || m_playerID.Value == 0)
                         {
                             if ((m_playerPosID - partnerPosID).magnitude > m_vibrationTolerance)
                             {
-                                m_vibrationArray[m_playerID] = m_vibrationIntensity;
+                                m_vibrationArray[m_playerID.Value] = m_vibrationIntensity;
                             }
                             else
                             {
-                                m_vibrationArray[m_playerID] = 0;
+                                m_vibrationArray[m_playerID.Value] = 0;
                             }
                         }
 
@@ -90,7 +90,7 @@ public class CTFCubeManager : NetworkBehaviour
                         {
                             vibrationTotal += val;
                         }
-                        m_playerVibration.Vibrate(cm.cubes[m_playerID], vibrationTotal);
+                        m_playerVibration.Vibrate(cm.cubes[m_playerID.Value], vibrationTotal);
                     }
                 }
             }
@@ -101,7 +101,6 @@ public class CTFCubeManager : NetworkBehaviour
     {
         transform.position = ToioHelpers.PositionIDtoUnity(c.pos.x,c.pos.y);
         transform.eulerAngles = new Vector3(0,c.angle,0);
-
 
         m_playerPosID.x = c.pos.x;
         m_playerPosID.y = c.pos.y;
