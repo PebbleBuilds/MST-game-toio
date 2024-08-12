@@ -8,7 +8,7 @@ public class CTFCubeManager : NetworkBehaviour
 {
 
     public ConnectType connectType = ConnectType.Real; 
-    public NetworkVariable<int> m_playerID;
+    public NetworkVariable<int> m_playerID = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public int m_numPlayers = 3;
     CubeManager cm;
 
@@ -33,7 +33,7 @@ public class CTFCubeManager : NetworkBehaviour
         if (IsOwner)
         {
             m_playerID.Value = (int)NetworkManager.Singleton.LocalClientId;
-            m_guiMsg1 = String.Format("Client ID={0})", m_playerID);
+            m_guiMsg1 = String.Format("Client ID={0})", m_playerID.Value);
             cm = new CubeManager(connectType);
             await cm.MultiConnect(m_numPlayers);
 
@@ -76,7 +76,7 @@ public class CTFCubeManager : NetworkBehaviour
                         {
                             if ((m_playerPosID - partnerPosID).magnitude > m_vibrationTolerance)
                             {
-                                m_vibrationArray[m_playerID.Value] = m_vibrationIntensity;
+                                //m_vibrationArray[m_playerID.Value] = m_vibrationIntensity;
                             }
                             else
                             {
