@@ -5,16 +5,16 @@ using toio;
 
 static public class ToioHelpers
 {
-    static float minX = 98;
-    static float maxX = 402;
-    static float minY = 142;
-    static float maxY = 358;
-    static float planeScale = 10;
+    static public float minX = 98;
+    static public float maxX = 402;
+    static public float minY = 142;
+    static public float maxY = 358;
+    static public float planeScale = 10;
 
-    static float xRange = maxX-minX;
-    static float yRange = maxY-minY;
-    static float xMiddle = (minX+maxX)/2;
-    static float yMiddle = (minY+maxY)/2;
+    static public float xRange = maxX-minX;
+    static public float yRange = maxY-minY;
+    static public float xMiddle = (minX+maxX)/2;
+    static public float yMiddle = (minY+maxY)/2;
 
     static public Vector3 PositionIDtoUnity(float x, float y)
     {
