@@ -1,4 +1,4 @@
-using System;
+
 using Unity.Netcode;
 using UnityEngine;
 using toio;
@@ -10,10 +10,31 @@ public class CTFManager : MonoBehaviour
 {
     static private NetworkManager m_NetworkManager;
 
+    public GameObject m_fruitPrefab;
+    public int m_fruitSpawnPeriod = 3;
+    private float m_lastFruitSpawnTime = 0;
 
     void Awake()
     {
         m_NetworkManager = GetComponent<NetworkManager>();
+    }
+
+    void Update()
+    {
+        if (m_NetworkManager.IsServer)
+        {
+            var currTime = Time.time;
+            if (currTime - m_lastFruitSpawnTime > m_fruitSpawnPeriod)
+            {
+                var position = ToioHelpers.PositionIDtoUnity(Random.Range(ToioHelpers.minX, ToioHelpers.maxX), ToioHelpers.minY);
+                var fruitInstance = Instantiate(m_fruitPrefab, position, Quaternion.identity);
+                var fruitInstanceNetworkObject = fruitInstance.GetComponent<NetworkObject>();
+                fruitInstanceNetworkObject.Spawn();
+
+                m_lastFruitSpawnTime = currTime;
+            }
+        }
+
     }
 
     void OnGUI()
