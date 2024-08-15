@@ -21,7 +21,7 @@ public class Fruit : NetworkBehaviour
     void OnCollisionEnter(Collision collision)
     {
         var go = collision.gameObject;
-        var manager = go.GetComponent<CTFCubeManager>()
+        var manager = go.GetComponent<CTFCubeManager>();
         if (manager != null)
         {
             // stuff to do on client. play a vibration?
