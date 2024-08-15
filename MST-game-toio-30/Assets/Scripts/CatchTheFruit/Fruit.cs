@@ -17,7 +17,7 @@ public class Fruit : NetworkBehaviour
                 NetworkObject.Despawn(true);
             }
             
-            transform.position += new Vector3(0,0,-(float)0.005);
+            transform.position += new Vector3(0,0,-(float)0.05);
         }
     }
 
