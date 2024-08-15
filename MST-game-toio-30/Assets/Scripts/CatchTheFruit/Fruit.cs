@@ -10,12 +10,15 @@ public class Fruit : NetworkBehaviour
 
     void Update()
     {
-        if (IsServer && ToioHelpers.UnitytoPositionID(transform.position).y > ToioHelpers.maxY)
+        if (IsServer)
         {
-            NetworkObject.Despawn(true);
+            if (ToioHelpers.UnitytoPositionID(transform.position).y > ToioHelpers.maxY)
+            {
+                NetworkObject.Despawn(true);
+            }
+            
+            transform.position += new Vector3(0,0,-(float)0.005);
         }
-
-        transform.position += new Vector3(0,0,-(float)0.005);
     }
 
     void OnCollisionEnter(Collision collision)
