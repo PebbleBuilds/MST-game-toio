@@ -35,6 +35,9 @@ public class Fruit : NetworkBehaviour
 
             if (IsServer)
             {
+                var gameManager = FindObjectOfType<CTFGameManager>().GetComponent<CTFGameManager>();
+                gameManager.m_score.Value = gameManager.m_score.Value + 1;
+
                 NetworkObject.Despawn(true);
             }
 
