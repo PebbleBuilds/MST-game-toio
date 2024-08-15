@@ -8,7 +8,7 @@ public class Fruit : NetworkBehaviour
     {
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (IsServer)
         {
