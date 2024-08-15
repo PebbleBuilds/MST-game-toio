@@ -25,7 +25,7 @@ public class Fruit : NetworkBehaviour
         if (manager != null)
         {
             // stuff to do on client. play a vibration?
-            if (manager.m_playerID == (int)NetworkManager.Singleton.LocalClientId)
+            if (manager.m_playerID.Value == (int)NetworkManager.Singleton.LocalClientId)
             {
 
             }
