@@ -17,4 +17,24 @@ public class Fruit : NetworkBehaviour
 
         transform.position += new Vector3(0,0,-(float)0.005);
     }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        var go = collision.gameObject;
+        var manager = go.GetComponent<CTFCubeManager>()
+        if (manager != null)
+        {
+            // stuff to do on client. play a vibration?
+            if (manager.m_playerID == (int)NetworkManager.Singleton.LocalClientId)
+            {
+
+            }
+
+            if (IsServer)
+            {
+                NetworkObject.Despawn(true);
+            }
+
+        }
+    }
 }
