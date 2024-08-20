@@ -58,7 +58,7 @@ public class CTFGameManager : NetworkBehaviour
                             var pos2 = head.transform.position;
 
                             m_bungeeList[headID].transform.position = Vector3.Lerp(pos1,pos2,0.5f);
-                            float angleWithY = Mathf.Atan((pos2.z-pos1.z)/(pos2.x-pos1.x));
+                            float angleWithY = Mathf.Atan((pos2.z-pos1.z)/(pos2.x-pos1.x)) / Mathf.PI * 180;
                             var eulerAngles = new Vector3(0.0f, 0.0f, 90.0f);
                             m_bungeeList[headID].transform.eulerAngles = eulerAngles;
                             m_bungeeList[headID].transform.Rotate(0.0f,angleWithY,0.0f,Space.World);
