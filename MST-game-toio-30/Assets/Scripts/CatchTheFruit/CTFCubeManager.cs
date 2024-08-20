@@ -9,7 +9,7 @@ public class CTFCubeManager : NetworkBehaviour
 
     public ConnectType connectType = ConnectType.Real; 
     public NetworkVariable<int> m_playerID = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-    public int m_numPlayers = 3;
+    private int m_numPlayers = CTFConfig.numPlayers;
     CubeManager cm;
 
     bool m_connected = false;

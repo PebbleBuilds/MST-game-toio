@@ -177,6 +177,11 @@ MonoBehaviour:
   m_fruitSpawnPeriod: 3
   m_score:
     m_InternalValue: 0
+  m_bungeePrefab: {fileID: 5560728937628421342, guid: 7d47f00f5ddbe402e98601695a6cdb44, type: 3}
+  m_bungeeList:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!4 &672526429
 Transform:
   m_ObjectHideFlags: 0

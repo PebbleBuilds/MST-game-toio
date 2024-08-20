@@ -12,12 +12,15 @@ public class CTFGameManager : NetworkBehaviour
 
     public NetworkVariable<int> m_score;
 
+    public GameObject m_bungeePrefab;
+    public GameObject[] m_bungeeList = new GameObject[CTFConfig.numPlayers];
+
     void Start()
     {
         m_score.Value = 0;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (IsServer)
         {
@@ -30,6 +33,40 @@ public class CTFGameManager : NetworkBehaviour
                 fruitInstanceNetworkObject.Spawn();
 
                 m_lastFruitSpawnTime = currTime;
+            }
+
+            var playerList = FindObjectsOfType<CTFCubeManager>();
+
+            foreach (var body in playerList)
+            {
+                var bodyID = body.GetComponent<CTFCubeManager>().m_playerID.Value;
+                if (bodyID == 0)
+                {
+                    foreach(var head in playerList)
+                    {
+                        var headID = head.GetComponent<CTFCubeManager>().m_playerID.Value;
+                        if (headID != 0)
+                        {
+                            if(m_bungeeList[headID] == null)
+                            {
+                                m_bungeeList[headID] = Instantiate(m_bungeePrefab);
+                                var bungeeNetworkObject = m_bungeeList[headID].GetComponent<NetworkObject>();
+                                bungeeNetworkObject.Spawn();
+                            }
+
+                            var pos1 = body.transform.position;
+                            var pos2 = head.transform.position;
+
+                            m_bungeeList[headID].transform.position = Vector3.Lerp(pos1,pos2,0.5f);
+                            float angleWithZ =Vector3.Angle(pos2-pos1,new Vector3(0,0,1));
+                            float angleWithY =Vector3.Angle(pos2-pos1,new Vector3(0,1,0));
+                            float angleWithX =Vector3.Angle(pos2-pos1,new Vector3(1,0,0));
+                            var eulerAngles = new Vector3(angleWithX, angleWithY, angleWithZ);
+                            m_bungeeList[headID].transform.eulerAngles = eulerAngles;
+                            m_bungeeList[headID].transform.localScale = new Vector3(1,(pos2-pos1).magnitude/2,1);
+                        }
+                    }
+                }
             }
         }
 
