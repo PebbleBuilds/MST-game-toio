@@ -79,6 +79,7 @@ public class CTFGameManager : NetworkBehaviour
 
                             // Calculate head vibration
                             headCubeManager.m_vibrationIntensity = CTFConfig.CalculateVibration(stretch);
+                            Debug.Log(headCubeManager.m_vibrationIntensity);
                             
                             // Change bungee colour if stretch above min
                             if (stretch > CTFConfig.stretchMax)

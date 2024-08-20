@@ -6,8 +6,8 @@ using toio;
 static public class CTFConfig
 {
     static public int numPlayers = 3;
-    static public float stretchMin = 100;
-    static public float stretchMax = 200;
+    static public float stretchMin = 75;
+    static public float stretchMax = 150;
     static public float stretchScalingFactor = 50;
 
     static public int CalculateVibration(float stretch)
