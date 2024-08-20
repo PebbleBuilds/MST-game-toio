@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 2663836328262491605}
   - component: {fileID: 2663836328262491602}
   - component: {fileID: 2663836328262491603}
-  - component: {fileID: -2585291127660726124}
+  - component: {fileID: -4389715200104839019}
+  - component: {fileID: 2877835669170907926}
   m_Layer: 0
-  m_Name: RemotePuppetIntegrated
+  m_Name: CTFIntegrated
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -136,7 +137,7 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &-2585291127660726124
+--- !u!114 &-4389715200104839019
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,14 +146,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 2663836328262491600}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2912f4cefc0b4cbb81cecedc64d5442, type: 3}
+  m_Script: {fileID: 11500000, guid: cd0ce0d44685e49869bfec4d8987885a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   connectType: 2
+  m_playerID:
+    m_InternalValue: 0
+  m_numPlayers: 3
   m_guiMsg1: 
   m_guiMsg2: 
-  m_maxSpeed: 80
-  m_vibrationTolerance: 50
-  m_vibrationIntensity: 100
-  m_puppetPosID:
-    m_InternalValue: {x: 0, y: 0}
+  m_maxSpeed: 50
+  m_vibrationTolerance: 100
+  m_vibrationIntensity: 50
+  m_vibrationArray: 
+--- !u!65 &2877835669170907926
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2663836328262491600}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
