@@ -80,7 +80,7 @@ public class CTFCubeManager : NetworkBehaviour
                 {
                     if(m_vibrationIntensity == 0)
                     {
-                        m_playerVibration.Stop();
+                        m_playerVibration.Stop(cm.cubes[m_playerID.Value]);
                     }
                     else
                     {
