@@ -17,7 +17,7 @@ public class CTFCubeManager : NetworkBehaviour
     public String m_guiMsg2 = "";
 
     public double m_maxSpeed = 100;
-    public int m_vibrationIntensity = 0;
+    public NetworkVariable<int> m_vibrationIntensity = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public bool m_vibrationToggle = true;
 
     Vector2 m_playerPosID;
@@ -70,13 +70,13 @@ public class CTFCubeManager : NetworkBehaviour
             }
 
             // render necessary vibrations.
-            if(!m_vibrationToggle || m_vibrationIntensity == 0)
+            if(!m_vibrationToggle || m_vibrationIntensity.Value == 0)
             {
                 m_playerVibration.Stop(cm.cubes[m_playerID.Value]);
             }
             else
             {
-                m_playerVibration.Vibrate(cm.cubes[m_playerID.Value], m_vibrationIntensity);
+                m_playerVibration.Vibrate(cm.cubes[m_playerID.Value], m_vibrationIntensity.Value);
             }
         }
     }

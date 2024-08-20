@@ -78,8 +78,7 @@ public class CTFGameManager : NetworkBehaviour
                             bodyStretch += stretch;
 
                             // Calculate head vibration
-                            headCubeManager.m_vibrationIntensity = CTFConfig.CalculateVibration(stretch);
-                            Debug.Log(headCubeManager.m_vibrationIntensity);
+                            headCubeManager.m_vibrationIntensity.Value = CTFConfig.CalculateVibration(stretch);
                             
                             // Change bungee colour if stretch above min
                             if (stretch > CTFConfig.stretchMax)
@@ -98,7 +97,7 @@ public class CTFGameManager : NetworkBehaviour
                     }
 
                     // Calculate body vibration
-                    bodyCubeManager.m_vibrationIntensity = CTFConfig.CalculateVibration(bodyStretch);
+                    bodyCubeManager.m_vibrationIntensity.Value = CTFConfig.CalculateVibration(bodyStretch);
                 }
             }
         }
