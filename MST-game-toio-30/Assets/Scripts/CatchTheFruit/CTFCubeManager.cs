@@ -56,40 +56,28 @@ public class CTFCubeManager : NetworkBehaviour
 
     void Update()
     {
-        if (m_connected)
+        if (m_connected && cm.synced && IsOwner)
         {
+            // move the local puppet cubes.
             var managers = UnityEngine.Object.FindObjectsOfType<CTFCubeManager>();
             foreach (var manager in managers) 
             {
                 if (manager != this)
                 {
                     Vector2 partnerPosID = ToioHelpers.UnitytoPositionID(manager.transform.position);
-
-                    if(cm.synced) // if the cubes are ready to receive CubeHandle commands
-                    {
-                        // move the local puppet cube.
-                        cm.handles[manager.m_playerID.Value].Move2Target(partnerPosID.x,partnerPosID.y,m_maxSpeed).Exec();
-                    }
+                    cm.handles[manager.m_playerID.Value].Move2Target(partnerPosID.x,partnerPosID.y,m_maxSpeed).Exec();
                 }
             }
 
             // render necessary vibrations.
-            if(IsOwner && cm.synced)
+            if(!m_vibrationToggle || m_vibrationIntensity == 0)
             {
-                if(m_vibrationToggle)
-                {
-                    if(m_vibrationIntensity == 0)
-                    {
-                        m_playerVibration.Stop(cm.cubes[m_playerID.Value]);
-                    }
-                    else
-                    {
-                        m_playerVibration.Vibrate(cm.cubes[m_playerID.Value], m_vibrationIntensity);
-                    }
-                    
-                }
+                m_playerVibration.Stop(cm.cubes[m_playerID.Value]);
             }
-                        
+            else
+            {
+                m_playerVibration.Vibrate(cm.cubes[m_playerID.Value], m_vibrationIntensity);
+            }
         }
     }
 
