@@ -81,9 +81,13 @@ public class CTFGameManager : NetworkBehaviour
                             headCubeManager.m_vibrationIntensity = CTFConfig.CalculateVibration(stretch);
                             
                             // Change bungee colour if stretch above min
-                            if (stretch > CTFConfig.stretchMin)
+                            if (stretch > CTFConfig.stretchMax)
                             {
                                 m_bungeeList[headID].GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+                            }
+                            else if (stretch > CTFConfig.stretchMin)
+                            {
+                                m_bungeeList[headID].GetComponent<Renderer>().material.SetColor("_Color", Color.yellow);
                             }
                             else
                             {

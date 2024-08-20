@@ -12,6 +12,10 @@ static public class CTFConfig
 
     static public int CalculateVibration(float stretch)
     {
+        if (stretch < stretchMin)
+        {
+            return 0;
+        }
         return (int) ((stretch - stretchMin) / (stretchMax - stretchMin) * stretchScalingFactor);
     }
 }
