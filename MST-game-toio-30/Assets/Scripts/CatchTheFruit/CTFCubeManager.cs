@@ -16,18 +16,15 @@ public class CTFCubeManager : NetworkBehaviour
     public String m_guiMsg1 = "";
     public String m_guiMsg2 = "";
 
-    public double m_maxSpeed = 50;
-    public float m_vibrationTolerance = 100;
-    public int m_vibrationIntensity = 50;
+    public double m_maxSpeed = 100;
+    public int m_vibrationIntensity = 0;
+    public bool m_vibrationToggle = true;
 
     Vector2 m_playerPosID;
-
-    public int[] m_vibrationArray; 
     ToioVibration m_playerVibration = new ToioVibration();
 
     async void Start()
     {
-        m_vibrationArray = new int[m_numPlayers];
 
         // Only try to connect to cubes if this is our PlayerObject.
         if (IsOwner)
@@ -52,6 +49,8 @@ public class CTFCubeManager : NetworkBehaviour
                 }
             }
             m_connected = true;
+
+            if(m_playerID.Value == 0) {m_vibrationToggle = false;}
         }
     }
 
@@ -70,30 +69,19 @@ public class CTFCubeManager : NetworkBehaviour
                     {
                         // move the local puppet cube.
                         cm.handles[manager.m_playerID.Value].Move2Target(partnerPosID.x,partnerPosID.y,m_maxSpeed).Exec();
-
-                        // calculate necessary vibrations.
-                        if (manager.m_playerID.Value == 0 || m_playerID.Value == 0)
-                        {
-                            if ((m_playerPosID - partnerPosID).magnitude > m_vibrationTolerance)
-                            {
-                                //m_vibrationArray[m_playerID.Value] = m_vibrationIntensity;
-                            }
-                            else
-                            {
-                                m_vibrationArray[m_playerID.Value] = 0;
-                            }
-                        }
-
-                        // render necessary vibrations.
-                        int vibrationTotal = 0;
-                        foreach(var val in m_vibrationArray)
-                        {
-                            vibrationTotal += val;
-                        }
-                        m_playerVibration.Vibrate(cm.cubes[m_playerID.Value], vibrationTotal);
                     }
                 }
             }
+
+            // render necessary vibrations.
+            if(IsOwner && cm.synced)
+            {
+                if(m_vibrationToggle)
+                {
+                    m_playerVibration.Vibrate(cm.cubes[m_playerID.Value], m_vibrationIntensity);
+                }
+            }
+                        
         }
     }
 
