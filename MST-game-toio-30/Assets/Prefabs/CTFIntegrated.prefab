@@ -159,6 +159,7 @@ MonoBehaviour:
   m_vibrationTolerance: 100
   m_vibrationIntensity: 50
   m_vibrationArray: 
+  m_bungeeObject: {fileID: 5560728937628421342, guid: 7d47f00f5ddbe402e98601695a6cdb44, type: 3}
 --- !u!65 &2877835669170907926
 BoxCollider:
   m_ObjectHideFlags: 0
