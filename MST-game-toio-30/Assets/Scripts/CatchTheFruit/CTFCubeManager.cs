@@ -78,7 +78,15 @@ public class CTFCubeManager : NetworkBehaviour
             {
                 if(m_vibrationToggle)
                 {
-                    m_playerVibration.Vibrate(cm.cubes[m_playerID.Value], m_vibrationIntensity);
+                    if(m_vibrationIntensity == 0)
+                    {
+                        m_playerVibration.Stop();
+                    }
+                    else
+                    {
+                        m_playerVibration.Vibrate(cm.cubes[m_playerID.Value], m_vibrationIntensity);
+                    }
+                    
                 }
             }
                         
