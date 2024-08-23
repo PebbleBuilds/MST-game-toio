@@ -5,18 +5,17 @@ using UnityEngine;
 public class Bungee : NetworkBehaviour
 {
     public Renderer m_renderer;
-    public NetworkVariable<bool> m_enabled;
+    public NetworkVariable<bool> m_enabled = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public Vector3 pos1;
     public Vector3 pos2;
-    public NetworkVariable<float> stretch;
-    private NetworkVariable<float> m_alpha;
+    public NetworkVariable<float> stretch = new NetworkVariable<float>(0.0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    private NetworkVariable<float> m_alpha = new NetworkVariable<float>(1.0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public float m_reformRate = 0.01f;
     public float m_decayRate = 0.01f;
 
     void Start()
     {
-        m_enabled.Value = true;
-        m_alpha.Value = 1.0f;
+        //m_enabled.Value = true;
         //m_renderer = GetComponent<Renderer>();
     }
 
@@ -35,6 +34,7 @@ public class Bungee : NetworkBehaviour
         // Change bungee alpha
         var color = m_renderer.material.color;
         color.a = m_alpha.Value;
+        m_renderer.material.color = color;
     }
 
     void FixedUpdate()
