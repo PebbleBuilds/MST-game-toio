@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bungee : NetworkBehaviour
 {
-    private Renderer m_renderer;
+    public Renderer m_renderer;
     public NetworkVariable<bool> m_enabled;
     public Vector3 pos1;
     public Vector3 pos2;
@@ -17,7 +17,7 @@ public class Bungee : NetworkBehaviour
     {
         m_enabled.Value = true;
         m_alpha.Value = 1.0f;
-        m_renderer = gameObject.GetComponent<Renderer>();
+        m_renderer = GetComponent<Renderer>();
     }
 
     void Update()
