@@ -31,14 +31,31 @@ static public class ToioHelpers
 public class ToioVibration
 {
     int dir = 1;
+    bool pulsing = false;
+    float pulseDuration;
+    float pulseStartTime;
 
     public void Vibrate(Cube c, int speed)
     {
-        c.Move(speed*dir,-speed*dir,0);
-        dir = -dir;
+        if(!pulsing)
+        {
+            c.Move(speed*dir,-speed*dir,0);
+            dir = -dir;
+        }
+        else if (Time.time - pulseStartTime > pulseDuration)
+        {
+            pulsing = false;
+        }
     }
     public void Stop(Cube c)
     {
         c.Move(0,0,0);
+    }
+
+    public void Pulse(float duration)
+    {
+        pulseDuration = duration;
+        pulseStartTime = Time.time;
+        pulsing = true;
     }
 }

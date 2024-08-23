@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Bungee : NetworkBehaviour
 {
+    public NetworkVariable<int> m_bungeeHeadID = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public Renderer m_renderer;
     public NetworkVariable<bool> m_enabled = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public Vector3 pos1;
@@ -54,8 +55,7 @@ public class Bungee : NetworkBehaviour
                 // Break the bungee if stretchMax exceeded
                 if (stretch.Value > CTFConfig.stretchMax)
                 {
-                    m_enabled.Value = false;
-                    m_alpha.Value = 0.0f;
+                    BreakBungee();
                 }
             }
 
@@ -64,7 +64,7 @@ public class Bungee : NetworkBehaviour
                 // Reconnect the bungee if fully reformed
                 if (m_alpha.Value >= 1.0f)
                 {
-                    m_enabled.Value = true;
+                    ReformBungee();
                 }
                 // Otherwise, increment reform if close enough
                 else if (stretch.Value < CTFConfig.reformMax)
@@ -95,11 +95,43 @@ public class Bungee : NetworkBehaviour
         {
             if (IsServer)
             {
-                m_enabled.Value = false;
+                BreakBungee();
                 m_alpha.Value = 0.0f;
             }
         }
     }
 
+    public void SetHeadID(int id)
+    {
+        m_bungeeHeadID.Value = id;
+    }
 
+    public void BreakBungee()
+    {
+        m_enabled.Value = false;
+        m_alpha.Value = 0.0f;
+
+        var managers = UnityEngine.Object.FindObjectsOfType<CTFCubeManager>();
+        foreach (var manager in managers) 
+        {
+            if (manager.m_playerID.Value == m_bungeeHeadID.Value || manager.m_playerID.Value == 0)
+            {
+                manager.Pulse(0.5f);
+            }
+        }
+    }
+
+    public void ReformBungee()
+    {
+        m_enabled.Value = true;
+
+        var managers = UnityEngine.Object.FindObjectsOfType<CTFCubeManager>();
+        foreach (var manager in managers) 
+        {
+            if (manager.m_playerID.Value == m_bungeeHeadID.Value || manager.m_playerID.Value == 0)
+            {
+                manager.Pulse(0.5f);
+            }
+        }
+    }
 }

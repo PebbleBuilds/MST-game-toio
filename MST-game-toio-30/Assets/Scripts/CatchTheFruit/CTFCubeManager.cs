@@ -70,7 +70,7 @@ public class CTFCubeManager : NetworkBehaviour
             }
 
             // render necessary vibrations.
-            if(!m_vibrationToggle || m_vibrationIntensity.Value == 0)
+            if(!m_vibrationToggle)
             {
                 m_playerVibration.Stop(cm.cubes[m_playerID.Value]);
             }
@@ -88,5 +88,10 @@ public class CTFCubeManager : NetworkBehaviour
 
         m_playerPosID.x = c.pos.x;
         m_playerPosID.y = c.pos.y;
+    }
+
+    public void Pulse(float duration)
+    {
+        m_playerVibration.Pulse(duration);
     }
 }

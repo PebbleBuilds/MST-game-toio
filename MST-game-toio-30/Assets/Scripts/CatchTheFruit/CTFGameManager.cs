@@ -71,6 +71,7 @@ public class CTFGameManager : NetworkBehaviour
 
                             // Get the bungee component
                             Bungee bungeeComponent = m_bungeeList[headID].GetComponent<Bungee>();
+                            bungeeComponent.SetHeadID(headID);
 
                             // Find position of body and head
                             var pos1 = body.transform.position;
