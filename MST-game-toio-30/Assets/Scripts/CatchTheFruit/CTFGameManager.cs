@@ -31,7 +31,7 @@ public class CTFGameManager : NetworkBehaviour
             {
                 var position = ToioHelpers.PositionIDtoUnity(Random.Range(ToioHelpers.minX, ToioHelpers.maxX), ToioHelpers.minY);
                 GameObject prefabToSpawn;
-                if (Random.Range(0,1) < CTFConfig.spikyChance)
+                if (Random.Range(0.0f,1.0f) < CTFConfig.spikyChance)
                 {
                     prefabToSpawn = m_spikyPrefab;
                 }
