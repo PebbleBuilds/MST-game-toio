@@ -17,6 +17,7 @@ public class Bungee : NetworkBehaviour
     {
         m_enabled.Value = true;
         m_alpha.Value = 1.0f;
+        m_renderer = this.GetComponent<Renderer>();
     }
 
     void Update()
