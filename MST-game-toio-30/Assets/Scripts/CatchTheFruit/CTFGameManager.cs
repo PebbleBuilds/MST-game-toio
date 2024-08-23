@@ -82,6 +82,10 @@ public class CTFGameManager : NetworkBehaviour
                                 headCubeManager.m_vibrationIntensity.Value = CTFConfig.CalculateVibration(stretch);
                                 bodyStretch += stretch;
                             }
+                            else
+                            {
+                                headCubeManager.m_vibrationIntensity.Value = 0;
+                            }
                         }
                     }
 
