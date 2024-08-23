@@ -174,6 +174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_fruitPrefab: {fileID: 939544355374459010, guid: f06505b8684ad4e0593567ce22b7bf4d, type: 3}
+  m_spikyPrefab: {fileID: 939544355374459010, guid: a59e4d21bc48240cf883de2a4c821e5e, type: 3}
   m_fruitSpawnPeriod: 3
   m_score:
     m_InternalValue: 0
