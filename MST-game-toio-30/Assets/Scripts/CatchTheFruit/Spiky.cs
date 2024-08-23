@@ -2,7 +2,7 @@ using System;
 using Unity.Netcode;
 using UnityEngine;
 
-public class Fruit : NetworkBehaviour
+public class Spiky : NetworkBehaviour
 {
     void Start()
     {

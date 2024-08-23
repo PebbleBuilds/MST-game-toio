@@ -7,6 +7,7 @@ using Cysharp.Threading.Tasks;
 public class CTFGameManager : NetworkBehaviour
 {
     public GameObject m_fruitPrefab;
+    public GameObject m_spikyPrefab;
     public int m_fruitSpawnPeriod = 3;
     private float m_lastFruitSpawnTime = 0;
 
@@ -24,14 +25,23 @@ public class CTFGameManager : NetworkBehaviour
     {
         if (IsServer)
         {
+            // Fruit/spiky spawning
             var currTime = Time.time;
             if (currTime - m_lastFruitSpawnTime > m_fruitSpawnPeriod)
             {
                 var position = ToioHelpers.PositionIDtoUnity(Random.Range(ToioHelpers.minX, ToioHelpers.maxX), ToioHelpers.minY);
-                var fruitInstance = Instantiate(m_fruitPrefab, position, Quaternion.identity);
+                GameObject prefabToSpawn;
+                if (Random.Range(0,1) < CTFConfig.spikyChance)
+                {
+                    prefabToSpawn = m_spikyPrefab;
+                }
+                else
+                {
+                    prefabToSpawn = m_fruitPrefab;
+                }
+                var fruitInstance = Instantiate(prefabToSpawn, position, Quaternion.identity);
                 var fruitInstanceNetworkObject = fruitInstance.GetComponent<NetworkObject>();
                 fruitInstanceNetworkObject.Spawn();
-
                 m_lastFruitSpawnTime = currTime;
             }
 

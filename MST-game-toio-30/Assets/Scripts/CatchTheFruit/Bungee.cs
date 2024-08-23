@@ -87,5 +87,19 @@ public class Bungee : NetworkBehaviour
         }
     }
 
+    void OnCollisionEnter(Collision collision)
+    {
+        var go = collision.gameObject;
+        var spiky = go.GetComponent<Spiky>();
+        if (spiky != null)
+        {
+            if (IsServer)
+            {
+                m_enabled.Value = false;
+                m_alpha.Value = 0.0f;
+            }
+        }
+    }
+
 
 }
