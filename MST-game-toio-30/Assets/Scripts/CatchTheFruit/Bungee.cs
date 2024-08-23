@@ -41,16 +41,16 @@ public class Bungee : NetworkBehaviour
     {
         if (IsServer)
         {
+            // Position and scale bungee object
+            transform.position = Vector3.Lerp(pos1,pos2,0.5f);
+            float angleWithY = -Mathf.Atan((pos2.z-pos1.z)/(pos2.x-pos1.x)) / Mathf.PI * 180;
+            var eulerAngles = new Vector3(0.0f, 0.0f, 90.0f);
+            transform.eulerAngles = eulerAngles;
+            transform.Rotate(0.0f,angleWithY,0.0f,Space.World);
+            transform.localScale = new Vector3(1,(pos2-pos1).magnitude/2,1);
+
             if (m_enabled.Value)
             {
-                // Position and scale bungee object
-                transform.position = Vector3.Lerp(pos1,pos2,0.5f);
-                float angleWithY = -Mathf.Atan((pos2.z-pos1.z)/(pos2.x-pos1.x)) / Mathf.PI * 180;
-                var eulerAngles = new Vector3(0.0f, 0.0f, 90.0f);
-                transform.eulerAngles = eulerAngles;
-                transform.Rotate(0.0f,angleWithY,0.0f,Space.World);
-                transform.localScale = new Vector3(1,(pos2-pos1).magnitude/2,1);
-
                 // Break the bungee if stretchMax exceeded
                 if (stretch.Value > CTFConfig.stretchMax)
                 {
