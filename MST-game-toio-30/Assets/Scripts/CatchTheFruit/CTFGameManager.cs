@@ -59,39 +59,28 @@ public class CTFGameManager : NetworkBehaviour
                                 bungeeNetworkObject.Spawn();
                             }
 
+                            // Get the bungee component
+                            Bungee bungeeComponent = m_bungeeList[headID].GetComponent<Bungee>();
+
                             // Find position of body and head
                             var pos1 = body.transform.position;
                             var pos2 = head.transform.position;
-
-                            // Position and scale bungee object
-                            m_bungeeList[headID].transform.position = Vector3.Lerp(pos1,pos2,0.5f);
-                            float angleWithY = -Mathf.Atan((pos2.z-pos1.z)/(pos2.x-pos1.x)) / Mathf.PI * 180;
-                            var eulerAngles = new Vector3(0.0f, 0.0f, 90.0f);
-                            m_bungeeList[headID].transform.eulerAngles = eulerAngles;
-                            m_bungeeList[headID].transform.Rotate(0.0f,angleWithY,0.0f,Space.World);
-                            m_bungeeList[headID].transform.localScale = new Vector3(1,(pos2-pos1).magnitude/2,1);
 
                             // Calculate stretch in toio coordinates
                             var pos1mat = ToioHelpers.UnitytoPositionID(pos1);
                             var pos2mat = ToioHelpers.UnitytoPositionID(pos2);
                             var stretch = (pos1mat - pos2mat).magnitude;
-                            bodyStretch += stretch;
+
+                            // Propagate to bungee object for rendering;
+                            bungeeComponent.pos1 = pos1;
+                            bungeeComponent.pos2 = pos2;
+                            bungeeComponent.stretch.Value = stretch;
 
                             // Calculate head vibration
-                            headCubeManager.m_vibrationIntensity.Value = CTFConfig.CalculateVibration(stretch);
-                            
-                            // Change bungee colour if stretch above min
-                            if (stretch > CTFConfig.stretchMax)
+                            if(bungeeComponent.m_enabled.Value)
                             {
-                                m_bungeeList[headID].GetComponent<Renderer>().material.SetColor("_Color", Color.red);
-                            }
-                            else if (stretch > CTFConfig.stretchMin)
-                            {
-                                m_bungeeList[headID].GetComponent<Renderer>().material.SetColor("_Color", Color.yellow);
-                            }
-                            else
-                            {
-                                m_bungeeList[headID].GetComponent<Renderer>().material.SetColor("_Color", Color.white);
+                                headCubeManager.m_vibrationIntensity.Value = CTFConfig.CalculateVibration(stretch);
+                                bodyStretch += stretch;
                             }
                         }
                     }
