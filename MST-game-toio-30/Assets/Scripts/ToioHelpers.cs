@@ -34,6 +34,7 @@ public class ToioVibration
     bool pulsing = false;
     float pulseDuration;
     float pulseStartTime;
+    int pulseIntensity;
 
     public void Vibrate(Cube c, int speed)
     {
@@ -46,16 +47,22 @@ public class ToioVibration
         {
             pulsing = false;
         }
+        else
+        {
+            c.Move(pulseIntensity*dir,-pulseIntensity*dir,0);
+            dir = -dir;
+        }
     }
     public void Stop(Cube c)
     {
         c.Move(0,0,0);
     }
 
-    public void Pulse(float duration)
+    public void Pulse(float duration, int intensity)
     {
         pulseDuration = duration;
         pulseStartTime = Time.time;
+        pulseIntensity = intensity;
         pulsing = true;
     }
 }

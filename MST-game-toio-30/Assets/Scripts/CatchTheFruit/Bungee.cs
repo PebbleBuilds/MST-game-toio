@@ -116,7 +116,7 @@ public class Bungee : NetworkBehaviour
         {
             if (manager.m_playerID.Value == m_bungeeHeadID.Value || manager.m_playerID.Value == 0)
             {
-                manager.Pulse(0.5f);
+                manager.Pulse(0.5f,100);
             }
         }
     }
@@ -130,7 +130,7 @@ public class Bungee : NetworkBehaviour
         {
             if (manager.m_playerID.Value == m_bungeeHeadID.Value || manager.m_playerID.Value == 0)
             {
-                manager.Pulse(0.5f);
+                manager.Pulse(0.5f,100);
             }
         }
     }

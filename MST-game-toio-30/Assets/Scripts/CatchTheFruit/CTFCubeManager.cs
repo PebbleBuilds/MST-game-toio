@@ -90,8 +90,8 @@ public class CTFCubeManager : NetworkBehaviour
         m_playerPosID.y = c.pos.y;
     }
 
-    public void Pulse(float duration)
+    public void Pulse(float duration,int intensity)
     {
-        m_playerVibration.Pulse(duration);
+        m_playerVibration.Pulse(duration,intensity);
     }
 }
