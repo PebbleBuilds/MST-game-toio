@@ -26,6 +26,12 @@ public class CTFGameManager : NetworkBehaviour
     {
         if (IsServer)
         {
+            // Host blackout?
+            foreach (var obj in m_blackoutPanelList)
+            {
+                obj.SetActive(false);
+            }
+
             // Fruit/spiky spawning
             var currTime = Time.time;
             if (currTime - m_lastFruitSpawnTime > m_fruitSpawnPeriod)
