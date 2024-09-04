@@ -15,6 +15,7 @@ public class CTFGameManager : NetworkBehaviour
 
     public GameObject m_bungeePrefab;
     public GameObject[] m_bungeeList = new GameObject[CTFConfig.numPlayers];
+    public GameObject[] m_blackoutPanelList;
 
     void Start()
     {
@@ -97,6 +98,15 @@ public class CTFGameManager : NetworkBehaviour
                             {
                                 headCubeManager.m_vibrationIntensity.Value = 0;
                             }
+
+                            // Set blackout panel
+                            SetBlackoutPanelClientRpc(!bungeeComponent.m_enabled.Value,new ClientRpcParams
+                            {
+                                Send = new ClientRpcSendParams
+                                {
+                                    TargetClientIds = new ulong[] { (ulong)headID }
+                                }
+                            });
                         }
                     }
 
@@ -105,6 +115,14 @@ public class CTFGameManager : NetworkBehaviour
                 }
             }
         }
-
+    }
+    [ClientRpc]
+    public void SetBlackoutPanelClientRpc(bool enabled, ClientRpcParams rpcParams = default)
+    {
+        foreach (var obj in m_blackoutPanelList)
+        {
+            obj.SetActive(enabled);
+        }
+        
     }
 }
