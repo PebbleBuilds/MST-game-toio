@@ -49,8 +49,6 @@ public class CTFCubeManager : NetworkBehaviour
                 }
             }
             m_connected = true;
-
-            if(m_playerID.Value == 0) {m_vibrationToggle = false;}
         }
     }
 
