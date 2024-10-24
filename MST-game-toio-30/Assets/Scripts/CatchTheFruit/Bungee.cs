@@ -124,6 +124,11 @@ public class Bungee : NetworkBehaviour
             {
                 manager.PulseClientRpc(0.5f,100);
             }
+
+            if (manager.m_playerID.Value == m_bungeeHeadID.Value)
+            {
+                manager.SetScoring(false);
+            }
         }
     }
 
@@ -137,6 +142,7 @@ public class Bungee : NetworkBehaviour
             if (manager.m_playerID.Value == m_bungeeHeadID.Value || manager.m_playerID.Value == 0)
             {
                 manager.PulseClientRpc(0.5f,100);
+                manager.SetScoring(true);
             }
         }
     }

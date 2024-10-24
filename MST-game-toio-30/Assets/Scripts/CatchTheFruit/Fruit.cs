@@ -25,7 +25,7 @@ public class Fruit : NetworkBehaviour
     {
         var go = collision.gameObject;
         var manager = go.GetComponent<CTFCubeManager>();
-        if (manager != null)
+        if (manager != null && manager.IsScoring())
         {
             // stuff to do on client. play a vibration?
             if (manager.m_playerID.Value == (int)NetworkManager.Singleton.LocalClientId)
@@ -37,7 +37,6 @@ public class Fruit : NetworkBehaviour
             {
                 var gameManager = FindObjectOfType<CTFGameManager>().GetComponent<CTFGameManager>();
                 gameManager.m_score.Value = gameManager.m_score.Value + 1;
-
                 NetworkObject.Despawn(true);
             }
 

@@ -23,6 +23,7 @@ public class CTFGameManager : NetworkBehaviour
     void Start()
     {
         m_score.Value = 0;
+        //m_renderer = GetComponent<Renderer>();
     }
 
     void FixedUpdate()

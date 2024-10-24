@@ -23,8 +23,13 @@ public class CTFCubeManager : NetworkBehaviour
     public Vector2 m_playerPosID;
     ToioVibration m_playerVibration = new ToioVibration();
 
+    public Renderer m_renderer;
+    private NetworkVariable<float> m_alpha = new NetworkVariable<float>(1.0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public bool m_scoring = true;
+
     async void Start()
     {
+        m_renderer = GetComponent<Renderer>();
 
         // Only try to connect to cubes if this is our PlayerObject.
         if (IsOwner)
@@ -54,6 +59,9 @@ public class CTFCubeManager : NetworkBehaviour
 
     void Update()
     {
+        var color = m_renderer.material.color;
+        color.a = m_alpha.Value;
+
         if (m_connected && cm.synced && IsOwner)
         {
             // move the local puppet cubes.
@@ -86,6 +94,24 @@ public class CTFCubeManager : NetworkBehaviour
 
         m_playerPosID.x = c.pos.x;
         m_playerPosID.y = c.pos.y;
+    }
+
+    public void SetScoring(bool scoring)
+    {
+        m_scoring = scoring;
+        if(scoring)
+        {
+            m_alpha.Value = 0.0f;
+        }
+        else
+        {
+            m_alpha.Value = 1.0f;
+        }
+    }
+
+    public bool IsScoring()
+    {
+        return m_scoring;
     }
 
     [ClientRpc]
