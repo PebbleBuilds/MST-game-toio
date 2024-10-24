@@ -29,7 +29,7 @@ public class CTFCubeManager : NetworkBehaviour
 
     async void Start()
     {
-        m_renderer = GetComponent<Renderer>();
+        //m_renderer = GetComponent<Renderer>();
 
         // Only try to connect to cubes if this is our PlayerObject.
         if (IsOwner)
