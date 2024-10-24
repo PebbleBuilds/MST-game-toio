@@ -4,6 +4,7 @@ using toio;
 using Cysharp.Threading.Tasks;
 
 
+
 public class CTFGameManager : NetworkBehaviour
 {
     public GameObject m_fruitPrefab;
@@ -16,6 +17,8 @@ public class CTFGameManager : NetworkBehaviour
     public GameObject m_bungeePrefab;
     public GameObject[] m_bungeeList = new GameObject[CTFConfig.numPlayers];
     public GameObject[] m_blackoutPanelList;
+
+    public ToioLogger m_logger = new ToioLogger("CTF",CTFConfig.numPlayers);
 
     void Start()
     {
@@ -53,6 +56,20 @@ public class CTFGameManager : NetworkBehaviour
             }
 
             var playerList = FindObjectsOfType<CTFCubeManager>();
+
+            // Manage logger
+            if(!m_logger.IsLogging())
+            {
+                foreach(var player in playerList)
+                {
+                    CTFCubeManager manager = player.GetComponent<CTFCubeManager>();
+                    m_logger.AddToio(manager);
+                }
+            }
+            else
+            {
+                m_logger.WriteData();
+            }
 
             // Manage bungees from body to each head
             foreach (var body in playerList)
@@ -122,6 +139,12 @@ public class CTFGameManager : NetworkBehaviour
             }
         }
     }
+
+    void OnApplicationQuit()
+    {
+        m_logger.Quit();
+    }
+
     [ClientRpc]
     public void SetBlackoutPanelClientRpc(bool enabled, ClientRpcParams rpcParams = default)
     {

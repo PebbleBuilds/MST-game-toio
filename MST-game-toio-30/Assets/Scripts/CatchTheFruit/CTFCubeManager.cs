@@ -9,7 +9,7 @@ public class CTFCubeManager : NetworkBehaviour
 
     public ConnectType connectType = ConnectType.Real; 
     public NetworkVariable<int> m_playerID = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-    private int m_numPlayers = CTFConfig.numPlayers;
+    public int m_numPlayers = CTFConfig.numPlayers;
     CubeManager cm;
 
     bool m_connected = false;
@@ -20,7 +20,7 @@ public class CTFCubeManager : NetworkBehaviour
     public NetworkVariable<int> m_vibrationIntensity = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public bool m_vibrationToggle = true;
 
-    Vector2 m_playerPosID;
+    public Vector2 m_playerPosID;
     ToioVibration m_playerVibration = new ToioVibration();
 
     async void Start()
