@@ -76,7 +76,7 @@ public class CTFGameManager : NetworkBehaviour
             {
                 var bodyCubeManager = body.GetComponent<CTFCubeManager>();
                 var bodyID = bodyCubeManager.m_playerID.Value;
-                float bodyStretch = 0;
+                int bodyVibration = 0;
                 if (bodyID == 0)
                 {
                     foreach(var head in playerList)
@@ -115,7 +115,7 @@ public class CTFGameManager : NetworkBehaviour
                             if(bungeeComponent.m_enabled.Value)
                             {
                                 headCubeManager.m_vibrationIntensity.Value = CTFConfig.CalculateVibration(stretch);
-                                bodyStretch += stretch;
+                                bodyVibration += CTFConfig.CalculateVibration(stretch);
                             }
                             else
                             {
@@ -134,7 +134,7 @@ public class CTFGameManager : NetworkBehaviour
                     }
 
                     // Calculate body vibration
-                    bodyCubeManager.m_vibrationIntensity.Value = CTFConfig.CalculateVibration(bodyStretch);
+                    bodyCubeManager.m_vibrationIntensity.Value = bodyVibration;
                 }
             }
         }

@@ -6,6 +6,7 @@ public class Bungee : NetworkBehaviour
 {
     public NetworkVariable<int> m_bungeeHeadID = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public Renderer m_renderer;
+    public Collider m_collider;
     public NetworkVariable<bool> m_enabled = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public Vector3 pos1;
     public Vector3 pos2;
@@ -18,6 +19,7 @@ public class Bungee : NetworkBehaviour
     {
         //m_enabled.Value = true;
         //m_renderer = GetComponent<Renderer>();
+        m_collider = GetComponent<Collider>();
     }
 
     void Update()
@@ -40,6 +42,8 @@ public class Bungee : NetworkBehaviour
 
     void FixedUpdate()
     {
+        m_collider.enabled = m_enabled.Value;
+
         if (IsServer)
         {
             // Position and scale bungee object
@@ -85,7 +89,7 @@ public class Bungee : NetworkBehaviour
                 }
             }
 
-            
+
         }
     }
 
