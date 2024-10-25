@@ -121,6 +121,11 @@ public class CTFCubeManager : NetworkBehaviour
         return m_scoring.Value;
     }
 
+    public void SetAlpha(float alpha)
+    {
+        m_alpha.Value = alpha;
+    }
+
     [ClientRpc]
     public void PulseClientRpc(float duration,int intensity)
     {

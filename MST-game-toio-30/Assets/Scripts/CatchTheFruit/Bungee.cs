@@ -87,6 +87,15 @@ public class Bungee : NetworkBehaviour
                         m_alpha.Value = 0.0f;
                     }
                 }
+
+                var managers = UnityEngine.Object.FindObjectsOfType<CTFCubeManager>();
+                foreach (var manager in managers) 
+                {
+                    if (manager.m_playerID.Value == m_bungeeHeadID.Value)
+                    {
+                        
+                    }
+                }
             }
 
 
