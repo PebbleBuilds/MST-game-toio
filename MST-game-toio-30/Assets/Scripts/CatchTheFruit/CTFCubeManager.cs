@@ -24,12 +24,14 @@ public class CTFCubeManager : NetworkBehaviour
     ToioVibration m_playerVibration = new ToioVibration();
 
     public Renderer m_renderer;
+    private Collider m_collider;
     private NetworkVariable<float> m_alpha = new NetworkVariable<float>(1.0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     private NetworkVariable<bool> m_scoring = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     async void Start()
     {
         //m_renderer = GetComponent<Renderer>();
+        m_collider = GetComponent<Collider>();
 
         // Only try to connect to cubes if this is our PlayerObject.
         if (IsOwner)
@@ -63,6 +65,7 @@ public class CTFCubeManager : NetworkBehaviour
     {
         var color = m_renderer.material.color;
         color.a = m_alpha.Value;
+        m_renderer.material.color = color;
 
         if (m_connected && cm.synced && IsOwner)
         {
@@ -103,11 +106,13 @@ public class CTFCubeManager : NetworkBehaviour
         m_scoring.Value = scoring;
         if(scoring)
         {
-            m_alpha.Value = 0.0f;
+            m_alpha.Value = 1.0f;
+            m_collider.enabled = true;
         }
         else
         {
-            m_alpha.Value = 1.0f;
+            m_alpha.Value = 0.0f;
+            m_collider.enabled = false;
         }
     }
 
