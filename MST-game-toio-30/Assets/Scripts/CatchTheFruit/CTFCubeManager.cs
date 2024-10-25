@@ -25,7 +25,7 @@ public class CTFCubeManager : NetworkBehaviour
 
     public Renderer m_renderer;
     private NetworkVariable<float> m_alpha = new NetworkVariable<float>(1.0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    public bool m_scoring = true;
+    private NetworkVariable<bool> m_scoring = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     async void Start()
     {
@@ -98,7 +98,7 @@ public class CTFCubeManager : NetworkBehaviour
 
     public void SetScoring(bool scoring)
     {
-        m_scoring = scoring;
+        m_scoring.Value = scoring;
         if(scoring)
         {
             m_alpha.Value = 0.0f;
@@ -111,7 +111,7 @@ public class CTFCubeManager : NetworkBehaviour
 
     public bool IsScoring()
     {
-        return m_scoring;
+        return m_scoring.Value;
     }
 
     [ClientRpc]
