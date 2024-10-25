@@ -27,15 +27,21 @@ public class Spiky : NetworkBehaviour
         var manager = go.GetComponent<CTFCubeManager>();
         if (manager != null && manager.IsScoring())
         {
+            int playerID = manager.m_playerID.Value;
+
             // stuff to do on client. play a vibration?
-            if (manager.m_playerID.Value == (int)NetworkManager.Singleton.LocalClientId)
+            if (playerID == (int)NetworkManager.Singleton.LocalClientId)
             {
-                manager.PulseClientRpc(0.5f,100);
+                //manager.PulseClientRpc(0.5f,100);
             }
 
             if (IsServer)
             {
-                manager.SetScoring(false);
+                if (playerID != 0)
+                {
+                    var game = FindObjectOfType<CTFGameManager>();
+                    game.m_bungeeList[playerID].BreakBungee();
+                }
                 NetworkObject.Despawn(true);
             }
         }
