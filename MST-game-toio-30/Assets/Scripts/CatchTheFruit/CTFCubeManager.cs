@@ -9,7 +9,7 @@ public class CTFCubeManager : NetworkBehaviour
 
     public ConnectType connectType = ConnectType.Real; 
     public NetworkVariable<int> m_playerID = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-    public int m_numPlayers = CTFConfig.numPlayers;
+    private int m_numPlayers = CTFConfig.numPlayers;
     CubeManager cm;
 
     bool m_connected = false;
@@ -38,9 +38,11 @@ public class CTFCubeManager : NetworkBehaviour
             m_guiMsg1 = String.Format("Client ID={0}", m_playerID.Value);
             cm = new CubeManager(connectType);
             await cm.MultiConnect(m_numPlayers);
+            Debug.Log(m_numPlayers);
 
             for(int i = 0; i<m_numPlayers; i++)
             {
+                Debug.Log(i);
                 if(i == m_playerID.Value)
                 {
                     cm.cubes[i].idCallback.AddListener("CTFManager", OnPlayerUpdateID);
