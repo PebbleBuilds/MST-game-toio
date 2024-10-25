@@ -95,7 +95,7 @@ public class CTFCubeManager : NetworkBehaviour
     void OnPlayerUpdateID(Cube c)
     {
         transform.position = ToioHelpers.PositionIDtoUnity(c.pos.x,c.pos.y);
-        transform.eulerAngles = new Vector3(0,c.angle,0);
+        transform.eulerAngles = new Vector3(180,c.angle,0);
 
         m_playerPosID.x = c.pos.x;
         m_playerPosID.y = c.pos.y;
