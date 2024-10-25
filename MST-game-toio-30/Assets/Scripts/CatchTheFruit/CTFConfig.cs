@@ -6,7 +6,7 @@ using toio;
 static public class CTFConfig
 {
     // general stuff
-    static public int numPlayers = 3;
+    static public int numPlayers = 2;
 
     // stretching and reforming
     static public float reformMax = 20;
