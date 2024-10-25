@@ -39,8 +39,8 @@ public class Spiky : NetworkBehaviour
             {
                 if (playerID != 0)
                 {
-                    var game = FindObjectOfType<CTFGameManager>().GetComponent<CTFGameManager>();
-                    game.m_bungeeList[playerID].BreakBungee();
+                    var game = FindObjectOfType<CTFGameManager>();
+                    game.m_bungeeList[playerID].GetComponent<Bungee>().BreakBungee();
                 }
                 NetworkObject.Despawn(true);
             }
