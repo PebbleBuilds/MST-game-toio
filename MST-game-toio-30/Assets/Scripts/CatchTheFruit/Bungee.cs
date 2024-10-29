@@ -53,7 +53,7 @@ public class Bungee : NetworkBehaviour
         // Angle object. Do this on client side for some weird reason, to avoid delay
         var eulerAngles = new Vector3(0.0f, 0.0f, 90.0f);
         transform.eulerAngles = eulerAngles;
-        transform.Rotate(0.0f,angleWithY,0.0f,Space.World);
+        transform.Rotate(0.0f,m_angleWithY,0.0f,Space.World);
 
         if (IsServer)
         {
