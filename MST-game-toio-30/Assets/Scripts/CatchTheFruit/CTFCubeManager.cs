@@ -6,28 +6,33 @@ using Cysharp.Threading.Tasks;
 
 public class CTFCubeManager : NetworkBehaviour
 {
-
+    // Connection
     public ConnectType connectType = ConnectType.Real; 
     public NetworkVariable<int> m_playerID = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     private int m_numPlayers = CTFConfig.numPlayers;
-    Color m_color;
     CubeManager cm;
-
     bool m_connected = false;
+
+    // GUI
     public String m_guiMsg1 = "";
     public String m_guiMsg2 = "";
 
+    // Toio
     public double m_maxSpeed = 100;
     public NetworkVariable<int> m_vibrationIntensity = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public bool m_vibrationToggle = true;
-
     public Vector2 m_playerPosID;
     ToioVibration m_playerVibration = new ToioVibration();
     ToioLight m_playerLight;
 
+    // On screen avatar rendering
+    Color m_color;
     public Renderer m_renderer;
     private Collider m_collider;
     public NetworkVariable<float> m_alpha = new NetworkVariable<float>(1.0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public GameObject[] m_partsToHide;
+    
+    // Game-related
     private NetworkVariable<bool> m_scoring = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     async void Start()
@@ -41,6 +46,15 @@ public class CTFCubeManager : NetworkBehaviour
         // Set up the rendering stuff. Do this even for the non-owners
         m_color = CTFConfig.ColorFromPlayerID(m_playerID.Value);
         m_collider = GetComponent<Collider>();
+
+        // Turn off the eyes and tongue if we are the body
+        if (m_playerID.Value == 0)
+        {
+            foreach(var go in m_partsToHide)
+            {
+                go.SetActive(false);
+            }
+        }
 
         // Only do Toio connection stuff if we own this player object
         if (IsOwner)
@@ -109,7 +123,7 @@ public class CTFCubeManager : NetworkBehaviour
     void OnPlayerUpdateID(Cube c)
     {
         transform.position = ToioHelpers.PositionIDtoUnity(c.pos.x,c.pos.y);
-        transform.eulerAngles = new Vector3(180,c.angle,0);
+        transform.eulerAngles = new Vector3(0,c.angle,0);
 
         m_playerPosID.x = c.pos.x;
         m_playerPosID.y = c.pos.y;
