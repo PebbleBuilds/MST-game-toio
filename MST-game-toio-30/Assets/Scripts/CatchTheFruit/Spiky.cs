@@ -42,6 +42,11 @@ public class Spiky : NetworkBehaviour
                     var game = FindObjectOfType<CTFGameManager>();
                     game.m_bungeeList[playerID].GetComponent<Bungee>().BreakBungee();
                 }
+                else // if a spiky hits the body, only bungee 1 will break. merciful?
+                {
+                    var game = FindObjectOfType<CTFGameManager>();
+                    game.m_bungeeList[1].GetComponent<Bungee>().BreakBungee();
+                }
                 NetworkObject.Despawn(true);
             }
         }

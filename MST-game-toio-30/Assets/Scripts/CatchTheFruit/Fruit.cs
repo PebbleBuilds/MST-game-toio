@@ -27,8 +27,11 @@ public class Fruit : NetworkBehaviour
         var manager = go.GetComponent<CTFCubeManager>();
         if (manager != null && manager.IsScoring())
         {
+            int playerID = manager.m_playerID.Value;
+            if (playerID == 0) { return; } // body can't eat fruit
+
             // stuff to do on client. play a vibration?
-            if (manager.m_playerID.Value == (int)NetworkManager.Singleton.LocalClientId)
+            if (playerID == (int)NetworkManager.Singleton.LocalClientId)
             {
 
             }
