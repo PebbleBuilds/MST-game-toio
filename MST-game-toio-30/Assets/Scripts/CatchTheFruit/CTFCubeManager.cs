@@ -73,7 +73,8 @@ public class CTFCubeManager : NetworkBehaviour
 
     void Update()
     {
-        var color = m_color;
+        // Render the on-screen cube
+        var color = CTFConfig.ColorFromPlayerID(m_playerID.Value);
         color.a = m_alpha.Value;
         m_renderer.material.color = color;
 
