@@ -124,13 +124,13 @@ public class CTFGameManager : NetworkBehaviour
                             }
 
                             // Set blackout panel
-                            SetBlackoutPanelClientRpc(!bungeeComponent.m_enabled.Value,new ClientRpcParams
-                            {
-                                Send = new ClientRpcSendParams
-                                {
-                                    TargetClientIds = new ulong[] { (ulong)headID }
-                                }
-                            });
+                            //SetBlackoutPanelClientRpc(!bungeeComponent.m_enabled.Value,new ClientRpcParams
+                            //{
+                            //    Send = new ClientRpcSendParams
+                            //    {
+                            //        TargetClientIds = new ulong[] { (ulong)headID }
+                            //    }
+                            //});
                         }
                     }
 
