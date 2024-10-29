@@ -40,7 +40,7 @@ public class Bungee : NetworkBehaviour
 
         if (IsServer)
         {
-            // Position object with a perturbation if the tether is vibrating
+            // Position object, with a perturbation if the tether is vibrating
             transform.position = Vector3.Lerp(pos1,pos2,0.5f);
             Vector3 perturbation = new Vector3(UnityEngine.Random.Range(-1,1),UnityEngine.Random.Range(-1,1),0.0f);
             perturbation.Normalize();
@@ -90,12 +90,13 @@ public class Bungee : NetworkBehaviour
                     }
                 }
 
+                // Propagate alpha to head
                 var managers = UnityEngine.Object.FindObjectsOfType<CTFCubeManager>();
                 foreach (var manager in managers) 
                 {
                     if (manager.m_playerID.Value == m_bungeeHeadID.Value)
                     {
-                        
+                        manager.m_alpha.Value = m_alpha.Value;
                     }
                 }
             }
