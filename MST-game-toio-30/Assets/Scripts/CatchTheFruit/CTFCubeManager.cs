@@ -32,13 +32,19 @@ public class CTFCubeManager : NetworkBehaviour
 
     async void Start()
     {
-        m_collider = GetComponent<Collider>();
-
-        // Only try to connect to cubes if this is our PlayerObject.
+        // Get PlayerID
         if (IsOwner)
         {
             m_playerID.Value = (int)NetworkManager.Singleton.LocalClientId;
-            m_color = CTFConfig.ColorFromPlayerID(m_playerID.Value);
+        }
+
+        // Set up the rendering stuff. Do this even for the non-owners
+        m_color = CTFConfig.ColorFromPlayerID(m_playerID.Value);
+        m_collider = GetComponent<Collider>();
+
+        // Only do Toio connection stuff if we own this player object
+        if (IsOwner)
+        {
             m_playerLight = new ToioLight(m_color, 0.5f, 0.5f);
             m_guiMsg1 = String.Format("Client ID={0}", m_playerID.Value);
             cm = new CubeManager(connectType);
