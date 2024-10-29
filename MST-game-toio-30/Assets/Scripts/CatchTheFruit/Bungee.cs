@@ -25,6 +25,7 @@ public class Bungee : NetworkBehaviour
         m_collider = GetComponent<Collider>();
     }
 
+
     void Update()
     {
         // Change bungee colour
@@ -34,10 +35,6 @@ public class Bungee : NetworkBehaviour
         var color = m_renderer.material.color;
         color.a = m_alpha.Value;
         m_renderer.material.color = color;
-    }
-
-    void Update()
-    {
         m_collider.enabled = m_enabled.Value;
 
         if (IsServer)
