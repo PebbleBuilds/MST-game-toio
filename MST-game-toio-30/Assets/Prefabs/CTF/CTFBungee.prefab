@@ -150,7 +150,7 @@ MonoBehaviour:
   UseHalfFloatPrecision: 0
   InLocalSpace: 0
   Interpolate: 1
-  SlerpPosition: 0
+  SlerpPosition: 1
 --- !u!114 &-8713591516872927463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,7 +163,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f84587156461c4ffc923e4a94681e33f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_bungeeHeadID:
+    m_InternalValue: 0
   m_renderer: {fileID: 9082622264155156059}
+  m_collider: {fileID: 0}
   m_enabled:
     m_InternalValue: 0
   pos1: {x: 0, y: 0, z: 0}
@@ -172,3 +175,4 @@ MonoBehaviour:
     m_InternalValue: 0
   m_reformRate: 0.01
   m_decayRate: 0.01
+  m_vibration: 0
