@@ -90,6 +90,14 @@ public class CTFCubeManager : NetworkBehaviour
                 go.SetActive(false);
             }
         }
+        else
+        {
+            foreach(var go in m_partsToHide)
+            {
+                go.SetActive(true);
+            }
+        }
+
 
         if (m_connected && cm.synced && IsOwner)
         {
