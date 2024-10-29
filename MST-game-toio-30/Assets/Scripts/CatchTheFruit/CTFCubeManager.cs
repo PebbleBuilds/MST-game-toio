@@ -47,15 +47,6 @@ public class CTFCubeManager : NetworkBehaviour
         m_color = CTFConfig.ColorFromPlayerID(m_playerID.Value);
         m_collider = GetComponent<Collider>();
 
-        // Turn off the eyes and tongue if we are the body
-        if (m_playerID.Value == 0)
-        {
-            foreach(var go in m_partsToHide)
-            {
-                go.SetActive(false);
-            }
-        }
-
         // Only do Toio connection stuff if we own this player object
         if (IsOwner)
         {
@@ -91,6 +82,14 @@ public class CTFCubeManager : NetworkBehaviour
         var color = CTFConfig.ColorFromPlayerID(m_playerID.Value);
         color.a = m_alpha.Value;
         m_renderer.material.color = color;
+        // Turn off the eyes and tongue if we are the body
+        if (m_playerID.Value == 0)
+        {
+            foreach(var go in m_partsToHide)
+            {
+                go.SetActive(false);
+            }
+        }
 
         if (m_connected && cm.synced && IsOwner)
         {
