@@ -25,7 +25,7 @@ public class CTFGameManager : NetworkBehaviour
         m_score.Value = 0;
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (IsServer)
         {
