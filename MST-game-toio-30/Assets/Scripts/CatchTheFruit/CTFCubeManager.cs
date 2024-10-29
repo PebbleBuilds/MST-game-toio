@@ -10,6 +10,7 @@ public class CTFCubeManager : NetworkBehaviour
     public ConnectType connectType = ConnectType.Real; 
     public NetworkVariable<int> m_playerID = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     private int m_numPlayers = CTFConfig.numPlayers;
+    Color m_color;
     CubeManager cm;
 
     bool m_connected = false;
@@ -22,6 +23,7 @@ public class CTFCubeManager : NetworkBehaviour
 
     public Vector2 m_playerPosID;
     ToioVibration m_playerVibration = new ToioVibration();
+    ToioLight m_playerLight;
 
     public Renderer m_renderer;
     private Collider m_collider;
@@ -30,13 +32,14 @@ public class CTFCubeManager : NetworkBehaviour
 
     async void Start()
     {
-        //m_renderer = GetComponent<Renderer>();
         m_collider = GetComponent<Collider>();
 
         // Only try to connect to cubes if this is our PlayerObject.
         if (IsOwner)
         {
             m_playerID.Value = (int)NetworkManager.Singleton.LocalClientId;
+            m_color = CTFConfig.ColorFromPlayerID(m_playerID.Value);
+            m_playerLight = new ToioLight(m_color, 0.5f, 0.5f);
             m_guiMsg1 = String.Format("Client ID={0}", m_playerID.Value);
             cm = new CubeManager(connectType);
             await cm.MultiConnect(m_numPlayers);
@@ -49,12 +52,13 @@ public class CTFCubeManager : NetworkBehaviour
                 {
                     cm.cubes[i].idCallback.AddListener("CTFManager", OnPlayerUpdateID);
                     await cm.cubes[i].ConfigIDNotification(10, Cube.IDNotificationType.OnChanged);
-                    cm.cubes[i].TurnLedOn(0,255,0,0);
+                    //cm.cubes[i].TurnLedOn(0,255,0,0);
                 }
                 else
                 {
                     await cm.cubes[i].ConfigIDNotification(10, Cube.IDNotificationType.OnChanged);
-                    cm.cubes[i].TurnLedOn(255,0,0,0);
+                    Color puppetColor = CTFConfig.ColorFromPlayerID(i);
+                    cm.cubes[i].TurnLedOn((int)(puppetColor.r*255),(int)(puppetColor.g*255),(int)(puppetColor.b*255),0);
                 }
             }
             m_connected = true;
@@ -63,7 +67,7 @@ public class CTFCubeManager : NetworkBehaviour
 
     void Update()
     {
-        var color = m_renderer.material.color;
+        var color = m_color;
         color.a = m_alpha.Value;
         m_renderer.material.color = color;
 
@@ -89,6 +93,9 @@ public class CTFCubeManager : NetworkBehaviour
             {
                 m_playerVibration.Vibrate(cm.cubes[m_playerID.Value], m_vibrationIntensity.Value);
             }
+
+            // flash avatar toio light.
+            m_playerLight.UpdateFlash(cm.cubes[m_playerID.Value]);
         }
     }
 

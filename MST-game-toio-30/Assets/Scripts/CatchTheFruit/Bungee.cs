@@ -25,14 +25,7 @@ public class Bungee : NetworkBehaviour
     void Update()
     {
         // Change bungee colour if stretch above min #TODO make this carry across to clients
-        if (stretch.Value > CTFConfig.stretchMin)
-        {
-            m_renderer.material.SetColor("_Color", Color.yellow);
-        }
-        else
-        {
-            m_renderer.material.SetColor("_Color", Color.green);
-        }
+        m_renderer.material.SetColor("_Color", Color.green);
 
         // Change bungee alpha
         var color = m_renderer.material.color;

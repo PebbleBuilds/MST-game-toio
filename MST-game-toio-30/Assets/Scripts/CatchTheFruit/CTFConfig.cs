@@ -28,4 +28,11 @@ static public class CTFConfig
         }
         return (int) ((stretch - stretchMin) / (stretchMax - stretchMin) * stretchScalingFactor + minVibration);
     }
+
+    static public Color ColorFromPlayerID(int id)
+    {
+        if (id == 1) {return Color.blue;}
+        else if (id == 2) {return Color.green;}
+        else {return Color.white;} // Body color
+    }
 }

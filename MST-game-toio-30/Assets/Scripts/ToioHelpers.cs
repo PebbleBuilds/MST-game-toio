@@ -68,6 +68,42 @@ public class ToioVibration
     }
 }
 
+public class ToioLight
+{
+    Color m_color;
+    float m_secOn;
+    float m_secOff;
+
+    float m_lastOn = 0;
+    float m_lastOff = 0;
+    bool m_on = true;
+    
+
+    public ToioLight(Color color, float secOn, float secOff)
+    {
+        m_color = color;
+        m_secOn = secOn;
+        m_secOff = secOff;
+    }
+
+    public void UpdateFlash(Cube c)
+    {
+        float time = Time.time;
+        if (m_on && time-m_lastOn > m_secOn)
+        {
+            c.TurnLedOff();
+            m_lastOff = time;
+            m_on = false;
+        }
+        else if (!m_on && time-m_lastOff > m_secOff)
+        {
+            c.TurnLedOn((int)(m_color.r*255),(int)(m_color.g*255),(int)(m_color.b*255),0);
+            m_lastOn = time;
+            m_on = true;
+        }
+    }
+}
+
 public class ToioLogger
 {
     StreamWriter writer;
