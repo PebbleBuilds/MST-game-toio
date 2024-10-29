@@ -16,7 +16,7 @@ public class Bungee : NetworkBehaviour
     public float m_decayRate = 0.01f;
     public int m_vibration = 0;
 
-    NetworkVariable<float> m_anglewithY = new NetworkVariable<float>(0.0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    NetworkVariable<float> m_angleWithY = new NetworkVariable<float>(0.0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     void Start()
     {
@@ -47,13 +47,13 @@ public class Bungee : NetworkBehaviour
             transform.position += perturbation;
 
             // Calculate angle
-            m_angleWithY = -Mathf.Atan((pos2.z-pos1.z)/(pos2.x-pos1.x)) / Mathf.PI * 180;
+            m_angleWithY.Value = -Mathf.Atan((pos2.z-pos1.z)/(pos2.x-pos1.x)) / Mathf.PI * 180;
         }
 
         // Angle object. Do this on client side for some weird reason, to avoid delay
         var eulerAngles = new Vector3(0.0f, 0.0f, 90.0f);
         transform.eulerAngles = eulerAngles;
-        transform.Rotate(0.0f,m_angleWithY,0.0f,Space.World);
+        transform.Rotate(0.0f,m_angleWithY.Value,0.0f,Space.World);
 
         if (IsServer)
         {
