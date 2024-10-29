@@ -116,6 +116,7 @@ public class CTFGameManager : NetworkBehaviour
                             {
                                 headCubeManager.m_vibrationIntensity.Value = CTFConfig.CalculateVibration(stretch);
                                 bodyVibration += CTFConfig.CalculateVibration(stretch);
+                                bungeeComponent.m_vibration = bodyVibration;
                             }
                             else
                             {

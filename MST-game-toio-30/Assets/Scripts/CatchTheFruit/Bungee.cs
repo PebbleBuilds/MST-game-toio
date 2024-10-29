@@ -14,6 +14,7 @@ public class Bungee : NetworkBehaviour
     private NetworkVariable<float> m_alpha = new NetworkVariable<float>(1.0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public float m_reformRate = 0.01f;
     public float m_decayRate = 0.01f;
+    public int m_vibration = 0;
 
     void Start()
     {
@@ -39,12 +40,20 @@ public class Bungee : NetworkBehaviour
 
         if (IsServer)
         {
-            // Position and scale bungee object
+            // Position object with a perturbation if the tether is vibrating
             transform.position = Vector3.Lerp(pos1,pos2,0.5f);
+            Vector3 perturbation = new Vector3(UnityEngine.Random.Range(-1,1),UnityEngine.Random.Range(-1,1),0.0f);
+            perturbation.Normalize();
+            perturbation = perturbation * (float)m_vibration * 0.01f;
+            transform.position += perturbation;
+
+            // Angle object
             float angleWithY = -Mathf.Atan((pos2.z-pos1.z)/(pos2.x-pos1.x)) / Mathf.PI * 180;
             var eulerAngles = new Vector3(0.0f, 0.0f, 90.0f);
             transform.eulerAngles = eulerAngles;
             transform.Rotate(0.0f,angleWithY,0.0f,Space.World);
+
+            // Scale object
             transform.localScale = new Vector3(1,(pos2-pos1).magnitude/2,1);
 
             if (m_enabled.Value)
