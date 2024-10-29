@@ -24,8 +24,8 @@ public class Bungee : NetworkBehaviour
 
     void Update()
     {
-        // Change bungee colour if stretch above min #TODO make this carry across to clients
-        m_renderer.material.SetColor("_Color", Color.green);
+        // Change bungee colour
+        m_renderer.material.SetColor("_Color", CTFConfig.ColorFromPlayerID(m_bungeeHeadID.Value));
 
         // Change bungee alpha
         var color = m_renderer.material.color;
