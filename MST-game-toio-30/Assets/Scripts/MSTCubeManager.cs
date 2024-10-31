@@ -116,10 +116,10 @@ public class MSTCubeManager : NetworkBehaviour
         m_playerPosID.y = c.pos.y;
     }
 
-    public void SetAlpha(float alpha)
-    {
-        m_alpha.Value = alpha;
-    }
+    //public void SetAlpha(float alpha)
+    //{
+    //    m_alpha.Value = alpha;
+    //}
 
     [ClientRpc]
     public void PulseClientRpc(float duration,int intensity)
