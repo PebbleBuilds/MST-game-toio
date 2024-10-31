@@ -13,7 +13,7 @@ public class Bungee : NetworkBehaviour
     public NetworkVariable<float> stretch = new NetworkVariable<float>(0.0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     private NetworkVariable<float> m_alpha = new NetworkVariable<float>(1.0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public float m_reformRate = 0.01f;
-    public float m_decayRate = 0.01f;
+    public float m_decayRate = 0.01f; //TODO: make this fixed
     public int m_vibration = 0;
 
     NetworkVariable<float> m_angleWithY = new NetworkVariable<float>(0.0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
