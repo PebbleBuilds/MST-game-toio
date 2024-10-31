@@ -15,10 +15,10 @@ public class CTFGameManager : NetworkBehaviour
     public NetworkVariable<int> m_score;
 
     public GameObject m_bungeePrefab;
-    public GameObject[] m_bungeeList = new GameObject[CTFConfig.numPlayers];
+    public GameObject[] m_bungeeList = new GameObject[Config.numPlayers];
     public GameObject[] m_blackoutPanelList;
 
-    public ToioLogger m_logger = new ToioLogger("CTF",CTFConfig.numPlayers);
+    public ToioLogger m_logger = new ToioLogger("CTF",Config.numPlayers);
 
     void Start()
     {

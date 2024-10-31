@@ -29,7 +29,7 @@ public class Bungee : NetworkBehaviour
     void Update()
     {
         // Change bungee colour
-        m_renderer.material.SetColor("_Color", CTFConfig.ColorFromPlayerID(m_bungeeHeadID.Value));
+        m_renderer.material.SetColor("_Color", Config.ColorFromPlayerID(m_bungeeHeadID.Value));
 
         // Change bungee alpha
         var color = m_renderer.material.color;
@@ -95,9 +95,10 @@ public class Bungee : NetworkBehaviour
                 }
 
                 // Propagate alpha to head
-                var managers = UnityEngine.Object.FindObjectsOfType<CTFCubeManager>();
-                foreach (var manager in managers) 
+                var gos = UnityEngine.Object.FindObjectsOfType<CTFAvatar>();
+                foreach (var go in gos) 
                 {
+                    var manager = go.GetComponent<MSTCubeManager>();
                     if (manager.m_playerID.Value == m_bungeeHeadID.Value)
                     {
                         manager.m_alpha.Value = m_alpha.Value;
@@ -133,9 +134,10 @@ public class Bungee : NetworkBehaviour
         m_enabled.Value = false;
         m_alpha.Value = 0.0f;
 
-        var managers = UnityEngine.Object.FindObjectsOfType<CTFCubeManager>();
-        foreach (var manager in managers) 
+        var gos = UnityEngine.Object.FindObjectsOfType<CTFAvatar>();
+        foreach (var go in gos) 
         {
+            var manager = go.GetComponent<CTFAvatar>();
             if (manager.m_playerID.Value == m_bungeeHeadID.Value || manager.m_playerID.Value == 0)
             {
                 manager.PulseClientRpc(0.5f,100);
@@ -152,9 +154,10 @@ public class Bungee : NetworkBehaviour
     {
         m_enabled.Value = true;
 
-        var managers = UnityEngine.Object.FindObjectsOfType<CTFCubeManager>();
-        foreach (var manager in managers) 
+        var gos = UnityEngine.Object.FindObjectsOfType<CTFAvatar>();
+        foreach (var go in gos) 
         {
+            var manager = go.GetComponent<CTFAvatar>();
             if (manager.m_playerID.Value == m_bungeeHeadID.Value || manager.m_playerID.Value == 0)
             {
                 manager.PulseClientRpc(0.5f,100);

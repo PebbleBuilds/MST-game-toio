@@ -24,8 +24,9 @@ public class Spiky : NetworkBehaviour
     void OnCollisionEnter(Collision collision)
     {
         var go = collision.gameObject;
-        var manager = go.GetComponent<CTFCubeManager>();
-        if (manager != null && manager.IsScoring())
+        var manager = go.GetComponent<MSTCubeManager>();
+        var avatar = go.GetComponent<CTFAvatar>();
+        if (manager != null && avatar.IsScoring())
         {
             int playerID = manager.m_playerID.Value;
 

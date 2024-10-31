@@ -108,7 +108,7 @@ public class ToioLogger
 {
     StreamWriter writer;
     string[] headerList;
-    CTFCubeManager[] managerList;
+    MSTCubeManager[] managerList;
     bool m_logging = false;
     string path;
 
@@ -117,18 +117,18 @@ public class ToioLogger
         path = fileName + System.DateTime.UtcNow.ToString() + ".csv";
         writer = new StreamWriter(path,true);
 
-        managerList = new CTFCubeManager[num_players];
+        managerList = new MSTCubeManager[num_players];
         headerList = new string[num_players];
     }
 
-    public void AddToio(CTFCubeManager manager)
+    public void AddToio(MSTCubeManager manager)
     {
         if(managerList[manager.m_playerID.Value] == null)
         {
             string playerID = manager.m_playerID.Value.ToString();
             headerList[manager.m_playerID.Value] = ",PositionX"+playerID+",PositionY"+playerID+",Angle"+playerID;
             managerList[manager.m_playerID.Value] = manager;
-            Debug.Log("Logger: Registered CTFCubeManager with playerID " + playerID);
+            Debug.Log("Logger: Registered MSTCubeManager with playerID " + playerID);
         }
         else {return;}
 
