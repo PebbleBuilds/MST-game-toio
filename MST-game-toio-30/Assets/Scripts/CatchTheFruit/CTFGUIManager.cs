@@ -57,7 +57,7 @@ public class CTFGUIManager : MonoBehaviour
         var playerObject = m_NetworkManager.SpawnManager.GetLocalPlayerObject();
         if(playerObject != null)
         {
-            var manager = playerObject.GetComponent<CTFCubeManager>();
+            var manager = playerObject.GetComponent<MSTCubeManager>();
             GUILayout.Label(manager.m_guiMsg1);
             GUILayout.Label(manager.m_guiMsg2);
         }

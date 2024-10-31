@@ -137,7 +137,7 @@ public class Bungee : NetworkBehaviour
         var gos = UnityEngine.Object.FindObjectsOfType<CTFAvatar>();
         foreach (var go in gos) 
         {
-            var manager = go.GetComponent<CTFAvatar>();
+            var manager = go.GetComponent<MSTCubeManager>();
             if (manager.m_playerID.Value == m_bungeeHeadID.Value || manager.m_playerID.Value == 0)
             {
                 manager.PulseClientRpc(0.5f,100);
@@ -145,7 +145,7 @@ public class Bungee : NetworkBehaviour
 
             if (manager.m_playerID.Value == m_bungeeHeadID.Value)
             {
-                manager.SetScoring(false);
+                go.SetScoring(false);
             }
         }
     }
@@ -157,11 +157,11 @@ public class Bungee : NetworkBehaviour
         var gos = UnityEngine.Object.FindObjectsOfType<CTFAvatar>();
         foreach (var go in gos) 
         {
-            var manager = go.GetComponent<CTFAvatar>();
+            var manager = go.GetComponent<MSTCubeManager>();
             if (manager.m_playerID.Value == m_bungeeHeadID.Value || manager.m_playerID.Value == 0)
             {
                 manager.PulseClientRpc(0.5f,100);
-                manager.SetScoring(true);
+                go.SetScoring(true);
             }
         }
     }

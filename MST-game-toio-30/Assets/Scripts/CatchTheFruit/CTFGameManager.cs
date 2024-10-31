@@ -55,14 +55,14 @@ public class CTFGameManager : NetworkBehaviour
                 m_lastFruitSpawnTime = currTime;
             }
 
-            var playerList = FindObjectsOfType<CTFCubeManager>();
+            var playerList = FindObjectsOfType<MSTCubeManager>();
 
             // Manage logger
             if(!m_logger.IsLogging())
             {
                 foreach(var player in playerList)
                 {
-                    CTFCubeManager manager = player.GetComponent<CTFCubeManager>();
+                    MSTCubeManager manager = player.GetComponent<MSTCubeManager>();
                     m_logger.AddToio(manager);
                 }
             }
@@ -74,14 +74,14 @@ public class CTFGameManager : NetworkBehaviour
             // Manage bungees from body to each head
             foreach (var body in playerList)
             {
-                var bodyCubeManager = body.GetComponent<CTFCubeManager>();
+                var bodyCubeManager = body.GetComponent<MSTCubeManager>();
                 var bodyID = bodyCubeManager.m_playerID.Value;
                 int bodyVibration = 0;
                 if (bodyID == 0)
                 {
                     foreach(var head in playerList)
                     {
-                        var headCubeManager = head.GetComponent<CTFCubeManager>();
+                        var headCubeManager = head.GetComponent<MSTCubeManager>();
                         var headID = headCubeManager.m_playerID.Value;
                         if (headID != 0)
                         {
