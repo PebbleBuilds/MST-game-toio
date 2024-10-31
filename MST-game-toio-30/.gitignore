@@ -73,7 +73,7 @@ crashlytics-build.properties
 
 # CSVs and JSON crash reports
 *.csv
-*.json
+*mono_crash*.json
 
 # Ignore BLE plugin
 /[Aa]ssets/ble-plugin-unity/
