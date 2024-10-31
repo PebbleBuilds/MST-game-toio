@@ -17,7 +17,8 @@ public class Fruit : NetworkBehaviour
                 NetworkObject.Despawn(true);
             }
             
-            transform.position += new Vector3(0,0,-(float)0.05);
+            transform.position += new Vector3(0,0,-(float)CTFConfig.fruitSpeed);
+            //transform.Rotate(0.0f,0.5f,0.0f,Space.World);
         }
     }
 
@@ -25,10 +26,13 @@ public class Fruit : NetworkBehaviour
     {
         var go = collision.gameObject;
         var manager = go.GetComponent<CTFCubeManager>();
-        if (manager != null)
+        if (manager != null && manager.IsScoring())
         {
+            int playerID = manager.m_playerID.Value;
+            if (playerID == 0) { return; } // body can't eat fruit
+
             // stuff to do on client. play a vibration?
-            if (manager.m_playerID.Value == (int)NetworkManager.Singleton.LocalClientId)
+            if (playerID == (int)NetworkManager.Singleton.LocalClientId)
             {
 
             }
@@ -37,7 +41,6 @@ public class Fruit : NetworkBehaviour
             {
                 var gameManager = FindObjectOfType<CTFGameManager>().GetComponent<CTFGameManager>();
                 gameManager.m_score.Value = gameManager.m_score.Value + 1;
-
                 NetworkObject.Despawn(true);
             }
 

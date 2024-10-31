@@ -9,7 +9,7 @@ public class VibrationTest : MonoBehaviour
 
     CubeManager cm;
     int dir = 1;
-    public int speed = 100;
+    public int speed = 1;
 
     async void Start()
     {

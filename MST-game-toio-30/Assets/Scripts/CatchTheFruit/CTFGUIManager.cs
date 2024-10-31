@@ -17,6 +17,7 @@ public class CTFGUIManager : MonoBehaviour
 
     void OnGUI()
     {
+        
         GUILayout.BeginArea(new Rect(10, 10, 300, 300));
         if (!m_NetworkManager.IsClient && !m_NetworkManager.IsServer)
         {
@@ -39,15 +40,19 @@ public class CTFGUIManager : MonoBehaviour
 
     static void StatusLabels()
     {
+        GUIStyle style = new GUIStyle();
+        style.fontSize = 40;
+        style.normal.textColor = Color.white;
+
+        var gameManager = FindObjectOfType<CTFGameManager>();
+        GUILayout.Label(String.Format("Score={0}", gameManager.m_score.Value), style);
+
         var mode = m_NetworkManager.IsHost ?
             "Host" : m_NetworkManager.IsServer ? "Server" : "Client";
 
         GUILayout.Label("Transport: " +
             m_NetworkManager.NetworkConfig.NetworkTransport.GetType().Name);
         GUILayout.Label("Mode: " + mode);
-
-        var gameManager = FindObjectOfType<CTFGameManager>();
-        GUILayout.Label(String.Format("Score={0}", gameManager.m_score.Value));
 
         var playerObject = m_NetworkManager.SpawnManager.GetLocalPlayerObject();
         if(playerObject != null)
