@@ -11,8 +11,7 @@ public class CTFGUIManager : MonoBehaviour
     static private NetworkManager m_NetworkManager;
     void Awake()
     {
-        var go = FindObjectOfType<GUIManager>();
-        m_NetworkManager = go.GetComponent<NetworkManager>();
+        m_NetworkManager = GetComponent<NetworkManager>();
     }
     void OnGUI()
     {
