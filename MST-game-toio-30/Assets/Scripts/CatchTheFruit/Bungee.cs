@@ -65,6 +65,7 @@ public class Bungee : NetworkBehaviour
                 // Break the bungee if stretchMax exceeded
                 if (stretch.Value > CTFConfig.stretchMax)
                 {
+                    game.m_logger.LogEvent("Bungee broken by stretch: playerID " + m_bungeeHeadID.Value.ToString())
                     BreakBungee();
                 }
             }
@@ -74,6 +75,7 @@ public class Bungee : NetworkBehaviour
                 // Reconnect the bungee if fully reformed
                 if (m_alpha.Value >= 1.0f)
                 {
+                    game.m_logger.LogEvent("Bungee reformed: playerID " + m_bungeeHeadID.Value.ToString()
                     ReformBungee();
                 }
                 // Otherwise, increment reform if close enough

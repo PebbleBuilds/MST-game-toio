@@ -38,6 +38,7 @@ public class CTFGUIManager : MonoBehaviour
         GUILayout.Label("Transport: " +
             m_NetworkManager.NetworkConfig.NetworkTransport.GetType().Name);
         GUILayout.Label("Mode: " + mode);
+        GUILayout.Label("Unity Time: " + Time.time.ToString());
 
         var playerObject = m_NetworkManager.SpawnManager.GetLocalPlayerObject();
         if(playerObject != null)

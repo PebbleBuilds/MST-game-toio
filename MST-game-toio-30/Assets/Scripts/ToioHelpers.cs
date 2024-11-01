@@ -106,34 +106,46 @@ public class ToioLight
 
 public class ToioLogger
 {
-    StreamWriter writer;
-    string[] headerList;
-    MSTCubeManager[] managerList;
     bool m_logging = false;
-    string path;
+
+    // Trajectory Logging
+    StreamWriter m_trajectoryWriter;
+    string[] m_headerList;
+    MSTCubeManager[] m_managerList;
+    string m_trajectoryPath;
+
+    // Game Event Logging
+    StreamWriter m_eventWriter;
+    string m_eventPath;
+
+
 
     public ToioLogger(string fileName, int num_players)
     {
-        path = fileName + System.DateTime.UtcNow.ToString() + ".csv";
-        writer = new StreamWriter(path,true);
+        // Instantiate trajectory logger stuff
+        m_trajectoryPath = fileName + "Trajectories" + System.DateTime.Now.ToString() + ".csv";
+        m_trajectoryWriter = new StreamWriter(m_trajectoryPath,true);
+        m_managerList = new MSTCubeManager[num_players];
+        m_headerList = new string[num_players];
 
-        managerList = new MSTCubeManager[num_players];
-        headerList = new string[num_players];
+        // Instantiate event logger stuff
+        m_eventPath = fileName + "EventLog" + System.DateTime.Now.ToString() + ".txt";
+        m_eventWriter = new StreamWriter(m_eventPath,true);
     }
 
     public void AddToio(MSTCubeManager manager)
     {
-        if(managerList[manager.m_playerID.Value] == null)
+        if(m_managerList[manager.m_playerID.Value] == null)
         {
             string playerID = manager.m_playerID.Value.ToString();
-            headerList[manager.m_playerID.Value] = ",PositionX"+playerID+",PositionY"+playerID+",Angle"+playerID;
-            managerList[manager.m_playerID.Value] = manager;
+            m_headerList[manager.m_playerID.Value] = ",PositionX"+playerID+",PositionY"+playerID+",Angle"+playerID;
+            m_managerList[manager.m_playerID.Value] = manager;
             Debug.Log("Logger: Registered MSTCubeManager with playerID " + playerID);
         }
         else {return;}
 
         bool ready = true;
-        foreach (var m in managerList)
+        foreach (var m in m_managerList)
         {
             if (m == null) {ready = false;}
         }
@@ -154,7 +166,7 @@ public class ToioLogger
 
         string data = "";
         data += (Time.time).ToString();
-        foreach (var manager in managerList)
+        foreach (var manager in m_managerList)
         {
             if (manager == null)
             {
@@ -167,23 +179,35 @@ public class ToioLogger
             data += "," + manager.transform.position.z.ToString();
             data += "," + manager.transform.eulerAngles.y.ToString();
         }
-        writer.WriteLine(data);
+        m_trajectoryWriter.WriteLine(data);
     }
 
     private void StartLogging()
     {
         string header_string = "Time";
-        foreach(string h in headerList)
+        foreach(string h in m_headerList)
         {
             header_string += h;
         }
-        writer.WriteLine(header_string);
+        m_trajectoryWriter.WriteLine(header_string);
         m_logging = true;
-        Debug.Log("Logger: Starting logging to " + path);
+        Debug.Log("Logger: Starting trajectory logging to " + m_trajectoryPath);
+        Debug.Log("Logger: Starting event logging to " + m_trajectoryPath);
+    }
+
+    public void LogEvent(string game_event, bool unity_log=false)
+    {
+        string time = (Time.time).ToString();
+        m_eventWriter.WriteLine(time + ":" + game_event);
+        if(unity_log)
+        {
+            Debug.Log("Event Log: " + game_event);
+        }
     }
 
     public void Quit()
     {
-        writer.Close();
+        m_trajectoryWriter.Close();
+        m_eventWriter.Close();
     }
 }

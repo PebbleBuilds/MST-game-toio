@@ -44,10 +44,12 @@ public class CTFGameManager : NetworkBehaviour
                 if (Random.Range(0.0f,1.0f) < CTFConfig.spikyChance)
                 {
                     prefabToSpawn = m_spikyPrefab;
+                    m_logger.LogEvent("Spawned spiky at " + position.x.ToString() + "," + position.z.ToString());
                 }
                 else
                 {
                     prefabToSpawn = m_fruitPrefab;
+                    m_logger.LogEvent("Spawned fruit at " + position.x.ToString() + "," + position.z.ToString());
                 }
                 var fruitInstance = Instantiate(prefabToSpawn, position, Quaternion.identity);
                 var fruitInstanceNetworkObject = fruitInstance.GetComponent<NetworkObject>();

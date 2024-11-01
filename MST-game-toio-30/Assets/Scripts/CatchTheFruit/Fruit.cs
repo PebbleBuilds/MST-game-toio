@@ -42,6 +42,7 @@ public class Fruit : NetworkBehaviour
             {
                 var gameManager = FindObjectOfType<CTFGameManager>().GetComponent<CTFGameManager>();
                 gameManager.m_score.Value = gameManager.m_score.Value + 1;
+                game.m_logger.LogEvent("Point scored: playerID " + playerID.ToString();
                 NetworkObject.Despawn(true);
             }
 
