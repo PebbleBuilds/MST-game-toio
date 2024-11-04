@@ -74,6 +74,7 @@ crashlytics-build.properties
 # CSVs, MST event logs, and JSON crash reports
 *.csv
 *.mstlog
+*.mp4
 *mono_crash*.json
 
 # Ignore BLE plugin
