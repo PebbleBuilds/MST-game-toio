@@ -25,6 +25,25 @@ public class CTFGameManager : NetworkBehaviour
         m_score.Value = 0;
     }
 
+    void FixedUpdate()
+    {
+        var playerList = FindObjectsOfType<MSTCubeManager>();
+        
+        // Manage logger
+        if(!m_logger.IsLogging())
+        {
+            foreach(var player in playerList)
+            {
+                MSTCubeManager manager = player.GetComponent<MSTCubeManager>();
+                m_logger.AddToio(manager);
+            }
+        }
+        else
+        {
+            m_logger.WriteData();
+        }
+    }
+
     void Update()
     {
         if (IsServer)
@@ -58,20 +77,6 @@ public class CTFGameManager : NetworkBehaviour
             }
 
             var playerList = FindObjectsOfType<MSTCubeManager>();
-
-            // Manage logger
-            if(!m_logger.IsLogging())
-            {
-                foreach(var player in playerList)
-                {
-                    MSTCubeManager manager = player.GetComponent<MSTCubeManager>();
-                    m_logger.AddToio(manager);
-                }
-            }
-            else
-            {
-                m_logger.WriteData();
-            }
 
             // Manage bungees from body to each head
             foreach (var body in playerList)
