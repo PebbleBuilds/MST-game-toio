@@ -24,8 +24,9 @@ public class Spiky : NetworkBehaviour
     void OnCollisionEnter(Collision collision)
     {
         var go = collision.gameObject;
-        var manager = go.GetComponent<CTFCubeManager>();
-        if (manager != null && manager.IsScoring())
+        var manager = go.GetComponent<MSTCubeManager>();
+        var avatar = go.GetComponent<CTFAvatar>();
+        if (manager != null && avatar.IsScoring())
         {
             int playerID = manager.m_playerID.Value;
 
@@ -39,15 +40,17 @@ public class Spiky : NetworkBehaviour
             {
                 if (playerID != 0)
                 {
-                    var game = FindObjectOfType<CTFGameManager>();
-                    game.m_bungeeList[playerID].GetComponent<Bungee>().BreakBungee();
+                    var gameManager = FindObjectOfType<CTFGameManager>();
+                    gameManager.m_bungeeList[playerID].GetComponent<Bungee>().BreakBungee();
+                    gameManager.m_logger.LogEvent("Bungee broken by spiky: playerID " + playerID.ToString());
                 }
                 else // if a spiky hits the body, only bungee 1 will break. merciful?
                 {
-                    var game = FindObjectOfType<CTFGameManager>();
-                    if(game.m_bungeeList != null)
+                    var gameManager = FindObjectOfType<CTFGameManager>();
+                    if(gameManager.m_bungeeList != null)
                     {
-                        game.m_bungeeList[1].GetComponent<Bungee>().BreakBungee();
+                        gameManager.m_bungeeList[1].GetComponent<Bungee>().BreakBungee();
+                        gameManager.m_logger.LogEvent("Bungee broken by spiky: playerID " + "1");
                     }
                 }
                 NetworkObject.Despawn(true);

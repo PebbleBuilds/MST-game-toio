@@ -15,14 +15,36 @@ public class CTFGameManager : NetworkBehaviour
     public NetworkVariable<int> m_score;
 
     public GameObject m_bungeePrefab;
-    public GameObject[] m_bungeeList = new GameObject[CTFConfig.numPlayers];
+    public GameObject[] m_bungeeList = new GameObject[Config.numPlayers];
     public GameObject[] m_blackoutPanelList;
 
-    public ToioLogger m_logger = new ToioLogger("CTF",CTFConfig.numPlayers);
+    public ToioLogger m_logger = new ToioLogger("CTF",Config.numPlayers);
 
     void Start()
     {
         m_score.Value = 0;
+    }
+
+    void FixedUpdate()
+    {
+        var playerList = FindObjectsOfType<MSTCubeManager>();
+
+        // Manage logger
+        if(!m_logger.IsLogging())
+        {
+            foreach(var player in playerList)
+            {
+                MSTCubeManager manager = player.GetComponent<MSTCubeManager>();
+                if(manager.IsConnected())
+                {
+                    m_logger.AddToio(manager);
+                }
+            }
+        }
+        else
+        {
+            m_logger.WriteData();
+        }
     }
 
     void Update()
@@ -44,10 +66,12 @@ public class CTFGameManager : NetworkBehaviour
                 if (Random.Range(0.0f,1.0f) < CTFConfig.spikyChance)
                 {
                     prefabToSpawn = m_spikyPrefab;
+                    m_logger.LogEvent("Spawned spiky at " + position.x.ToString() + "," + position.z.ToString());
                 }
                 else
                 {
                     prefabToSpawn = m_fruitPrefab;
+                    m_logger.LogEvent("Spawned fruit at " + position.x.ToString() + "," + position.z.ToString());
                 }
                 var fruitInstance = Instantiate(prefabToSpawn, position, Quaternion.identity);
                 var fruitInstanceNetworkObject = fruitInstance.GetComponent<NetworkObject>();
@@ -55,33 +79,19 @@ public class CTFGameManager : NetworkBehaviour
                 m_lastFruitSpawnTime = currTime;
             }
 
-            var playerList = FindObjectsOfType<CTFCubeManager>();
-
-            // Manage logger
-            if(!m_logger.IsLogging())
-            {
-                foreach(var player in playerList)
-                {
-                    CTFCubeManager manager = player.GetComponent<CTFCubeManager>();
-                    m_logger.AddToio(manager);
-                }
-            }
-            else
-            {
-                m_logger.WriteData();
-            }
+            var playerList = FindObjectsOfType<MSTCubeManager>();
 
             // Manage bungees from body to each head
             foreach (var body in playerList)
             {
-                var bodyCubeManager = body.GetComponent<CTFCubeManager>();
+                var bodyCubeManager = body.GetComponent<MSTCubeManager>();
                 var bodyID = bodyCubeManager.m_playerID.Value;
                 int bodyVibration = 0;
                 if (bodyID == 0)
                 {
                     foreach(var head in playerList)
                     {
-                        var headCubeManager = head.GetComponent<CTFCubeManager>();
+                        var headCubeManager = head.GetComponent<MSTCubeManager>();
                         var headID = headCubeManager.m_playerID.Value;
                         if (headID != 0)
                         {

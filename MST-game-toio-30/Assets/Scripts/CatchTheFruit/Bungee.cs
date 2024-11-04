@@ -13,8 +13,9 @@ public class Bungee : NetworkBehaviour
     public NetworkVariable<float> stretch = new NetworkVariable<float>(0.0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     private NetworkVariable<float> m_alpha = new NetworkVariable<float>(1.0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public float m_reformRate = 0.01f;
-    public float m_decayRate = 0.01f;
+    public float m_decayRate = 0.01f; //TODO: make this fixed
     public int m_vibration = 0;
+    private CTFGameManager m_gameManager;
 
     NetworkVariable<float> m_angleWithY = new NetworkVariable<float>(0.0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
@@ -23,13 +24,14 @@ public class Bungee : NetworkBehaviour
         //m_enabled.Value = true;
         //m_renderer = GetComponent<Renderer>();
         m_collider = GetComponent<Collider>();
+        m_gameManager = FindObjectOfType<CTFGameManager>();
     }
 
 
     void Update()
     {
         // Change bungee colour
-        m_renderer.material.SetColor("_Color", CTFConfig.ColorFromPlayerID(m_bungeeHeadID.Value));
+        m_renderer.material.SetColor("_Color", Config.ColorFromPlayerID(m_bungeeHeadID.Value));
 
         // Change bungee alpha
         var color = m_renderer.material.color;
@@ -65,6 +67,7 @@ public class Bungee : NetworkBehaviour
                 // Break the bungee if stretchMax exceeded
                 if (stretch.Value > CTFConfig.stretchMax)
                 {
+                    m_gameManager.m_logger.LogEvent("Bungee broken by stretch: playerID " + m_bungeeHeadID.Value.ToString());
                     BreakBungee();
                 }
             }
@@ -74,6 +77,7 @@ public class Bungee : NetworkBehaviour
                 // Reconnect the bungee if fully reformed
                 if (m_alpha.Value >= 1.0f)
                 {
+                    m_gameManager.m_logger.LogEvent("Bungee reformed: playerID " + m_bungeeHeadID.Value.ToString());
                     ReformBungee();
                 }
                 // Otherwise, increment reform if close enough
@@ -95,9 +99,10 @@ public class Bungee : NetworkBehaviour
                 }
 
                 // Propagate alpha to head
-                var managers = UnityEngine.Object.FindObjectsOfType<CTFCubeManager>();
-                foreach (var manager in managers) 
+                var gos = UnityEngine.Object.FindObjectsOfType<CTFAvatar>();
+                foreach (var go in gos) 
                 {
+                    var manager = go.GetComponent<MSTCubeManager>();
                     if (manager.m_playerID.Value == m_bungeeHeadID.Value)
                     {
                         manager.m_alpha.Value = m_alpha.Value;
@@ -133,9 +138,10 @@ public class Bungee : NetworkBehaviour
         m_enabled.Value = false;
         m_alpha.Value = 0.0f;
 
-        var managers = UnityEngine.Object.FindObjectsOfType<CTFCubeManager>();
-        foreach (var manager in managers) 
+        var gos = UnityEngine.Object.FindObjectsOfType<CTFAvatar>();
+        foreach (var go in gos) 
         {
+            var manager = go.GetComponent<MSTCubeManager>();
             if (manager.m_playerID.Value == m_bungeeHeadID.Value || manager.m_playerID.Value == 0)
             {
                 manager.PulseClientRpc(0.5f,100);
@@ -143,7 +149,7 @@ public class Bungee : NetworkBehaviour
 
             if (manager.m_playerID.Value == m_bungeeHeadID.Value)
             {
-                manager.SetScoring(false);
+                go.SetScoring(false);
             }
         }
     }
@@ -152,13 +158,14 @@ public class Bungee : NetworkBehaviour
     {
         m_enabled.Value = true;
 
-        var managers = UnityEngine.Object.FindObjectsOfType<CTFCubeManager>();
-        foreach (var manager in managers) 
+        var gos = UnityEngine.Object.FindObjectsOfType<CTFAvatar>();
+        foreach (var go in gos) 
         {
+            var manager = go.GetComponent<MSTCubeManager>();
             if (manager.m_playerID.Value == m_bungeeHeadID.Value || manager.m_playerID.Value == 0)
             {
                 manager.PulseClientRpc(0.5f,100);
-                manager.SetScoring(true);
+                go.SetScoring(true);
             }
         }
     }

@@ -71,9 +71,10 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
-# CSVs and JSON crash reports
+# CSVs, MST event logs, and JSON crash reports
 *.csv
-*.json
+*.mstlog
+*mono_crash*.json
 
 # Ignore BLE plugin
 /[Aa]ssets/ble-plugin-unity/

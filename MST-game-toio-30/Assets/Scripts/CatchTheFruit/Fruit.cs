@@ -25,8 +25,9 @@ public class Fruit : NetworkBehaviour
     void OnCollisionEnter(Collision collision)
     {
         var go = collision.gameObject;
-        var manager = go.GetComponent<CTFCubeManager>();
-        if (manager != null && manager.IsScoring())
+        var manager = go.GetComponent<MSTCubeManager>();
+        var avatar = go.GetComponent<CTFAvatar>();
+        if (manager != null && avatar.IsScoring())
         {
             int playerID = manager.m_playerID.Value;
             if (playerID == 0) { return; } // body can't eat fruit
@@ -41,6 +42,7 @@ public class Fruit : NetworkBehaviour
             {
                 var gameManager = FindObjectOfType<CTFGameManager>().GetComponent<CTFGameManager>();
                 gameManager.m_score.Value = gameManager.m_score.Value + 1;
+                gameManager.m_logger.LogEvent("Point scored: playerID " + playerID.ToString());
                 NetworkObject.Despawn(true);
             }
 
