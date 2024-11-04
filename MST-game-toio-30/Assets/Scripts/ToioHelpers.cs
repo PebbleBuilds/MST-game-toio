@@ -166,7 +166,6 @@ public class ToioLogger
         data += (Time.time).ToString();
 
         int counter = 0;
-
         foreach (var manager in m_managerList)
         {
             if (manager == null)
@@ -181,6 +180,7 @@ public class ToioLogger
                 m_logging = false;
                 return;
             }
+            counter += 1;
 
             data += "," + manager.transform.position.x.ToString();
             data += "," + manager.transform.position.z.ToString();
