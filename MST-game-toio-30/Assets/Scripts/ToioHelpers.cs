@@ -124,13 +124,11 @@ public class ToioLogger
     {
         // Instantiate trajectory logger stuff
         m_trajectoryPath = "./MST_Data_Logs/" + fileName + "Trajectories" + System.DateTime.Now.ToString() + ".csv";
-        m_trajectoryWriter = new StreamWriter(m_trajectoryPath,true);
         m_managerList = new MSTCubeManager[num_players];
         m_headerList = new string[num_players];
 
         // Instantiate event logger stuff
-        m_eventPath = "./MST_Data_Logs/" + fileName + "EventLog" + System.DateTime.Now.ToString() + ".txt";
-        m_eventWriter = new StreamWriter(m_eventPath,true);
+        m_eventPath = "./MST_Data_Logs/" + fileName + "EventLog" + System.DateTime.Now.ToString() + ".mstlog";
     }
 
     public void AddToio(MSTCubeManager manager)
@@ -184,6 +182,10 @@ public class ToioLogger
 
     private void StartLogging()
     {
+        // Open up the files
+        m_trajectoryWriter = new StreamWriter(m_trajectoryPath,true);
+        m_eventWriter = new StreamWriter(m_eventPath,true);
+
         string header_string = "Time";
         foreach(string h in m_headerList)
         {
