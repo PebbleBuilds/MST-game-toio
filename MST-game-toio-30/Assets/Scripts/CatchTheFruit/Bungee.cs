@@ -15,6 +15,7 @@ public class Bungee : NetworkBehaviour
     public float m_reformRate = 0.01f;
     public float m_decayRate = 0.01f; //TODO: make this fixed
     public int m_vibration = 0;
+    private CTFGameManager m_gameManager;
 
     NetworkVariable<float> m_angleWithY = new NetworkVariable<float>(0.0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
@@ -23,6 +24,7 @@ public class Bungee : NetworkBehaviour
         //m_enabled.Value = true;
         //m_renderer = GetComponent<Renderer>();
         m_collider = GetComponent<Collider>();
+        m_gameManager = FindObjectOfType<CTFGameManager>();
     }
 
 
@@ -65,7 +67,7 @@ public class Bungee : NetworkBehaviour
                 // Break the bungee if stretchMax exceeded
                 if (stretch.Value > CTFConfig.stretchMax)
                 {
-                    game.m_logger.LogEvent("Bungee broken by stretch: playerID " + m_bungeeHeadID.Value.ToString())
+                    m_gameManager.m_logger.LogEvent("Bungee broken by stretch: playerID " + m_bungeeHeadID.Value.ToString());
                     BreakBungee();
                 }
             }
@@ -75,7 +77,7 @@ public class Bungee : NetworkBehaviour
                 // Reconnect the bungee if fully reformed
                 if (m_alpha.Value >= 1.0f)
                 {
-                    game.m_logger.LogEvent("Bungee reformed: playerID " + m_bungeeHeadID.Value.ToString()
+                    m_gameManager.m_logger.LogEvent("Bungee reformed: playerID " + m_bungeeHeadID.Value.ToString());
                     ReformBungee();
                 }
                 // Otherwise, increment reform if close enough
