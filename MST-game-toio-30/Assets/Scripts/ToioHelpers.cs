@@ -164,11 +164,20 @@ public class ToioLogger
 
         string data = "";
         data += (Time.time).ToString();
+
+        int counter = 0;
+
         foreach (var manager in m_managerList)
         {
             if (manager == null)
             {
-                Debug.Log("Logger: A manager reference is broken. Stopping logging.");
+                Debug.LogWarning("Logger: A manager reference is broken. Stopping logging.");
+                m_logging = false;
+                return;
+            }
+            if (manager.m_playerID.Value != counter)
+            {
+                Debug.LogWarning("Logger: Manager list is out of order. Did you make sure to call AddToio in order of playerID? Stopping logging.");
                 m_logging = false;
                 return;
             }
