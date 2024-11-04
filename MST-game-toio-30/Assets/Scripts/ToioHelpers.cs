@@ -123,13 +123,13 @@ public class ToioLogger
     public ToioLogger(string fileName, int num_players)
     {
         // Instantiate trajectory logger stuff
-        m_trajectoryPath = fileName + "Trajectories" + System.DateTime.Now.ToString() + ".csv";
+        m_trajectoryPath = "./MST_Data_Logs/" + fileName + "Trajectories" + System.DateTime.Now.ToString() + ".csv";
         m_trajectoryWriter = new StreamWriter(m_trajectoryPath,true);
         m_managerList = new MSTCubeManager[num_players];
         m_headerList = new string[num_players];
 
         // Instantiate event logger stuff
-        m_eventPath = fileName + "EventLog" + System.DateTime.Now.ToString() + ".txt";
+        m_eventPath = "./MST_Data_Logs/" + fileName + "EventLog" + System.DateTime.Now.ToString() + ".txt";
         m_eventWriter = new StreamWriter(m_eventPath,true);
     }
 
