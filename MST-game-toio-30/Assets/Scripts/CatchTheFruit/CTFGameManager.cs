@@ -28,14 +28,17 @@ public class CTFGameManager : NetworkBehaviour
     void FixedUpdate()
     {
         var playerList = FindObjectsOfType<MSTCubeManager>();
-        
+
         // Manage logger
         if(!m_logger.IsLogging())
         {
             foreach(var player in playerList)
             {
                 MSTCubeManager manager = player.GetComponent<MSTCubeManager>();
-                m_logger.AddToio(manager);
+                if(manager.IsConnected())
+                {
+                    m_logger.AddToio(manager);
+                }
             }
         }
         else
