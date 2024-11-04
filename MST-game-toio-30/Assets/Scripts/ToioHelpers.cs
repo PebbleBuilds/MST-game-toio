@@ -208,11 +208,14 @@ public class ToioLogger
 
     public void LogEvent(string game_event, bool unity_log=false)
     {
-        string time = (Time.time).ToString();
-        m_eventWriter.WriteLine(time + ":" + game_event);
-        if(unity_log)
+        if (m_logging)
         {
-            Debug.Log("Event Log: " + game_event);
+            string time = (Time.time).ToString();
+            m_eventWriter.WriteLine(time + ":" + game_event);
+            if(unity_log)
+            {
+                Debug.Log("Event Log: " + game_event);
+            }
         }
     }
 
