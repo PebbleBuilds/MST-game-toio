@@ -7,13 +7,13 @@ public class RTSCanvas : NetworkBehaviour
 {
     public Text m_text;
     public Image m_background;
-    NetworkVariable<string> m_textString;
-    NetworkVariable<int> m_leaderID;
+    string m_textString = "";
+    NetworkVariable<int> m_leaderID = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     bool m_animating;
+    int m_playerID;
 
     void Start()
     {
-        m_textString.Value = "";
         m_leaderID.Value = -1;
     }
 
@@ -35,21 +35,21 @@ public class RTSCanvas : NetworkBehaviour
             var tempColor = m_background.color;
             tempColor.a = 1.0f;
             m_background.color = tempColor;
-            m_text.text = m_textString.Value;
+            m_text.text = m_textString;
         }
     }
 
     IEnumerator AnimatedMsg()
     {
-        m_textString.Value = "Next round's leader is " + Config.ColorNameFromPlayerID(m_leaderID.Value);
+        m_textString = "Next round's leader is " + Config.ColorNameFromPlayerID(m_leaderID.Value);
         yield return new WaitForSeconds(5);
-        m_textString.Value = "Round begins in 3";
+        m_textString = "Round begins in 3";
         yield return new WaitForSeconds(1);
-        m_textString.Value = "Round begins in 2";
+        m_textString = "Round begins in 2";
         yield return new WaitForSeconds(1);
-        m_textString.Value = "Round begins in 1";
+        m_textString = "Round begins in 1";
         yield return new WaitForSeconds(1);
-        m_textString.Value = "Follow the leader to your (invisible) spotlight!";
+        m_textString = "Follow the leader to your (invisible) spotlight!";
         m_animating = false;
     }
 

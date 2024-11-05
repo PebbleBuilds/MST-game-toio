@@ -29,7 +29,7 @@ public class RTSGUIManager : MonoBehaviour
         style.fontSize = 40;
         style.normal.textColor = Color.white;
 
-        var gameManager = FindObjectOfType<CTFGameManager>();
+        var gameManager = FindObjectOfType<RTSGameManager>();
         GUILayout.Label(String.Format("Score={0}", gameManager.m_score.Value), style);
 
         var mode = m_NetworkManager.IsHost ?
