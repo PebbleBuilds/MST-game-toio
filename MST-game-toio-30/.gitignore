@@ -76,6 +76,7 @@ crashlytics-build.properties
 *.mstlog
 *.mp4
 *mono_crash*.json
+*.ipynb
 
 # Ignore BLE plugin
 /[Aa]ssets/ble-plugin-unity/
