@@ -18,4 +18,10 @@ static public class Config
         else if (id == 2) {return Color.green;}
         else {return Color.white;} // Body color
     }
+    static public string ColorNameFromPlayerID(int id)
+    {
+        if (id == 1) {return "Blue";}
+        else if (id == 2) {return "Green";}
+        else {return "White";} // Body color
+    }
 }
