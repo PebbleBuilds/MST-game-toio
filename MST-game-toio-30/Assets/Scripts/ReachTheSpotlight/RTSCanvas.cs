@@ -19,7 +19,7 @@ public class RTSCanvas : NetworkBehaviour
 
     void Update()
     {
-        if(m_leaderID.Value == (int)NetworkManager.Singleton.LocalClientId || !m_animating)
+        if(m_leaderID.Value == (int)NetworkManager.Singleton.LocalClientId && !m_animating)
         {
             var tempColor = m_background.color;
             tempColor.a = 0.0f;
