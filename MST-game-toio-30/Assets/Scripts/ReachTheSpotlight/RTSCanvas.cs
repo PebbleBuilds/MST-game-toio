@@ -19,11 +19,7 @@ public class RTSCanvas : NetworkBehaviour
 
     void Update()
     {
-        if (m_animating)
-        {
-            StartCoroutine("AnimatedMsg");
-        }
-        else if(m_leaderID.Value == (int)NetworkManager.Singleton.LocalClientId)
+        if(m_leaderID.Value == (int)NetworkManager.Singleton.LocalClientId || !m_animating)
         {
             var tempColor = m_background.color;
             tempColor.a = 0.0f;
@@ -41,6 +37,7 @@ public class RTSCanvas : NetworkBehaviour
 
     IEnumerator AnimatedMsg()
     {
+        m_animating = true;
         m_textString = "Next round's leader is " + Config.ColorNameFromPlayerID(m_leaderID.Value);
         yield return new WaitForSeconds(5);
         m_textString = "Round begins in 3";
@@ -52,11 +49,10 @@ public class RTSCanvas : NetworkBehaviour
         m_textString = "Follow the leader to your (invisible) spotlight!";
         m_animating = false;
     }
-
     public void SetLeaderID(int leaderID)
     {
         m_leaderID.Value = leaderID;
-        m_animating = true;
+        StartCoroutine("AnimatedMsg");
     }
 
     public bool IsAnimating()
