@@ -4,7 +4,7 @@ using UnityEngine;
 using toio;
 using Cysharp.Threading.Tasks;
 
-public class Spotlight : NetworkBehaviour
+public class RTSSpotlight : NetworkBehaviour
 {
     public Renderer m_renderer;
     int m_playerID;

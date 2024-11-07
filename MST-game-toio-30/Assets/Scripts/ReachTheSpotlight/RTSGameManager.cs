@@ -38,7 +38,7 @@ public class RTSGameManager : NetworkBehaviour
             m_spotlightList[i] = Instantiate(m_spotlightPrefab, position, Quaternion.identity);
             var spotlightInstanceNetworkObject = m_spotlightList[i].GetComponent<NetworkObject>();
             spotlightInstanceNetworkObject.Spawn();
-            var spotlightComponent = m_spotlightList[i].GetComponent<Spotlight>();
+            var spotlightComponent = m_spotlightList[i].GetComponent<RTSSpotlight>();
             spotlightComponent.SetPlayerID(i);
         }
     }
@@ -90,7 +90,7 @@ public class RTSGameManager : NetworkBehaviour
                     for(int i=0;i<Config.numPlayers;i++)
                     {
                         var position = ToioHelpers.PositionIDtoUnity(Random.Range(ToioHelpers.minX, ToioHelpers.maxX), Random.Range(ToioHelpers.minY, ToioHelpers.maxY));
-                        var spotlightComponent = m_spotlightList[i].GetComponent<Spotlight>();
+                        var spotlightComponent = m_spotlightList[i].GetComponent<RTSSpotlight>();
                         spotlightComponent.SetPosition(position);
                     }
 
@@ -103,7 +103,7 @@ public class RTSGameManager : NetworkBehaviour
                     bool victory = true;
                     for(int i=0;i<Config.numPlayers;i++)
                     {
-                        var spotlightComponent = m_spotlightList[i].GetComponent<Spotlight>();
+                        var spotlightComponent = m_spotlightList[i].GetComponent<RTSSpotlight>();
                         if(!spotlightComponent.IsReached())
                         {
                             victory = false;
