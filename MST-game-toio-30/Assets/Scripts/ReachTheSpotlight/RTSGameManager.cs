@@ -11,26 +11,41 @@ public class RTSGameManager : NetworkBehaviour
     // game state
     public NetworkVariable<int> m_score;
     public NetworkVariable<int> m_leaderID;
-    public Vector2[] m_spotlightLocations = new Vector2[Config.numPlayers];
+    public GameObject[] m_spotlightList = new GameObject[Config.numPlayers];
+    public NetworkVariable<float> m_timeLeft;
+    public bool m_roundActive = false;
 
     // canvas
     public RTSCanvas m_canvas;
+
+    // prefabs
+    public GameObject m_spotlightPrefab;
 
     // logger
     public ToioLogger m_logger = new ToioLogger("RTS",Config.numPlayers);
 
     void Start()
     {
+        // Initialize values
         m_score.Value = 0;
         m_leaderID.Value = -1;
-
         m_canvas = FindObjectOfType<RTSCanvas>();
+
+        // Instantiate spotlight objects
+        Vector2 position = new Vector2(0,0);
+        for(int i=0;i<Config.numPlayers;i++)
+        {
+            m_spotlightList[i] = Instantiate(m_spotlightPrefab, position, Quaternion.identity);
+            var spotlightInstanceNetworkObject = m_spotlightList[i].GetComponent<NetworkObject>();
+            spotlightInstanceNetworkObject.Spawn();
+            var spotlightComponent = m_spotlightList[i].GetComponent<Spotlight>();
+            spotlightComponent.SetPlayerID(i);
+        }
     }
 
     void FixedUpdate()
     {
         // TODO: does this need to be IsServer?
-
         var playerList = FindObjectsOfType<MSTCubeManager>();
         // Manage logger
         if(!m_logger.IsLogging())
@@ -52,14 +67,66 @@ public class RTSGameManager : NetworkBehaviour
 
     async void Update()
     {
-        if (IsServer)
+        if (IsServer && m_logger.IsLogging()) // janky way of checking if all the toios are connected
         {
-            // If we're just starting or between rounds, pick the next leader
-            if(m_leaderID.Value < 0 && !m_canvas.IsAnimating())
+            // Decrement time
+            if(m_timeLeft.Value > 0.0f)
             {
-                m_leaderID.Value = Random.Range(0,Config.numPlayers);
-                m_canvas.SetLeaderID(m_leaderID.Value);
+                m_timeLeft.Value -= Time.deltaTime;
             }
+
+            // Update game state if not in the middle of an animation
+            if(!m_canvas.IsAnimating())
+            {
+                if(m_leaderID.Value < 0)
+                {
+                    // Decide a leader for the next round
+                    m_leaderID.Value = Random.Range(0,Config.numPlayers);
+
+                    // Start the new round on the canvas
+                    m_canvas.StartNewRound(m_leaderID.Value);
+
+                    // Decide the spotlight positions
+                    for(int i=0;i<Config.numPlayers;i++)
+                    {
+                        var position = ToioHelpers.PositionIDtoUnity(Random.Range(ToioHelpers.minX, ToioHelpers.maxX), Random.Range(ToioHelpers.minY, ToioHelpers.maxY));
+                        var spotlightComponent = m_spotlightList[i].GetComponent<Spotlight>();
+                        spotlightComponent.SetPosition(position);
+                    }
+
+                    // Start the timer
+                    m_timeLeft.Value = RTSConfig.roundTimeSeconds;
+                }
+                else
+                {
+                    // Check if every spotlight is reached
+                    bool victory = true;
+                    for(int i=0;i<Config.numPlayers;i++)
+                    {
+                        var spotlightComponent = m_spotlightList[i].GetComponent<Spotlight>();
+                        if(!spotlightComponent.IsReached())
+                        {
+                            victory = false;
+                        }
+                    }
+
+                    // If so, victory!
+                    if(victory)
+                    {
+                        m_score.Value += 1;
+                        m_canvas.RoundVictory();
+                        m_leaderID.Value = -1; // this signals to start a new round when done animating
+                    }
+                    // Else, check if out of time, if so, failure
+                    else if(m_timeLeft.Value <= 0.0f)
+                    {
+                        m_canvas.RoundFailure();
+                        m_timeLeft.Value = 0.0f;
+                        m_leaderID.Value = -1; // this signals to start a new round when done animating
+                    }
+                }
+            }
+
         }
     }
 

@@ -146,6 +146,7 @@ public class ToioLogger
         foreach (var m in m_managerList)
         {
             if (m == null) {ready = false;}
+            else if (m.IsConnected() == false) {ready = false;}
         }
         if(ready) { StartLogging(); }
     }

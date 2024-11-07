@@ -31,6 +31,7 @@ public class RTSGUIManager : MonoBehaviour
 
         var gameManager = FindObjectOfType<RTSGameManager>();
         GUILayout.Label(String.Format("Score={0}", gameManager.m_score.Value), style);
+        GUILayout.Label(String.Format("Time Left={0}", (int)gameManager.m_timeLeft.Value), style);
 
         var mode = m_NetworkManager.IsHost ?
             "Host" : m_NetworkManager.IsServer ? "Server" : "Client";

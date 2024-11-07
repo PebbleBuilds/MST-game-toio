@@ -35,9 +35,8 @@ public class RTSCanvas : NetworkBehaviour
         }
     }
 
-    IEnumerator AnimatedMsg()
+    IEnumerator RoundStartMsg()
     {
-        m_animating = true;
         m_textString = "Next round's leader is " + Config.ColorNameFromPlayerID(m_leaderID.Value);
         yield return new WaitForSeconds(5);
         m_textString = "Round begins in 3";
@@ -49,10 +48,37 @@ public class RTSCanvas : NetworkBehaviour
         m_textString = "Follow the leader to your (invisible) spotlight!";
         m_animating = false;
     }
-    public void SetLeaderID(int leaderID)
+    public void StartNewRound(int leaderID)
     {
         m_leaderID.Value = leaderID;
-        StartCoroutine("AnimatedMsg");
+        m_animating = true;
+        StartCoroutine("RoundStartMsg");
+    }
+
+    IEnumerator VictoryMsg()
+    {
+        m_textString = "Nice work! You scored a point!";
+        yield return new WaitForSeconds(5);
+        m_animating = false;
+    }
+
+    public void RoundVictory()
+    {
+        m_animating = true;
+        StartCoroutine("VictoryMsg");
+    }
+
+    IEnumerator FailureMsg()
+    {
+        m_textString = "Time's up!";
+        yield return new WaitForSeconds(5);
+        m_animating = false;
+    }
+
+    public void RoundFailure()
+    {
+        m_animating = true;
+        StartCoroutine("FailureMsg");
     }
 
     public bool IsAnimating()

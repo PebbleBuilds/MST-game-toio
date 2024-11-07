@@ -5,6 +5,6 @@ using toio;
 
 static public class RTSConfig
 {
-    static public float spotlightSize = 50;
+    static public float spotlightScale = 1.0f;
     static public float roundTimeSeconds = 30;
 }

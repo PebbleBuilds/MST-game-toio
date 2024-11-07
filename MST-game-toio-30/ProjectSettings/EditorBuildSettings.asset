@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CTFScene.unity
     guid: 4cf2c1dcbfc444e09ab2d83d670c51b5
+  - enabled: 1
+    path: Assets/Scenes/RTSScene.unity
+    guid: 27181354a073e4eafbe2f21c2ea82cdf
   m_configObjects: {}

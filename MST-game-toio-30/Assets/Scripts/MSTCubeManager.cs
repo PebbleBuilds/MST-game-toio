@@ -11,7 +11,7 @@ public class MSTCubeManager : NetworkBehaviour
     public NetworkVariable<int> m_playerID = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     private int m_numPlayers = Config.numPlayers;
     CubeManager cm;
-    bool m_connected = false;
+    NetworkVariable<bool> m_connected = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     // GUI
     public String m_guiMsg1 = "";
@@ -68,7 +68,7 @@ public class MSTCubeManager : NetworkBehaviour
                     cm.cubes[i].TurnLedOn((int)(puppetColor.r*255),(int)(puppetColor.g*255),(int)(puppetColor.b*255),0);
                 }
             }
-            m_connected = true;
+            m_connected.Value = true;
         }
     }
 
@@ -79,7 +79,7 @@ public class MSTCubeManager : NetworkBehaviour
         color.a = m_alpha.Value;
         m_renderer.material.color = color;
 
-        if (m_connected && cm.synced && IsOwner)
+        if (m_connected.Value && cm.synced && IsOwner)
         {
             // move the local puppet cubes.
             var managers = UnityEngine.Object.FindObjectsOfType<MSTCubeManager>();
@@ -116,7 +116,7 @@ public class MSTCubeManager : NetworkBehaviour
         m_playerPosID.y = c.pos.y;
     }
 
-    public bool IsConnected() {return m_connected;}
+    public bool IsConnected() {return m_connected.Value;}
 
     [ClientRpc]
     public void PulseClientRpc(float duration,int intensity)
