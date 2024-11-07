@@ -311,7 +311,7 @@ MonoBehaviour:
     m_InternalValue: 0
   m_roundActive: 0
   m_canvas: {fileID: 298697128}
-  m_spotlightPrefab: {fileID: 0}
+  m_spotlightPrefab: {fileID: 3769636284147395692, guid: 362457678f1d442af9b5c6b9d9609459, type: 3}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
