@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 4076094922437909966}
   - component: {fileID: 8379666375259382632}
   - component: {fileID: 8082603663655325651}
-  - component: {fileID: -8107805937664473124}
   - component: {fileID: 4348445032720975325}
+  - component: {fileID: -2303448793503743750}
   m_Layer: 0
-  m_Name: Spotlight
+  m_Name: RTSSpotlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -100,19 +100,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &-8107805937664473124
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3769636284147395692}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3096b612d5ca54af28add762410c03e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_renderer: {fileID: 8379666375259382632}
 --- !u!114 &4348445032720975325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,3 +120,16 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &-2303448793503743750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3769636284147395692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3096b612d5ca54af28add762410c03e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_renderer: {fileID: 8379666375259382632}
