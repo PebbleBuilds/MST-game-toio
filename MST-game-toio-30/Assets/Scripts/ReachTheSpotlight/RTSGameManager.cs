@@ -30,17 +30,6 @@ public class RTSGameManager : NetworkBehaviour
         m_score.Value = 0;
         m_leaderID.Value = -1;
         m_canvas = FindObjectOfType<RTSCanvas>();
-
-        // Instantiate spotlight objects
-        Vector2 position = new Vector2(0,0);
-        for(int i=0;i<Config.numPlayers;i++)
-        {
-            m_spotlightList[i] = Instantiate(m_spotlightPrefab, position, Quaternion.identity);
-            var spotlightInstanceNetworkObject = m_spotlightList[i].GetComponent<NetworkObject>();
-            spotlightInstanceNetworkObject.Spawn();
-            var spotlightComponent = m_spotlightList[i].GetComponent<RTSSpotlight>();
-            spotlightComponent.SetPlayerID(i);
-        }
     }
 
     void FixedUpdate()
@@ -89,8 +78,16 @@ public class RTSGameManager : NetworkBehaviour
                     // Decide the spotlight positions
                     for(int i=0;i<Config.numPlayers;i++)
                     {
+                        // Instantiate if null
+                        if(m_spotlightList[i] == null)
+                        {
+                            m_spotlightList[i] = Instantiate(m_spotlightPrefab);
+                            var spotlightNetworkObject = m_spotlightList[i].GetComponent<NetworkObject>();
+                            spotlightNetworkObject.Spawn();
+                        }
                         var position = ToioHelpers.PositionIDtoUnity(Random.Range(ToioHelpers.minX, ToioHelpers.maxX), Random.Range(ToioHelpers.minY, ToioHelpers.maxY));
                         var spotlightComponent = m_spotlightList[i].GetComponent<RTSSpotlight>();
+                        spotlightComponent.SetPlayerID(i);
                         spotlightComponent.SetPosition(position);
                     }
 
