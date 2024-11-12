@@ -222,7 +222,7 @@ public class ToioLogger
 
     public void Quit()
     {
-        m_trajectoryWriter.Close();
-        m_eventWriter.Close();
+        if (m_trajectoryWriter != null) {m_trajectoryWriter.Close();}
+        if (m_eventWriter != null) {m_eventWriter.Close();}
     }
 }
