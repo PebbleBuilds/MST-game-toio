@@ -79,7 +79,7 @@ public class MSTCubeManager : NetworkBehaviour
         color.a = m_alpha.Value;
         m_renderer.material.color = color;
 
-        if (m_connected.Value && cm.synced && IsOwner)
+        if (m_connected.Value && IsOwner && cm.synced)
         {
             // move the local puppet cubes.
             var managers = UnityEngine.Object.FindObjectsOfType<MSTCubeManager>();
