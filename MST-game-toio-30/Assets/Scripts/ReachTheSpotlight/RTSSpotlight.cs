@@ -14,7 +14,7 @@ public class RTSSpotlight : NetworkBehaviour
     
     void Start()
     {
-        Vector3 scale = new Vector3(RTSConfig.spotlightScale, 0.1f, RTSConfig.spotlightScale);
+        Vector3 scale = new Vector3(RTSConfig.spotlightScale, 1.0f, RTSConfig.spotlightScale);
         transform.localScale = scale;
     }
 

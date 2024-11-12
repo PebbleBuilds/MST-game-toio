@@ -58,15 +58,16 @@ public class RTSGameManager : NetworkBehaviour
     {
         if (IsServer && m_logger.IsLogging()) // janky way of checking if all the toios are connected
         {
-            // Decrement time
-            if(m_timeLeft.Value > 0.0f)
-            {
-                m_timeLeft.Value -= Time.deltaTime;
-            }
-
             // Update game state if not in the middle of an animation
             if(!m_canvas.IsAnimating())
             {
+                // Decrement time
+                if(m_timeLeft.Value > 0.0f)
+                {
+                    m_timeLeft.Value -= Time.deltaTime;
+                }
+
+                // If between rounds...
                 if(m_leaderID.Value < 0)
                 {
                     // Decide a leader for the next round
@@ -94,6 +95,8 @@ public class RTSGameManager : NetworkBehaviour
                     // Start the timer
                     m_timeLeft.Value = RTSConfig.roundTimeSeconds;
                 }
+
+                // Else (during a round)...
                 else
                 {
                     // Check if every spotlight is reached
@@ -114,6 +117,7 @@ public class RTSGameManager : NetworkBehaviour
                         m_canvas.RoundVictory();
                         m_leaderID.Value = -1; // this signals to start a new round when done animating
                     }
+                    
                     // Else, check if out of time, if so, failure
                     else if(m_timeLeft.Value <= 0.0f)
                     {
