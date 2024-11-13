@@ -86,7 +86,10 @@ public class RTSGameManager : NetworkBehaviour
                             var spotlightNetworkObject = m_spotlightList[i].GetComponent<NetworkObject>();
                             spotlightNetworkObject.Spawn();
                         }
-                        var position = ToioHelpers.PositionIDtoUnity(Random.Range(ToioHelpers.minX, ToioHelpers.maxX), Random.Range(ToioHelpers.minY, ToioHelpers.maxY));
+                        var position = ToioHelpers.PositionIDtoUnity(
+                            Random.Range(ToioHelpers.minX+RTSConfig.pidb, ToioHelpers.maxX-RTSConfig.pidb), 
+                            Random.Range(ToioHelpers.minY+RTSConfig.pidb, ToioHelpers.maxY-RTSConfig.pidb)
+                            );
                         var spotlightComponent = m_spotlightList[i].GetComponent<RTSSpotlight>();
                         spotlightComponent.SetPlayerID(i);
                         spotlightComponent.SetPosition(position);
