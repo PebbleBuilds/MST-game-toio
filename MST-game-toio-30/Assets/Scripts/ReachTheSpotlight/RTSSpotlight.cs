@@ -7,7 +7,7 @@ using Cysharp.Threading.Tasks;
 public class RTSSpotlight : NetworkBehaviour
 {
     public Renderer m_renderer;
-    public NetworkVariable<int> m_playerID = 0;
+    public NetworkVariable<int> m_playerID;
     bool m_reached;
     public bool IsReached() { return m_reached; }
 
@@ -16,6 +16,7 @@ public class RTSSpotlight : NetworkBehaviour
     {
         Vector3 scale = new Vector3(RTSConfig.spotlightScale, 0.3f, RTSConfig.spotlightScale);
         transform.localScale = scale;
+        m_playerID.Value = 0;
     }
 
     void Update()
@@ -27,7 +28,7 @@ public class RTSSpotlight : NetworkBehaviour
 
     public void SetPlayerID(int playerID)
     {
-        m_playerID = playerID;
+        m_playerID.Value = playerID;
     }
 
     public void SetPosition(Vector3 pos)
@@ -45,7 +46,7 @@ public class RTSSpotlight : NetworkBehaviour
             if (manager != null)
             {
                 int playerID = manager.m_playerID.Value;
-                if (playerID == m_playerID)
+                if (playerID == m_playerID.Value)
                 {
                     Debug.Log(String.Format("player {0} reached", playerID));
                     m_reached = true;
@@ -63,7 +64,7 @@ public class RTSSpotlight : NetworkBehaviour
             if (manager != null)
             {
                 int playerID = manager.m_playerID.Value;
-                if (playerID == m_playerID)
+                if (playerID == m_playerID.Value)
                 {
                     Debug.Log(String.Format("player {0} unreached", playerID));
                     m_reached = false;
