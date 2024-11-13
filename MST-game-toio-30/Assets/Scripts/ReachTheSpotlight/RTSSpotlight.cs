@@ -14,7 +14,7 @@ public class RTSSpotlight : NetworkBehaviour
     
     void Start()
     {
-        Vector3 scale = new Vector3(RTSConfig.spotlightScale, 0.3f, RTSConfig.spotlightScale);
+        Vector3 scale = new Vector3(RTSConfig.spotlightScale, 1.0f, RTSConfig.spotlightScale);
         transform.localScale = scale;
         m_playerID.Value = 0;
     }
@@ -29,6 +29,7 @@ public class RTSSpotlight : NetworkBehaviour
     public void SetPlayerID(int playerID)
     {
         m_playerID.Value = playerID;
+        Debug.Log(String.Format("spotlight {0} placed", playerID));
     }
 
     public void SetPosition(Vector3 pos)
