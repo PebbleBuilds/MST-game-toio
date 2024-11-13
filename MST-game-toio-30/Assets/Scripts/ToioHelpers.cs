@@ -14,18 +14,20 @@ static public class ToioHelpers
 
     static public float xRange = maxX-minX;
     static public float yRange = maxY-minY;
+    static public float planeResolutionXoverY = xRange / yRange;
+
     static public float xMiddle = (minX+maxX)/2;
     static public float yMiddle = (minY+maxY)/2;
 
     static public Vector3 PositionIDtoUnity(float x, float y)
     {
-        Vector3 v = new Vector3((x-xMiddle)/xRange*planeScale, 0, -(y-yMiddle)/yRange*planeScale);
+        Vector3 v = new Vector3((x-xMiddle)/xRange*planeScale*planeResolutionXoverY, 0, -(y-yMiddle)/yRange*planeScale);
         return v;
     }
 
     static public Vector2 UnitytoPositionID(Vector3 v)
     {
-        return new Vector2(v.x/planeScale*xRange + xMiddle, -v.z/planeScale*yRange + yMiddle);
+        return new Vector2(v.x/planeScale/planeResolutionXoverY*xRange + xMiddle, -v.z/planeScale*yRange + yMiddle);
     }
 }
 

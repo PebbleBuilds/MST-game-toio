@@ -79,6 +79,8 @@ public class MSTCubeManager : NetworkBehaviour
 
         if (m_connected.Value && IsOwner && cm.synced)
         {
+            m_guiMsg2 = String.Format("Unity Avatar Position x={0}, z={1}", transform.position.x, transform.position.z);
+
             // move the local puppet cubes.
             var managers = UnityEngine.Object.FindObjectsOfType<MSTCubeManager>();
             foreach (var manager in managers) 
