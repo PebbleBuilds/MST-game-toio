@@ -10,6 +10,7 @@ public class RTSSpotlight : NetworkBehaviour
     public NetworkVariable<int> m_playerID = new NetworkVariable<int>(-1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     bool m_reached;
     public bool IsReached() { return m_reached; }
+    Vector3 m_pos;
 
     
     void Start()
@@ -26,6 +27,8 @@ public class RTSSpotlight : NetworkBehaviour
             color.a=0.5f;
             m_renderer.material.color = color;
         }
+
+        transform.position = m_pos;
     }
 
     public void SetPlayerID(int playerID)
@@ -36,7 +39,7 @@ public class RTSSpotlight : NetworkBehaviour
 
     public void SetPosition(Vector3 pos)
     {
-        transform.position = pos;
+        m_pos = pos;
     }
 
     
@@ -50,6 +53,7 @@ public class RTSSpotlight : NetworkBehaviour
             if (manager != null)
             {
                 int playerID = manager.m_playerID.Value;
+                Debug.Log(String.Format("spotlight {0} hit target {1}", m_playerID.Value,playerID));
                 if (playerID == m_playerID.Value)
                 {
                     Debug.Log(String.Format("player {0} reached", playerID));
