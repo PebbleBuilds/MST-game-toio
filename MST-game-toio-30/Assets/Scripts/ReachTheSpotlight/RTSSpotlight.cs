@@ -7,7 +7,7 @@ using Cysharp.Threading.Tasks;
 public class RTSSpotlight : NetworkBehaviour
 {
     public Renderer m_renderer;
-    public NetworkVariable<int> m_playerID;
+    public NetworkVariable<int> m_playerID = new NetworkVariable<int>(-1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     bool m_reached;
     public bool IsReached() { return m_reached; }
 
@@ -16,14 +16,16 @@ public class RTSSpotlight : NetworkBehaviour
     {
         Vector3 scale = new Vector3(RTSConfig.spotlightScale, 1.0f, RTSConfig.spotlightScale);
         transform.localScale = scale;
-        m_playerID.Value = 0;
     }
 
     void Update()
     {
-        var color = Config.ColorFromPlayerID(m_playerID.Value);
-        color.a=0.5f;
-        m_renderer.material.color = color;
+        if(m_playerID.Value >= 0)
+        {
+            var color = Config.ColorFromPlayerID(m_playerID.Value);
+            color.a=0.5f;
+            m_renderer.material.color = color;
+        }
     }
 
     public void SetPlayerID(int playerID)
@@ -44,6 +46,7 @@ public class RTSSpotlight : NetworkBehaviour
         {
             var go = collision.gameObject;
             var manager = go.GetComponent<MSTCubeManager>();
+            Debug.Log("collided");
             if (manager != null)
             {
                 int playerID = manager.m_playerID.Value;

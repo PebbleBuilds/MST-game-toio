@@ -5,7 +5,7 @@ using toio;
 
 static public class RTSConfig
 {
-    static public float spotlightScale = 1.0f;
+    static public float spotlightScale = 3.0f;
     static public float roundTimeSeconds = 30;
     static public bool renderFollowerAvatars = true;
 }
