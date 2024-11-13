@@ -27,8 +27,6 @@ public class RTSSpotlight : NetworkBehaviour
             color.a=0.5f;
             m_renderer.material.color = color;
         }
-
-        transform.position = m_pos;
     }
 
     public void SetPlayerID(int playerID)
@@ -40,10 +38,29 @@ public class RTSSpotlight : NetworkBehaviour
     public void SetPosition(Vector3 pos)
     {
         m_reached = false;
-        m_pos = pos;
+        //m_pos = pos;
+        transform.position = pos;
     }
 
-    
+    void OnCollisionStay(Collision collision)
+    {
+        if (IsServer)
+        {
+            var go = collision.gameObject;
+            var manager = go.GetComponent<MSTCubeManager>();
+            if (manager != null)
+            {
+                int playerID = manager.m_playerID.Value;
+                if (playerID == m_playerID.Value)
+                {
+                    m_reached = true;
+                }                
+            }
+        }
+    }
+
+
+    /*
     void OnCollisionEnter(Collision collision)
     {
         if (IsServer)
@@ -63,6 +80,7 @@ public class RTSSpotlight : NetworkBehaviour
             }
         }
     }
+    */
 
     void OnCollisionExit(Collision collision)
     {
@@ -81,4 +99,5 @@ public class RTSSpotlight : NetworkBehaviour
             }
         }
     }
+    
 }
