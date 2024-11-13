@@ -39,6 +39,7 @@ public class RTSSpotlight : NetworkBehaviour
 
     public void SetPosition(Vector3 pos)
     {
+        m_reached = false;
         m_pos = pos;
     }
 
