@@ -117,7 +117,7 @@ public class RTSGameManager : NetworkBehaviour
                         m_canvas.RoundVictory();
                         m_leaderID.Value = -1; // this signals to start a new round when done animating
                     }
-                    
+
                     // Else, check if out of time, if so, failure
                     else if(m_timeLeft.Value <= 0.0f)
                     {

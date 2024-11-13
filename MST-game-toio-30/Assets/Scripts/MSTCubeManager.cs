@@ -50,11 +50,9 @@ public class MSTCubeManager : NetworkBehaviour
             m_guiMsg1 = String.Format("Client ID={0}", m_playerID.Value);
             cm = new CubeManager(connectType);
             await cm.MultiConnect(m_numPlayers);
-            Debug.Log(m_numPlayers);
 
             for(int i = 0; i<m_numPlayers; i++)
             {
-                Debug.Log(i);
                 if(i == m_playerID.Value)
                 {
                     cm.cubes[i].idCallback.AddListener("CTFManager", OnPlayerUpdateID);
