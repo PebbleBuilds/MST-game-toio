@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using toio;
 using Cysharp.Threading.Tasks;
+using System;
 
 
 
@@ -71,7 +72,8 @@ public class RTSGameManager : NetworkBehaviour
                 if(m_leaderID.Value < 0)
                 {
                     // Decide a leader for the next round
-                    m_leaderID.Value = Random.Range(0,Config.numPlayers);
+                    m_leaderID.Value = UnityEngine.Random.Range(0,Config.numPlayers);
+                    m_logger.LogEvent(String.Format("New round starting with Player {0} as leader", m_leaderID.Value));
 
                     // Start the new round on the canvas
                     m_canvas.StartNewRound(m_leaderID.Value);
@@ -87,12 +89,13 @@ public class RTSGameManager : NetworkBehaviour
                             spotlightNetworkObject.Spawn();
                         }
                         var position = ToioHelpers.PositionIDtoUnity(
-                            Random.Range(ToioHelpers.minX+RTSConfig.pidb, ToioHelpers.maxX-RTSConfig.pidb), 
-                            Random.Range(ToioHelpers.minY+RTSConfig.pidb, ToioHelpers.maxY-RTSConfig.pidb)
+                            UnityEngine.Random.Range(ToioHelpers.minX+RTSConfig.pidb, ToioHelpers.maxX-RTSConfig.pidb), 
+                            UnityEngine.Random.Range(ToioHelpers.minY+RTSConfig.pidb, ToioHelpers.maxY-RTSConfig.pidb)
                             );
                         var spotlightComponent = m_spotlightList[i].GetComponent<RTSSpotlight>();
                         spotlightComponent.SetPlayerID(i);
                         spotlightComponent.SetPosition(position);
+                        m_logger.LogEvent(String.Format("Spotlight {0} spawned at Unity position x={1}, z={2}", m_leaderID.Value,position.x,position.z));
                     }
 
                     // Start the timer
@@ -117,13 +120,16 @@ public class RTSGameManager : NetworkBehaviour
                     if(victory)
                     {
                         m_score.Value += 1;
+                        m_logger.LogEvent(String.Format("Point scored with {0} seconds left", m_timeLeft.Value));
                         m_canvas.RoundVictory();
                         m_leaderID.Value = -1; // this signals to start a new round when done animating
+                        
                     }
 
                     // Else, check if out of time, if so, failure
                     else if(m_timeLeft.Value <= 0.0f)
                     {
+                        m_logger.LogEvent("Round timed out");
                         m_canvas.RoundFailure();
                         m_timeLeft.Value = 0.0f;
                         m_leaderID.Value = -1; // this signals to start a new round when done animating
