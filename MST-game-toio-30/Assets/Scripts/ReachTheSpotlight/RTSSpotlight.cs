@@ -29,6 +29,11 @@ public class RTSSpotlight : NetworkBehaviour
         }
     }
 
+    void FixedUpdate()
+    {
+        transform.position = m_pos;
+    }
+
     public void SetPlayerID(int playerID)
     {
         m_playerID.Value = playerID;
@@ -38,8 +43,7 @@ public class RTSSpotlight : NetworkBehaviour
     public void SetPosition(Vector3 pos)
     {
         m_reached = false;
-        //m_pos = pos;
-        transform.position = pos;
+        m_pos = pos;
     }
 
     void OnCollisionStay(Collision collision)

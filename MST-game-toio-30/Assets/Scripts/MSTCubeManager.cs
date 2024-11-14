@@ -27,6 +27,9 @@ public class MSTCubeManager : NetworkBehaviour
 
     // On screen avatar rendering
     Color m_color;
+    Vector3 m_position = new Vector3(0,0,0);
+    Vector3 m_eulerAngles = new Vector3(0,0,0);
+    float m_angle = 0;
     public Renderer m_renderer;
     public Collider m_collider;
     public NetworkVariable<float> m_alpha = new NetworkVariable<float>(1.0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
@@ -70,6 +73,15 @@ public class MSTCubeManager : NetworkBehaviour
         }
     }
 
+    void FixedUpdate()
+    {
+        if (m_connected.Value && IsOwner)
+        {
+            transform.position = m_position;
+            transform.eulerAngles = m_eulerAngles;
+        }
+    }
+
     void Update()
     {
         // Render the on-screen cube
@@ -109,8 +121,8 @@ public class MSTCubeManager : NetworkBehaviour
 
     void OnPlayerUpdateID(Cube c)
     {
-        transform.position = ToioHelpers.PositionIDtoUnity(c.pos.x,c.pos.y);
-        transform.eulerAngles = new Vector3(0,c.angle,0);
+        m_position = ToioHelpers.PositionIDtoUnity(c.pos.x,c.pos.y);
+        m_eulerAngles = new Vector3(0,c.angle,0);
 
         m_playerPosID.x = c.pos.x;
         m_playerPosID.y = c.pos.y;
