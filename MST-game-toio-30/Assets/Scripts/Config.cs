@@ -7,6 +7,7 @@ static public class Config
 {
     // general stuff
     static public int numPlayers = 2;
+    static public bool connectToPuppets = true;
 
     // vibration stuff
     static public int minVibration = 8;

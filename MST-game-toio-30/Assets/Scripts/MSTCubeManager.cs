@@ -9,7 +9,9 @@ public class MSTCubeManager : NetworkBehaviour
     // Connection
     public ConnectType connectType = ConnectType.Real; 
     public NetworkVariable<int> m_playerID = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    private int m_avatarCubeIdx;
     private int m_numPlayers = Config.numPlayers;
+    private bool m_connectToPuppets = Config.connectToPuppets;
     CubeManager cm;
     NetworkVariable<bool> m_connected = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
@@ -50,25 +52,40 @@ public class MSTCubeManager : NetworkBehaviour
         if (IsOwner)
         {
             m_playerLight = new ToioLight(m_color, 0.5f, 0.5f);
-            m_guiMsg1 = String.Format("Client ID={0}", m_playerID.Value);
+            m_guiMsg1 = String.Format("Client ID={0}, Puppets Connected={1}", m_playerID.Value, m_connectToPuppets);
             cm = new CubeManager(connectType);
-            await cm.MultiConnect(m_numPlayers);
 
-            for(int i = 0; i<m_numPlayers; i++)
+            if (m_connectToPuppets)
             {
-                if(i == m_playerID.Value)
+                m_avatarCubeIdx = m_playerID.Value;
+
+                await cm.MultiConnect(m_numPlayers);
+                for(int i = 0; i<m_numPlayers; i++)
                 {
-                    cm.cubes[i].idCallback.AddListener("CTFManager", OnPlayerUpdateID);
-                    await cm.cubes[i].ConfigIDNotification(10, Cube.IDNotificationType.OnChanged);
-                    //cm.cubes[i].TurnLedOn(0,255,0,0);
-                }
-                else
-                {
-                    await cm.cubes[i].ConfigIDNotification(10, Cube.IDNotificationType.OnChanged);
-                    Color puppetColor = Config.ColorFromPlayerID(i);
-                    cm.cubes[i].TurnLedOn((int)(puppetColor.r*255),(int)(puppetColor.g*255),(int)(puppetColor.b*255),0);
+                    if(i == m_playerID.Value)
+                    {
+                        cm.cubes[i].idCallback.AddListener("MSTCubeManager", OnPlayerUpdateID);
+                        await cm.cubes[i].ConfigIDNotification(10, Cube.IDNotificationType.OnChanged);
+                        //cm.cubes[i].TurnLedOn(0,255,0,0);
+                    }
+                    else
+                    {
+                        await cm.cubes[i].ConfigIDNotification(10, Cube.IDNotificationType.OnChanged);
+                        Color puppetColor = Config.ColorFromPlayerID(i);
+                        cm.cubes[i].TurnLedOn((int)(puppetColor.r*255),(int)(puppetColor.g*255),(int)(puppetColor.b*255),0);
+                    }
                 }
             }
+
+            else
+            {
+                m_avatarCubeIdx = 0;
+
+                await cm.MultiConnect(1);
+                cm.cubes[0].idCallback.AddListener("MSTCubeManager", OnPlayerUpdateID);
+                await cm.cubes[i].ConfigIDNotification(10, Cube.IDNotificationType.OnChanged);
+            }
+
             m_connected.Value = true;
         }
     }
@@ -93,29 +110,32 @@ public class MSTCubeManager : NetworkBehaviour
         {
             m_guiMsg2 = String.Format("Unity Avatar Position x={0}, z={1}", transform.position.x, transform.position.z);
 
-            // move the local puppet cubes.
-            var managers = UnityEngine.Object.FindObjectsOfType<MSTCubeManager>();
-            foreach (var manager in managers) 
+            // if enabled, move the local puppet cubes.
+            if(m_connectToPuppets)
             {
-                if (manager != this)
+                var managers = UnityEngine.Object.FindObjectsOfType<MSTCubeManager>();
+                foreach (var manager in managers) 
                 {
-                    Vector2 partnerPosID = ToioHelpers.UnitytoPositionID(manager.transform.position);
-                    cm.handles[manager.m_playerID.Value].Move2Target(partnerPosID.x,partnerPosID.y,m_maxSpeed).Exec();
+                    if (manager != this)
+                    {
+                        Vector2 partnerPosID = ToioHelpers.UnitytoPositionID(manager.transform.position);
+                        cm.handles[manager.m_playerID.Value].Move2Target(partnerPosID.x,partnerPosID.y,m_maxSpeed).Exec();
+                    }
                 }
             }
 
-            // render necessary vibrations.
+            // render necessary vibrations on avatar.
             if(!m_vibrationToggle)
             {
-                m_playerVibration.Stop(cm.cubes[m_playerID.Value]);
+                m_playerVibration.Stop(cm.cubes[m_avatarCubeIdx]);
             }
             else
             {
-                m_playerVibration.Vibrate(cm.cubes[m_playerID.Value], m_vibrationIntensity.Value);
+                m_playerVibration.Vibrate(cm.cubes[m_avatarCubeIdx], m_vibrationIntensity.Value);
             }
 
-            // flash avatar toio light.
-            m_playerLight.UpdateFlash(cm.cubes[m_playerID.Value]);
+            // flash toio light on avatar.
+            m_playerLight.UpdateFlash(cm.cubes[m_avatarCubeIdx]);
         }
     }
 
