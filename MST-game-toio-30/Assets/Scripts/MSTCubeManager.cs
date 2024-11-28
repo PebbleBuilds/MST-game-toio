@@ -90,7 +90,7 @@ public class MSTCubeManager : NetworkBehaviour
 
                 await cm.MultiConnect(1);
                 cm.cubes[0].idCallback.AddListener("MSTCubeManager", OnPlayerUpdateID);
-                await cm.cubes[i].ConfigIDNotification(10, Cube.IDNotificationType.OnChanged);
+                await cm.cubes[0].ConfigIDNotification(10, Cube.IDNotificationType.OnChanged);
             }
 
             //only consider ourselves connected once we've received our first PositionID
@@ -136,11 +136,11 @@ public class MSTCubeManager : NetworkBehaviour
                             if ((m_playerPosID - manager.m_puppetPosID.Value).magnitude > Config.puppetCollisionTolerance)
                             {
                                 // apply vibration if necessary
-                                if(Config.puppetCollisionFeedback == VIBRATION)
+                                if(Config.puppetCollisionFeedback == PuppetCollisionFeedbackType.VIBRATION)
                                 {
 
                                 }
-                                else if(Config.puppetCollisionFeedback == DIRECTIONAL)
+                                else if(Config.puppetCollisionFeedback == PuppetCollisionFeedbackType.DIRECTIONAL)
                                 {
 
                                 }
