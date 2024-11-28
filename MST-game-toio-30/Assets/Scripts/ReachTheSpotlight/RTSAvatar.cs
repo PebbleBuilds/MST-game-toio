@@ -10,6 +10,7 @@ public class RTSAvatar : NetworkBehaviour
     MSTCubeManager manager;
     RTSGameManager m_gameManager;
     public Renderer m_renderer;
+    public GameObject[] m_partsToHide;
     
     void Start()
     {
@@ -22,11 +23,18 @@ public class RTSAvatar : NetworkBehaviour
         if(RTSConfig.renderFollowerAvatars || IsOwner)
         {
             m_renderer.enabled = true;
+            foreach(var go in m_partsToHide)
+            {
+                go.SetActive(true);
+            }
         }
         else
         {
             m_renderer.enabled = false;
-            Debug.Log("asdf");
+            foreach(var go in m_partsToHide)
+            {
+                go.SetActive(false);
+            }
         }
     }
 }
