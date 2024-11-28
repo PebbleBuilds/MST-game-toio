@@ -20,7 +20,6 @@ public class MSTCubeManager : NetworkBehaviour
     public String m_guiMsg2 = "";
 
     // Toio
-    public double m_maxSpeed = 100;
     public NetworkVariable<int> m_vibrationIntensity = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public bool m_vibrationToggle = true;
     public Vector2 m_playerPosID;
@@ -119,7 +118,7 @@ public class MSTCubeManager : NetworkBehaviour
                     if (manager != this)
                     {
                         Vector2 partnerPosID = ToioHelpers.UnitytoPositionID(manager.transform.position);
-                        cm.handles[manager.m_playerID.Value].Move2Target(partnerPosID.x,partnerPosID.y,m_maxSpeed).Exec();
+                        cm.handles[manager.m_playerID.Value].Move2Target(partnerPosID.x,partnerPosID.y,Config.puppetSpeed).Exec();
                     }
                 }
             }
