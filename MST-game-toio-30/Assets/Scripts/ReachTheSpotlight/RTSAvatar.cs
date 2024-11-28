@@ -19,13 +19,14 @@ public class RTSAvatar : NetworkBehaviour
 
     void Update()
     {
-        if(!RTSConfig.renderFollowerAvatars && m_gameManager.m_leaderID.Value != manager.m_playerID.Value)
+        if(RTSConfig.renderFollowerAvatars || IsOwner)
         {
-            m_renderer.enabled = false;
+            m_renderer.enabled = true;
         }
         else
         {
-            m_renderer.enabled = true;
+            m_renderer.enabled = false;
+            Debug.Log("asdf");
         }
     }
 }
