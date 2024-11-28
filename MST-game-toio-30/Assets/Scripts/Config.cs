@@ -3,6 +3,12 @@ using Unity.Netcode;
 using UnityEngine;
 using toio;
 
+enum PuppetCollisionFeedbackType {
+  NONE,
+  VIBRATION,
+  DIRECTIONAL
+}; 
+
 static public class Config
 {
     // general stuff
@@ -10,6 +16,9 @@ static public class Config
     // puppet stuff
     static public bool connectToPuppets = true;
     static public int puppetSpeed = 100;
+    static public float puppetCollisionTolerance = 10; 
+    static public PuppetCollisionFeedbackType puppetCollisionFeedback = NONE;
+    static public float puppetCollisionGracePeriodSeconds = 1;
 
     // vibration stuff
     static public int minVibration = 8;

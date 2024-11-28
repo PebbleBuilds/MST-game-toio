@@ -19,12 +19,19 @@ public class MSTCubeManager : NetworkBehaviour
     public String m_guiMsg1 = "";
     public String m_guiMsg2 = "";
 
-    // Toio
+
+    // Toio Player Stuff
+    public Vector2 m_playerPosID;
+    ToioLight m_playerLight;
     public NetworkVariable<int> m_vibrationIntensity = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public bool m_vibrationToggle = true;
-    public Vector2 m_playerPosID;
     ToioVibration m_playerVibration = new ToioVibration();
-    ToioLight m_playerLight;
+
+    // Toio Puppet Stuff
+    public NetworkVariable<Vector2> m_puppetPosID = new NetworkVariable<Vector2>(new Vector2(0,0), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<bool> m_puppetColliding = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    bool m_puppetCollisionAvoidance = false;
+    float m_lastTimePuppetUncollided = 99999999;
 
     // On screen avatar rendering
     Color m_color;
@@ -69,6 +76,7 @@ public class MSTCubeManager : NetworkBehaviour
                     }
                     else
                     {
+                        cm.cubes[i].idCallback.AddListener("MSTCubeManager", OnPuppetUpdateID);
                         await cm.cubes[i].ConfigIDNotification(10, Cube.IDNotificationType.OnChanged);
                         Color puppetColor = Config.ColorFromPlayerID(i);
                         cm.cubes[i].TurnLedOn((int)(puppetColor.r*255),(int)(puppetColor.g*255),(int)(puppetColor.b*255),0);
@@ -85,7 +93,8 @@ public class MSTCubeManager : NetworkBehaviour
                 await cm.cubes[i].ConfigIDNotification(10, Cube.IDNotificationType.OnChanged);
             }
 
-            m_connected.Value = true;
+            //only consider ourselves connected once we've received our first PositionID
+            //m_connected.Value = true;
         }
     }
 
@@ -109,7 +118,7 @@ public class MSTCubeManager : NetworkBehaviour
         {
             m_guiMsg2 = String.Format("Unity Avatar Position x={0}, z={1}", transform.position.x, transform.position.z);
 
-            // if enabled, move the local puppet cubes.
+            // if enabled, handle puppets.
             if(m_connectToPuppets)
             {
                 var managers = UnityEngine.Object.FindObjectsOfType<MSTCubeManager>();
@@ -117,8 +126,45 @@ public class MSTCubeManager : NetworkBehaviour
                 {
                     if (manager != this)
                     {
-                        Vector2 partnerPosID = ToioHelpers.UnitytoPositionID(manager.transform.position);
-                        cm.handles[manager.m_playerID.Value].Move2Target(partnerPosID.x,partnerPosID.y,Config.puppetSpeed).Exec();
+                        if (manager.m_puppetPosID.Value.x != 0)
+                        {
+                            // Move local puppet cube
+                            Vector2 partnerPosID = ToioHelpers.UnitytoPositionID(manager.transform.position);
+                            cm.handles[manager.m_playerID.Value].Move2Target(partnerPosID.x,partnerPosID.y,Config.puppetSpeed).Exec(); // TODO: try Navi2Target
+
+                            // if the remote puppet cube is far from the local player cube (collision)
+                            if ((m_playerPosID - manager.m_puppetPosID.Value).magnitude > Config.puppetCollisionTolerance)
+                            {
+                                // apply vibration if necessary
+                                if(Config.puppetCollisionFeedback == VIBRATION)
+                                {
+
+                                }
+                                else if(Config.puppetCollisionFeedback == DIRECTIONAL)
+                                {
+
+                                }
+
+                                /*
+                                if(!m_puppetColliding)
+                                {
+                                    m_puppetColliding = true;
+                                    m_lastTimePuppetUncollided = Time.time;
+                                }
+                                else if(Time.time - m_lastTimePuppetUncollided > Config.puppetCollisionGracePeriodSeconds)
+                                {
+                                    m_puppetCollisionAvoidance = true;
+                                }
+                                */
+                            }
+                            /*
+                            else
+                            {
+                                m_puppetColliding = false;
+                                m_puppetCollisionAvoidance = false;
+                            }
+                            */
+                        }
                     }
                 }
             }
@@ -145,9 +191,16 @@ public class MSTCubeManager : NetworkBehaviour
 
         m_playerPosID.x = c.pos.x;
         m_playerPosID.y = c.pos.y;
+
+        m_connected.Value = true;
     }
 
     public bool IsConnected() {return m_connected.Value;}
+
+    void OnPuppetUpdateID(Cube c)
+    {
+        m_puppetPosID.Value = new Vector2(c.pos.x,c.pos.y);
+    }
 
     [ClientRpc]
     public void PulseClientRpc(float duration,int intensity)
