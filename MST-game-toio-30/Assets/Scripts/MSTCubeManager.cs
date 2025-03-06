@@ -32,10 +32,10 @@ public class MSTCubeManager : NetworkBehaviour
     public NetworkVariable<bool> m_puppetColliding = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     bool m_puppetCollisionAvoidance = false;
     float m_lastTimePuppetUncollided = 99999999;
-    int m_puppetSpeed = Config.puppetSpeed; // TODO: should this be a NetworkVariable?
-    bool m_vibrateOnPuppetCollision = Config.vibrateOnPuppetCollision;
-    int m_puppetCollisionTolerance = Config.puppetCollisionTolerance;
-    int m_puppetCollisionVibrationIntensity = Config.puppetCollisionVibrationIntensity;
+    public int m_puppetSpeed = Config.puppetSpeed; // TODO: should this be a NetworkVariable?
+    public bool m_vibrateOnPuppetCollision = Config.vibrateOnPuppetCollision;
+    public float m_puppetCollisionTolerance = Config.puppetCollisionTolerance;
+    public int m_puppetCollisionVibrationIntensity = Config.puppetCollisionVibrationIntensity;
 
 
     // On screen avatar rendering
