@@ -15,7 +15,6 @@ public class RTSAvatar : NetworkBehaviour
     void Start()
     {
         manager = GetComponent<MSTCubeManager>();
-        m_gameManager = GetComponent<RTSGameManager>();
     }
 
     void Update()

@@ -12,7 +12,7 @@ public class DemoAvatar : NetworkBehaviour
     
     void Start()
     {
-        gui = GetComponent<DemoGUIManager>();
+        gui = FindObjectOfType<DemoGUIManager>().GetComponent<DemoGUIManager>();
     }
 
     void Update()
