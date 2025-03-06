@@ -34,7 +34,7 @@ public class MSTCubeManager : NetworkBehaviour
     float m_lastTimePuppetUncollided = 99999999;
     public int m_puppetSpeed = Config.puppetSpeed; // TODO: should this be a NetworkVariable?
     public bool m_vibrateOnPuppetCollision = Config.vibrateOnPuppetCollision;
-    public float m_puppetCollisionTolerance = Config.puppetCollisionTolerance;
+    public int m_puppetCollisionTolerance = Config.puppetCollisionTolerance;
     public int m_puppetCollisionVibrationIntensity = Config.puppetCollisionVibrationIntensity;
 
 
@@ -127,11 +127,13 @@ public class MSTCubeManager : NetworkBehaviour
             // if enabled, handle puppets.
             if(m_connectToPuppets)
             {
+                // for each player other than us...
                 var managers = UnityEngine.Object.FindObjectsOfType<MSTCubeManager>();
                 foreach (var manager in managers) 
                 {
                     if (manager != this)
                     {
+                        // if the robot's position is initialized...
                         if (manager.m_puppetPosID.Value.x != 0)
                         {
                             // Move local puppet cube
@@ -141,14 +143,12 @@ public class MSTCubeManager : NetworkBehaviour
                             // if the remote puppet cube is far from the local player cube (collision)
                             if ((m_playerPosID - manager.m_puppetPosID.Value).magnitude > m_puppetCollisionTolerance)
                             {
-                                // apply vibration if necessary
+                                // apply vibration if enabled
                                 if(m_vibrateOnPuppetCollision)
                                 {
                                     localVibrationIntensity += m_puppetCollisionVibrationIntensity;
                                 }
-
                                 // TODO: collision avoidance toggle?
-
                                 /*
                                 if(!m_puppetColliding)
                                 {
