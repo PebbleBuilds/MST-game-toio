@@ -11,7 +11,6 @@ public class MSTCubeManager : NetworkBehaviour
     public NetworkVariable<int> m_playerID = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     private int m_avatarCubeIdx;
     private int m_numPlayers = Config.numPlayers;
-    private bool m_connectToPuppets = Config.connectToPuppets;
     CubeManager cm;
     NetworkVariable<bool> m_connected = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
@@ -23,15 +22,21 @@ public class MSTCubeManager : NetworkBehaviour
     // Toio Player Stuff
     public Vector2 m_playerPosID;
     ToioLight m_playerLight;
-    public NetworkVariable<int> m_vibrationIntensity = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    public bool m_vibrationToggle = true;
+    public NetworkVariable<int> m_gameVibrationIntensity = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public bool m_vibrateAvatar = true;
     ToioVibration m_playerVibration = new ToioVibration();
 
     // Toio Puppet Stuff
+    private bool m_connectToPuppets = Config.connectToPuppets;
     public NetworkVariable<Vector2> m_puppetPosID = new NetworkVariable<Vector2>(new Vector2(0,0), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public NetworkVariable<bool> m_puppetColliding = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     bool m_puppetCollisionAvoidance = false;
     float m_lastTimePuppetUncollided = 99999999;
+    int m_puppetSpeed = Config.puppetSpeed; // TODO: should this be a NetworkVariable?
+    bool m_vibrateOnPuppetCollision = Config.vibrateOnPuppetCollision;
+    int m_puppetCollisionTolerance = Config.puppetCollisionTolerance;
+    int m_puppetCollisionVibrationIntensity = Config.puppetCollisionVibrationIntensity;
+
 
     // On screen avatar rendering
     Color m_color;
@@ -117,6 +122,7 @@ public class MSTCubeManager : NetworkBehaviour
         if (m_connected.Value && IsOwner && cm.synced)
         {
             m_guiMsg2 = String.Format("Unity Avatar Position x={0}, z={1}", transform.position.x, transform.position.z);
+            int localVibrationIntensity = 0;
 
             // if enabled, handle puppets.
             if(m_connectToPuppets)
@@ -130,20 +136,18 @@ public class MSTCubeManager : NetworkBehaviour
                         {
                             // Move local puppet cube
                             Vector2 partnerPosID = ToioHelpers.UnitytoPositionID(manager.transform.position);
-                            cm.handles[manager.m_playerID.Value].Move2Target(partnerPosID.x,partnerPosID.y,Config.puppetSpeed).Exec(); // TODO: try Navi2Target
+                            cm.handles[manager.m_playerID.Value].Move2Target(partnerPosID.x,partnerPosID.y,m_puppetSpeed).Exec(); // TODO: try Navi2Target
 
                             // if the remote puppet cube is far from the local player cube (collision)
-                            if ((m_playerPosID - manager.m_puppetPosID.Value).magnitude > Config.puppetCollisionTolerance)
+                            if ((m_playerPosID - manager.m_puppetPosID.Value).magnitude > m_puppetCollisionTolerance)
                             {
                                 // apply vibration if necessary
-                                if(Config.puppetCollisionFeedback == PuppetCollisionFeedbackType.VIBRATION)
+                                if(m_vibrateOnPuppetCollision)
                                 {
-
+                                    localVibrationIntensity += m_puppetCollisionVibrationIntensity;
                                 }
-                                else if(Config.puppetCollisionFeedback == PuppetCollisionFeedbackType.DIRECTIONAL)
-                                {
 
-                                }
+                                // TODO: collision avoidance toggle?
 
                                 /*
                                 if(!m_puppetColliding)
@@ -170,13 +174,13 @@ public class MSTCubeManager : NetworkBehaviour
             }
 
             // render necessary vibrations on avatar.
-            if(!m_vibrationToggle)
+            if(!m_vibrateAvatar)
             {
                 m_playerVibration.Stop(cm.cubes[m_avatarCubeIdx]);
             }
             else
             {
-                m_playerVibration.Vibrate(cm.cubes[m_avatarCubeIdx], m_vibrationIntensity.Value);
+                m_playerVibration.Vibrate(cm.cubes[m_avatarCubeIdx], Mathf.Min(100, localVibrationIntensity+m_gameVibrationIntensity.Value));
             }
 
             // flash toio light on avatar.

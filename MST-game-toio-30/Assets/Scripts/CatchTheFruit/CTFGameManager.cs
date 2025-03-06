@@ -124,13 +124,13 @@ public class CTFGameManager : NetworkBehaviour
                             // Calculate head vibration
                             if(bungeeComponent.m_enabled.Value)
                             {
-                                headCubeManager.m_vibrationIntensity.Value = CTFConfig.CalculateVibration(stretch);
+                                headCubeManager.m_gameVibrationIntensity.Value = CTFConfig.CalculateVibration(stretch);
                                 bodyVibration += CTFConfig.CalculateVibration(stretch);
                                 bungeeComponent.m_vibration = bodyVibration;
                             }
                             else
                             {
-                                headCubeManager.m_vibrationIntensity.Value = 0;
+                                headCubeManager.m_gameVibrationIntensity.Value = 0;
                             }
 
                             // Set blackout panel
@@ -145,7 +145,7 @@ public class CTFGameManager : NetworkBehaviour
                     }
 
                     // Calculate body vibration
-                    bodyCubeManager.m_vibrationIntensity.Value = bodyVibration;
+                    bodyCubeManager.m_gameVibrationIntensity.Value = bodyVibration;
                 }
             }
         }

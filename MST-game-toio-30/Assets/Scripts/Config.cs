@@ -3,12 +3,6 @@ using Unity.Netcode;
 using UnityEngine;
 using toio;
 
-public enum PuppetCollisionFeedbackType {
-  NONE,
-  VIBRATION,
-  DIRECTIONAL
-}; 
-
 static public class Config
 {
     // general stuff
@@ -30,4 +24,11 @@ static public class Config
         else if (id == 2) {return "Green";}
         else {return "White";} // Body color
     }
+
+    // puppet handling (defaults)
+    static public bool connectToPuppets = true;
+    static public int puppetSpeed = 100;
+    static public bool vibrateOnPuppetCollision = true;
+    static public int puppetCollisionTolerance = 30;
+    static public int puppetCollisionVibrationIntensity = 30;
 }
