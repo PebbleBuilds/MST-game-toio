@@ -6,7 +6,7 @@ using toio;
 static public class Config
 {
     // general stuff
-    static public int numPlayers = 3;
+    static public int numPlayers = 2;
 
     // vibration stuff
     static public int minVibration = 8;
