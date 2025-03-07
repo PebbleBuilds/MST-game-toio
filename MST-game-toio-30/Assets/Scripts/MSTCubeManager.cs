@@ -32,6 +32,7 @@ public class MSTCubeManager : NetworkBehaviour
     public NetworkVariable<bool> m_puppetColliding = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     bool m_puppetCollisionAvoidance = false;
     float m_lastTimePuppetUncollided = 99999999;
+    public bool m_movePuppets = true;
     public int m_puppetSpeed = Config.puppetSpeed; // TODO: should this be a NetworkVariable?
     public bool m_vibrateOnPuppetCollision = Config.vibrateOnPuppetCollision;
     public int m_puppetCollisionTolerance = Config.puppetCollisionTolerance;
@@ -137,9 +138,12 @@ public class MSTCubeManager : NetworkBehaviour
                         if (manager.m_puppetPosID.Value.x != 0)
                         {
                             // Move local puppet cube
-                            Vector2 partnerPosID = ToioHelpers.UnitytoPositionID(manager.transform.position);
-                            cm.handles[manager.m_playerID.Value].Move2Target(partnerPosID.x,partnerPosID.y,m_puppetSpeed).Exec(); // TODO: try Navi2Target
-
+                            if(m_movePuppets)
+                            {
+                                Vector2 partnerPosID = ToioHelpers.UnitytoPositionID(manager.transform.position);
+                                cm.handles[manager.m_playerID.Value].Move2Target(partnerPosID.x,partnerPosID.y,m_puppetSpeed).Exec(); // TODO: try Navi2Target
+                            }
+                        
                             // if the remote puppet cube is far from the local player cube (collision)
                             if ((m_playerPosID - manager.m_puppetPosID.Value).magnitude > m_puppetCollisionTolerance)
                             {

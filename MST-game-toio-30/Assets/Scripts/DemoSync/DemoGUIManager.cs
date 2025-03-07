@@ -43,6 +43,7 @@ public class DemoGUIManager : MonoBehaviour
                 // local settings
                 m_renderAvatars = GUILayout.Toggle(m_renderAvatars, "Render Avatars");
                 manager.m_vibrateOnPuppetCollision = GUILayout.Toggle(manager.m_vibrateOnPuppetCollision, "Vibrate on Puppet Collision");
+                manager.m_movePuppets = GUILayout.Toggle(manager.m_movePuppets, "Puppets Follow Avatar");
                 GUILayout.Label("Collision Vibration Intensity: ");
                 manager.m_puppetCollisionVibrationIntensity = (int)GUILayout.HorizontalSlider((float)manager.m_puppetCollisionVibrationIntensity, 0.0f, 100.0f);
                 GUILayout.Label("Collision Tolerance: ");
