@@ -28,7 +28,7 @@ static public class Config
     // puppet handling (defaults)
     static public bool connectToPuppets = true;
     static public int puppetSpeed = 100;
-    static public bool vibrateOnPuppetCollision = falses;
+    static public bool vibrateOnPuppetCollision = false;
     static public int puppetCollisionTolerance = 30;
     static public int puppetCollisionVibrationIntensity = 30;
 }
